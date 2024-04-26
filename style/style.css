@@ -120,12 +120,15 @@ svg {
 /* dashboard styling */
 
 
-svg {
-    margin: 50px 0;
-    width: 405px;
-    bottom: 197px;
+svg#arm {
+    /* margin: 50px 0; */
+    max-width: 23em;
+    bottom: 2em;
     position: relative;
+    height: 100%;
+    
 }
+
 button#applyButton {
     width: 200px;
     height: 50px;
