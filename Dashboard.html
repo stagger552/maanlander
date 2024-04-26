@@ -15,6 +15,11 @@
     <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script>
 
     <link rel="stylesheet" href="style/style.css">
@@ -116,11 +121,161 @@
                                 </h3>
                             </div>
                             <div class="bottomcard">
-                                <input id="range" type="range" step="10" value="200" min="0" max="800">
+                                <div class="left">
+
+                                </div>
+                                <div class="right">
+                                    <div class="svgContainer">
+
+                                        <!-- Start of the svg -->
+                                        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                        <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                            xmlns:cc="http://creativecommons.org/ns#"
+                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                            xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="220mm"
+                                            height="160mm" viewBox="0 0 219.99999 160" version="1.1" id="svg8"
+                                            inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+                                            sodipodi:docname="svg_robot_arm_2Link_v8_noCircleOutlines.svg">
+                                            <defs id="defs2" />
+                                            <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666"
+                                                borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2"
+                                                inkscape:zoom="0.86607465" inkscape:cx="347.14778" inkscape:cy="425.51398"
+                                                inkscape:document-units="mm" inkscape:current-layer="layer1"
+                                                inkscape:document-rotation="0" showgrid="false" units="mm"
+                                                inkscape:window-width="1920" inkscape:window-height="1017"
+                                                inkscape:window-x="-8" inkscape:window-y="-8"
+                                                inkscape:window-maximized="1" />
+                                            <metadata id="metadata5">
+                                                <rdf:RDF>
+                                                    <cc:Work rdf:about="">
+                                                        <dc:format>image/svg+xml</dc:format>
+                                                        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                                        <dc:title />
+                                                    </cc:Work>
+                                                </rdf:RDF>
+                                            </metadata>
+                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+                                                style="display:inline">
+                                                <rect
+                                                    style="fill:#4596ad;fill-opacity:1;stroke-width:0.20806;stroke-opacity:0"
+                                                    id="rect860" width="30.244217" height="13.74737" x="94.807755"
+                                                    y="133.48042" />
+                                                <g id="group_robot_arm_total">
+                                                    <circle
+                                                        style="opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                        id="path841" cx="110" cy="140" r="130" />
+                                                    <g id="group_link2_endEffector">
+                                                        <circle
+                                                            style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876373;stroke-opacity:0"
+                                                            id="circle854" cx="110" cy="90" r="10" />
+                                                        <path id="rect917"
+                                                            style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-opacity:0"
+                                                            d="M 96.710885,17.698519 V 45.498888 H 123.28911 V 17.698519 h -4.73563 V 40 H 101.44601 V 17.698519 Z" />
+                                                        <rect
+                                                            style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
+                                                            id="rect856" width="10" height="50" x="105" y="40"
+                                                            ry="2.5487208" />
+                                                        <circle
+                                                            style="display:inline;opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                            id="path841-0" cx="110" cy="90" r="75" />
+                                                    </g>
+                                                    <circle
+                                                        style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876372;stroke-opacity:0"
+                                                        id="path833" cx="110" cy="140" r="10" />
+                                                    <rect
+                                                        style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
+                                                        id="rect835" width="10" height="50" x="105" y="90" ry="2.5487208" />
+                                                </g>
+                                            </g>
+                                        </svg>
+    
+                                    </div>
+                                    <div class="textContainer">
+                                        Joint 1 value (degrees)
+                                        <br>
+                                        <input type="text" id="j1Text" placeholder="0" />
+                                        <br><br>
+                                        Joint 2 value (degrees)
+                                        <br>
+                                        <input type="text" id="j2Text" placeholder="0" />
+                                        <br><br>
+                                        <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
+                                        <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
+    
+    
+                                        <button type="button" id="applyButton">Apply</button>
+                                    </div>
+                                </div>
+                              
+                                <script>
+                                    const svgContainer = document.querySelector('.svgContainer');  // Select by class
+
+                                    // For this project
+                                    const group_link2_endEffector = document.getElementById('group_link2_endEffector');
+                                    const group_robot_arm_total = document.getElementById('group_robot_arm_total');
+
+                                    const textContainer = document.querySelector('.textContainer');
+                                    const j1Text = document.getElementById('j1Text');
+                                    const j2Text = document.getElementById('j2Text');
+
+                                    const Slider1 = document.getElementById('sldArm1');
+                                    const Slider2 = document.getElementById('sldArm2');
+
+                                    const applyButton = document.getElementById("applyButton");
+
+                                    // Center the svg container
+                                    svgContainer.style.position = 'absolute';
+                                    svgContainer.style.top = '50%';
+                                    svgContainer.style.left = '50%';
+                                    svgContainer.style.transform = 'translate(-50%, -50%)'; // Equivalent to xPercent and yPercent
+
+                                    // Position the text boxes relative to the bee
+                                    textContainer.style.position = 'absolute';
+                                    textContainer.style.top = '70%';
+                                    textContainer.style.left = '20%';
+                                    textContainer.style.transform = 'translate(-20%, -20%)'; // Equivalent to xPercent and yPercent
+
+                                    // Record origin at beginning
+                                    const bbox = group_robot_arm_total.getBBox();
+                                    const cx = bbox.x + bbox.width / 2;
+                                    const cy = bbox.y + bbox.height / 2;
+                                    const svgOrg = `${cx} ${cy}`; // String concatenation
+                                    console.log("svgOrg: " + svgOrg);
+
+                                    // Get value from text boxes when apply button is clicked and print value to the console
+                                    applyButton.addEventListener('click', onApplyBtnClick);
+                                    Slider1.addEventListener("input", onApplyBtnClick)
+                                    Slider2.addEventListener("input", onApplyBtnClick)
+
+                                    // Click event function
+                                    function onApplyBtnClick() {
+                                        const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
+                                        const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
+
+                                        console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
+                                        rotateJoint1(j1Val);
+                                        rotateJoint2(j2Val);
+                                    }
+
+                                    function moveTheBee(myXVal, myYVal) {
+                                        // Implement bee movement logic (not provided in original code)
+                                    }
+
+                                    function rotateJoint1(mydegrees) {
+                                        gsap.to(group_robot_arm_total, { duration: 0, rotation: -mydegrees, svgOrigin: svgOrg });
+                                    }
+
+                                    function rotateJoint2(mydegrees) {
+                                        gsap.to(group_link2_endEffector, { duration: 0, rotation: -mydegrees, transformOrigin: "center center" });
+                                    }
                                 </script>
                             </div>
                         </div>
+                        <script>
 
+                        </script>
                     </div>
                 </div>
             </div>
@@ -137,9 +292,10 @@
 
                                 <canvas id="motor"></canvas> <!-- Canvas element for the gauge -->
 
-                               <h2 id="primery">50</h2><p>%</p>
+                                <h2 id="usage" class="primery">50</h2>
+                                <p>%</p>
                                 <script>
-                                   
+
                                 </script>
                             </div>
                         </div>
@@ -160,8 +316,14 @@
                                 </h3>
                             </div>
                             <div class="bottomcard">
+                                <div class="watertank">
+                                    <canvas id="waterpijl"></canvas> <!-- Canvas element for the gauge -->
+                                    <p id="AantalLiter"></p>
+                                    <p>Liter</p>
+                                </div>
 
-                                <div id="watertank">
+
+                                <!-- <div id="watertank">
                                     <div id="liter" ></div>
                                     <div id="graduations"></div>
                                 </div>
@@ -174,29 +336,14 @@
                                     </div>
                                     <p id="water primery">0</p>
                                     <p>C°</p>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="rover">
-                        <div class="sketchfab-embed-wrapper"> <iframe title="Curiosity" frameborder="0" allowfullscreen
-                                mozallowfullscreen="true" webkitallowfullscreen="true"
-                                allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking
-                                execution-while-out-of-viewport execution-while-not-rendered web-share
-                                src="https://sketchfab.com/models/cb730821ad384a02b415e4e6209b46b5/embed"> </iframe>
 
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-2"></div>
-            </div>
         </div>
     </div>
 
@@ -258,7 +405,7 @@
         setTimeout(setTemperature, 1000);
     </script> -->
 
-    
+
     </style> -->
 
 </body>

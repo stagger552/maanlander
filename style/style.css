@@ -10,7 +10,7 @@ body {
 }
 
 p#degree,
-#primery {
+.primery {
     font-size: 32px;
     font-weight: bold;
     color: #d4ff19;
@@ -120,6 +120,16 @@ svg {
 /* dashboard styling */
 
 
+svg {
+    margin: 50px 0;
+    width: 405px;
+    bottom: 197px;
+    position: relative;
+}
+button#applyButton {
+    width: 200px;
+    height: 50px;
+}
 
 
 .topcard {
@@ -143,12 +153,6 @@ svg {
     border: none;
 }
 
-iframe {
-    border: 0;
-    width: 100%;
-    height: 27vh !important;
-    /* margin: 15px; */
-}
 
 /* slider  */
 
@@ -467,256 +471,26 @@ input[type=range]:focus {
 
 
 
-
-
-
-#watertank {
-    width: 140px;
-    background: #38383f;
-    height: 210px;
-    position: relative;
-    border: 9px solid #2a2a2e;
-    border-radius: 20px;
-    z-index: 1;
-    /* margin-bottom: 50px; */
-}
-
-#watertank:before,
-#watertank:after {
-    position: absolute;
-    content: "";
-    border-radius: 50%;
-}
-
-#watertank:before {
-    width: 100%;
-    height: 34px;
-    bottom: 9px;
-    background: #38383f;
-    z-index: -1;
+canvas{
+    margin: auto;
+    display: block;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 
-
-#watertank #graduations {
-    height: 59%;
-    top: 20%;
-    width: 50%;
-}
-
-#watertank #graduations,
-#watertank #graduations:before {
-    position: absolute;
-    border-top: 2px solid rgba(0, 0, 0, 0.5);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-}
-
-#watertank #graduations:before {
-    content: "";
-    height: 34%;
-    width: 100%;
-    top: 32%;
-}
-
-#watertank #liter {
-    bottom: 0;
-    background: linear-gradient(#f17a65, #3dcadf) no-repeat bottom;
-    width: 100%;
-    border-radius: 20px;
-    background-size: 100% 240px;
-    transition: all 0.2s ease-in-out;
-}
-
-#watertank #liter,
-#watertank #liter:before,
-#watertank #liter:after {
-    position: absolute;
-}
-
-#watertank #liter:before {
-    content: attr(data-value);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    z-index: 2;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 1em;
-    line-height: 1;
-    transform: translateY(50%);
-    left: calc(100% + 1em / 1.5);
-    top: calc(-1em + 5px - 5px * 2);
-}
-
-#watertank #liter:after {
-    content: "";
-    border-top: 0.4545454545em solid transparent;
-    border-bottom: 0.4545454545em solid transparent;
-    border-right: 0.6666666667em solid rgba(0, 0, 0, 0.7);
-    left: 100%;
-    top: calc(-1em / 2.2 + 5px);
-}
-
-#playground {
-    font-size: 1.1em;
-}
-
-#playground #range {
-    display: flex;
-}
-
-#playground #range input[type=text] {
-    width: 2em;
-    background: transparent;
-    border: none;
-    color: inherit;
-    font: inherit;
-    margin: 0 5px;
-    padding: 0px 5px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease-in-out;
-}
-
-#playground #range input[type=text]:focus {
-    border-color: #3dcadf;
-    outline: none;
-}
-
-#playground #range input[type=text]:first-child {
-    text-align: right;
-}
-
-#playground #unit {
-    width: 100%;
-    margin: 0;
+p#AantalLiter {
+    color: #3DCADF;
+    font-size: 50px;
+    font-weight: bold;
     text-align: center;
 }
 
-#playground #unit:hover {
-    cursor: pointer;
+.watertank
+{
+    margin: auto;
+    display: block;
 }
-
-input[type=range] {
-    -webkit-appearance: none;
-    background: transparent;
-    margin: 5.5px 0;
-    width: 100%;
-}
-
-input[type=range]::-moz-focus-outer {
-    border: 0;
-}
-
-input[type=range]:hover {
-    cursor: pointer;
-}
-
-input[type=range]:focus {
-    outline: 0;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #313137;
-    border-color: #313137;
-}
-
-input[type=range]:focus::-ms-fill-lower {
-    background: #2a2a2e;
-}
-
-input[type=range]:focus::-ms-fill-upper {
-    background: #313137;
-    border-color: #313137;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-    cursor: default;
-    height: 10px;
-    transition: all 0.2s ease;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 1px 1px 1px transparent, 0 0 1px rgba(13, 13, 13, 0);
-    background: #2a2a2e;
-    border: 2px solid #2a2a2e;
-    border-radius: 5px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    box-shadow: 4px 4px 4px transparent, 0 0 4px rgba(13, 13, 13, 0);
-    background: #3dcadf;
-    border: 0px solid #3d3d44;
-    border-radius: 12px;
-    cursor: pointer;
-    height: 11px;
-    width: 18px;
-    -webkit-appearance: none;
-    margin-top: -2.5px;
-}
-
-input[type=range]::-moz-range-track {
-    box-shadow: 1px 1px 1px transparent, 0 0 1px rgba(13, 13, 13, 0);
-    cursor: default;
-    height: 10px;
-    transition: all 0.2s ease;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background: #2a2a2e;
-    border: 2px solid #2a2a2e;
-    border-radius: 5px;
-    height: 5px;
-}
-
-input[type=range]::-moz-range-thumb {
-    box-shadow: 4px 4px 4px transparent, 0 0 4px rgba(13, 13, 13, 0);
-    background: #3dcadf;
-    border: 0px solid #3d3d44;
-    border-radius: 12px;
-    cursor: pointer;
-    height: 7px;
-    width: 14px;
-}
-
-input[type=range]::-ms-track {
-    cursor: default;
-    height: 10px;
-    transition: all 0.2s ease;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background: transparent;
-    border-color: transparent;
-    border-width: 5.5px 0;
-    color: transparent;
-}
-
-input[type=range]::-ms-fill-lower {
-    box-shadow: 1px 1px 1px transparent, 0 0 1px rgba(13, 13, 13, 0);
-    background: #222226;
-    border: 2px solid #2a2a2e;
-    border-radius: 10px;
-}
-
-input[type=range]::-ms-fill-upper {
-    box-shadow: 1px 1px 1px transparent, 0 0 1px rgba(13, 13, 13, 0);
-    background: #2a2a2e;
-    border: 2px solid #2a2a2e;
-    border-radius: 10px;
-}
-
-input[type=range]::-ms-thumb {
-    box-shadow: 4px 4px 4px transparent, 0 0 4px rgba(13, 13, 13, 0);
-    background: #3dcadf;
-    border: 0px solid #3d3d44;
-    border-radius: 12px;
-    cursor: pointer;
-    height: 7px;
-    width: 14px;
-    margin-top: 2.5px;
-}
-
-
-
 
 
 /* thermopeter end */

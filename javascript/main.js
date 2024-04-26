@@ -69,9 +69,12 @@ const liter = document.getElementById("liter");
 const water = document.getElementById("water");
 
 function setLiter() {
-  liter.style.height = (tank_slide.value - configWater.minTemp) / (configWater.maxTemp - configWater.minTemp) * 100 + "%";
+  liter.style.height = (tank_slide.value - configWater.minliter) / (configWater.maxliter - configWater.minliter) * 100 + "%";
   liter.dataset.value = tank_slide.value + units[configWater.unit];
 
+
+  // liter.style.height = "70%"
+  // liter.dataset.value = "30"
 
 
   graden.textContent = liter.dataset.value;
@@ -87,6 +90,8 @@ setTimeout(setLiter, 1000);
 
 
 //Motor
+
+
 var opts = {
   angle: -0.01, // The span of the gauge arc
   lineWidth: 0.2, // The line thickness
@@ -107,9 +112,47 @@ var opts = {
   
 };
 
+
+var motor_text = document.getElementById('usage'); // your canvas element
 var target = document.getElementById('motor'); // your canvas element
 var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
 gauge.maxValue = 100; // set max gauge value
 gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
 gauge.animationSpeed = 70; // set animation speed (32 is default value)
-gauge.set(70); // set actual value
+gauge.set(65); // set actual value
+motor_text.textContent = gauge.value + "%";
+
+
+var wateropts = {
+  angle: 0.35, // The span of the gauge arc
+  lineWidth: 0.1, // The line thickness
+  radiusScale: 1, // Relative radius
+  pointer: {
+    length: 0.62, // // Relative to gauge radius
+    strokeWidth: 0.049, // The thickness
+    color: '#000000' // Fill color
+  },
+  limitMax: false,     // If false, max value increases automatically if value > maxValue
+  limitMin: false,     // If true, the min value of the gauge will be fixed
+  colorStart: '#3DCADF',   // Colors
+  colorStop: '#3DCADF',    // just experiment with them
+  strokeColor: '#EEEEEE',  // to see which ones work best for you
+  generateGradient: true,
+  highDpiSupport: true,     // High resolution support
+  
+};
+var Liter_text = document.getElementById('AantalLiter'); // your canvas element
+
+var target = document.getElementById('waterpijl'); // your canvas element
+var gauge = new Donut(target).setOptions(wateropts); // create sexy gauge!
+gauge.maxValue = 50; // set max gauge value
+gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+gauge.animationSpeed = 63; // set animation speed (32 is default value)
+gauge.set(30); // set actual value
+
+Liter_text.textContent = gauge.value + " Liter";
+
+
+// arm
+
+
