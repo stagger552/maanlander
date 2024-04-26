@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <!-- Compiled and minified CSS -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
 
-    <!-- Compiled and minified JavaScript -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
 
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script>
 
@@ -30,7 +27,7 @@
 
     <div class="container-fluid">
         <div class="row top">
-            
+
 
             <div class="col-md-2">
                 <a href="Home.html">
@@ -54,6 +51,28 @@
                                 </h3>
                             </div>
                             <div class="bottomcard">
+
+                                <div class="left">
+                                    <div id="wrapper">
+                                        <div id="termometer">
+                                            <div id="temperature" style="height:0" data-value="0°C"></div>
+                                            <div id="graduations"></div>
+                                        </div>
+
+                                        <div id="playground">
+                                            <div id="range">
+                                                <input id="minTemp" type="text" value="-20">
+                                                <input type="range" min="-20" max="50" value="42">
+                                                <input id="maxTemp" type="text" value="50">
+                                            </div>
+                                            <p id="degree">0</p>
+                                            <p>C°</p>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="right"></div>
                                 <!-- <div class="temrature">
                                     <div id='myDiv'></div>
 
@@ -74,9 +93,7 @@
                                     </script>
                                 </div> -->
 
-                                <div id="chart-container"></div>
-                                <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-                                <script src="javascript/main.js"></script>
+
 
 
 
@@ -118,6 +135,12 @@
                             </div>
                             <div class="bottomcard">
 
+                                <canvas id="motor"></canvas> <!-- Canvas element for the gauge -->
+
+                               <h2 id="primery">50</h2><p>%</p>
+                                <script>
+                                   
+                                </script>
                             </div>
                         </div>
                         <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
@@ -138,6 +161,20 @@
                             </div>
                             <div class="bottomcard">
 
+                                <div id="watertank">
+                                    <div id="liter" ></div>
+                                    <div id="graduations"></div>
+                                </div>
+
+                                <div id="playground">
+                                    <div id="range">
+                                        <input id="minTemp" type="text" value="-20">
+                                        <input type="range" id="tank" min="0" max="50" value="20">
+                                        <input id="maxTemp" type="text" value="50">
+                                    </div>
+                                    <p id="water primery">0</p>
+                                    <p>C°</p>
+                                </div>
                             </div>
                         </div>
 
@@ -162,132 +199,66 @@
             </div>
         </div>
     </div>
-    <!-- <style>
-        :root {
-            --backgroundcolor_dark: #333333;
-            --btnBackground_Yellow: #D4FF19;
-            --setBackgroudcolor_dark: #1D2128;
+
+    <script type="text/javascript" src="javascript/main.js"></script>
+
+    <!-- <script>
+        const units = {
+            Celcius: "°C",
+            Fahrenheit: "°F"
+        };
+
+
+        const config = {
+            minTemp: -20,
+            maxTemp: 50,
+            unit: "Celcius"
+        };
+
+
+        // Change min and max temperature values
+
+        const tempValueInputs = document.querySelectorAll("input[type='text']");
+
+        tempValueInputs.forEach(input => {
+            input.addEventListener("change", event => {
+                const newValue = event.target.value;
+
+                if (isNaN(newValue)) {
+                    return input.value = config[input.id];
+                } else {
+                    config[input.id] = input.value;
+                    range[input.id.slice(0, 3)] = config[input.id]; // Update range
+                    return setTemperature(); // Update temperature
+                }
+            });
+        });
+
+        // Switch unit of temperature
+
+        const unitP = document.getElementById("unit");
+
+        unitP.addEventListener("click", () => {
+            config.unit = config.unit === "Celcius" ? "Fahrenheit" : "Celcius";
+            unitP.innerHTML = config.unit + ' ' + units[config.unit];
+            return setTemperature();
+        });
+
+        // Change temperature
+
+        const range = document.querySelector("input[type='range']");
+        const temperature = document.getElementById("temperature");
+
+        function setTemperature() {
+            temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+            temperature.dataset.value = range.value + units[config.unit];
         }
 
+        range.addEventListener("input", setTemperature);
+        setTimeout(setTemperature, 1000);
+    </script> -->
 
-        body {
-            background-color: var(--backgroundcolor_dark);
-        }
-
-        button {
-            background-color: var(--btnBackground_Yellow);
-            width: 100%;
-            height: 140px;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 40px;
-            line-height: 56px;
-            font-weight: 400;
-            border-radius: 10px;
-            border-theme_color: var(--btnBackground_Yellow);
-        }
-
-        .sector {
-            margin: 50% 0 !important;
-        }
-
-        .theme_color {
-            stroke: var(--btnBackground_Yellow);
-            stroke: var(--btnBackground_Yellow);
-
-        }
-
-        .svg {
-            fill: var(--btnBackground_Yellow);
-        }
-
-        /* home pagina */
-        svg {
-            margin: 50px 0;
-
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 120px;
-            z-index: 1;
-        }
-
-        .dropdown-menu a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .top button {
-            max-width: 200px;
-        }
-
-        .bottomcard {
-            background-color: #1D2128;
-            margin: auto;
-            /* display: block; */
-            /* border-color: yellow; */
-            border: 10px solid var(--btnBackground_Yellow);
-            border-radius: 10px;
-            /* --bs-border-radius-pill: aqua; */
-            height: 340px;
-            width: 100%;
-        }
-
-        .rover {
-            background-color: #1D2128;
-            margin: auto;
-            /* display: block; */
-            /* border-color: yellow; */
-            border: 10px solid var(--btnBackground_Yellow);
-            border-radius: 10px;
-            /* --bs-border-radius-pill: aqua; */
-            height: 340px;
-            width: 100%;
-        }
-
-        .row {
-            margin-bottom: 30px;
-        }
-
-        .topcard {
-            background-color: var(--btnBackground_Yellow);
-            width: 32%;
-            border-top: 7px solid var(--btnBackground_Yellow);
-            border-left: 7px solid var(--btnBackground_Yellow);
-            border-right: 7px solid var(--btnBackground_Yellow);
-            border-radius: 5px 5px 0 0;
-            /* Optionally, you can retain the border-radius for the top-left and top-right corners */
-            padding: 0 15px;
-            top: 7px;
-            position: relative;
-
-
-        }
-
-        .card {
-            background-color: #333333;
-            border: none;
-        }
-
-        iframe {
-            border: 0;
-            width: 100%;
-            height: 27vh !important;
-            /* margin: 15px; */
-        }
+    
     </style> -->
 
 </body>

@@ -1,246 +1,115 @@
-// //Import the THREE.js library
-// import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
-// // To allow for the camera to move around the scene
-// import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
-// // To allow for importing the .gltf file
-// import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+const units = {
+  Celcius: "°C",
+  Fahrenheit: "°F"
+};
 
-// //Create a Three.JS Scene
-// const scene = new THREE.Scene();
-// //create a new camera with positions and angles
-// const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// //Keep track of the mouse position, so we can make the eye move
-// let mouseX = window.innerWidth / 2;
-// let mouseY = window.innerHeight / 2;
+const config = {
+  minTemp: -20,
+  maxTemp: 50,
+  unit: "Celcius"
+};
+const configWater = {
+  minliter: 0,
+  maxliter: 50,
+  unit: "liter"
+};
 
-// //Keep the 3D object on a global variable so we can access it later
-// let object;
+// Change min and max temperature values
 
-// //OrbitControls allow the camera to move around the scene
-// let controls;
+const tempValueInputs = document.querySelectorAll("input[type='text']");
 
-// //Set which object to render
-// let objToRender = 'Perseverance';
+tempValueInputs.forEach(input => {
+  input.addEventListener("change", event => {
+    const newValue = event.target.value;
 
-// //Instantiate a loader for the .gltf file
-// const loader = new GLTFLoader();
+    if (isNaN(newValue)) {
+      return input.value = config[input.id];
+    } else {
+      config[input.id] = input.value;
+      range[input.id.slice(0, 3)] = config[input.id]; // Update range
+      return setTemperature(); // Update temperature
+    }
+  });
+});
 
-// //Load the file
-// loader.load(
-//   `Model/${objToRender}.glb`,
-//   function (gltf) {
-//     //If the file is loaded, add it to the scene
-//     object = gltf.scene;
-//     scene.add(object);
-//   },
-//   function (xhr) {
-//     //While it is loading, log the progress
-//     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-//   },
-//   function (error) {
-//     //If there is an error, log it
-//     console.error(error);
-//   }
-// );
+// Switch unit of temperature
 
-// //Instantiate a new renderer and set its size
-// const renderer = new THREE.WebGLRenderer({ alpha: true }); //Alpha: true allows for the transparent background
-// renderer.setSize(window.innerWidth, window.innerHeight);
+const unitP = document.getElementById("unit");
 
-// //Add the renderer to the DOM
-// document.getElementById("container3D").appendChild(renderer.domElement);
-
-// //Set how far the camera will be from the 3D model
-// camera.position.z = objToRender === "dino" ? 25 : 500;
-
-// //Add lights to the scene, so we can actually see the 3D model
-// const topLight = new THREE.DirectionalLight(0xffffff, 1); // (color, intensity)
-// topLight.position.set(500, 500, 500) //top-left-ish
-// topLight.castShadow = true;
-// scene.add(topLight);
-
-// const ambientLight = new THREE.AmbientLight(0x333333, objToRender === "dino" ? 5 : 1);
-// scene.add(ambientLight);
-
-// //This adds controls to the camera, so we can rotate / zoom it with the mouse
-// if (objToRender === "dino") {
-//   controls = new OrbitControls(camera, renderer.domElement);
-// }
-
-// //Render the scene
-// function animate() {
-//   requestAnimationFrame(animate);
-//   //Here we could add some code to update the scene, adding some automatic movement
-
-//   //Make the eye move
-//   if (object && objToRender === "eye") {
-//     //I've played with the constants here until it looked good 
-//     object.rotation.y = -3 + mouseX / window.innerWidth * 3;
-//     object.rotation.x = -1.2 + mouseY * 2.5 / window.innerHeight;
-//   }
-//   renderer.render(scene, camera);
-// }
-
-// //Add a listener to the window, so we can resize the window and the camera
-// window.addEventListener("resize", function () {
-//   camera.aspect = window.innerWidth / window.innerHeight;
-//   camera.updateProjectionMatrix();
-//   renderer.setSize(window.innerWidth, window.innerHeight);
+// unitP.addEventListener("click", () => {
+//   config.unit = config.unit === "Celcius" ? "Fahrenheit" : "Celcius";
+//   unitP.innerHTML = config.unit + ' ' + units[config.unit];
+//   return setTemperature();
 // });
 
-// //add mouse position listener, so we can make the eye move
-// document.onmousemove = (e) => {
-//   mouseX = e.clientX;
-//   mouseY = e.clientY;
-// }
+// Change temperature
 
-// //Start the 3D rendering
-// animate();
+const range = document.querySelector("input[type='range']");
+const temperature = document.getElementById("temperature");
+const graden = document.getElementById("degree");
 
+function setTemperature() {
+  temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+  temperature.dataset.value = range.value + units[config.unit];
 
-var dom = document.getElementById('chart-container');
-var myChart = echarts.init(dom, null, {
-  renderer: 'canvas',
-  useDirtyRect: false
-});
-var app = {};
-
-var option;
-
-option = {
-  series: [
-    {
-      type: 'gauge',
-      center: ['50%', '60%'],
-      startAngle: 200,
-      endAngle: -20,
-      min: 0,
-      max: 60,
-      splitNumber: 12,
-      itemStyle: {
-        color: '#FFAB91'
-      },
-      progress: {
-        show: true,
-        width: 30
-      },
-      pointer: {
-        show: false
-      },
-      axisLine: {
-        lineStyle: {
-          width: 30
-        }
-      },
-      axisTick: {
-        distance: -45,
-        splitNumber: 5,
-        lineStyle: {
-          width: 2,
-          color: '#999'
-        }
-      },
-      splitLine: {
-        distance: -52,
-        length: 14,
-        lineStyle: {
-          width: 3,
-          color: '#999'
-        }
-      },
-      axisLabel: {
-        distance: -20,
-        color: '#999',
-        fontSize: 20
-      },
-      anchor: {
-        show: false
-      },
-      title: {
-        show: false
-      },
-      detail: {
-        valueAnimation: true,
-        width: '60%',
-        lineHeight: 40,
-        borderRadius: 8,
-        offsetCenter: [0, '-15%'],
-        fontSize: 60,
-        fontWeight: 'bolder',
-        formatter: '{value} °C',
-        color: 'auto'
-      },
-      data: [
-        {
-          value: 20
-        }
-      ]
-    },
-    {
-      type: 'gauge',
-      center: ['50%', '60%'],
-      startAngle: 200,
-      endAngle: -20,
-      min: 0,
-      max: 60,
-      itemStyle: {
-        color: '#FD7347'
-      },
-      progress: {
-        show: true,
-        width: 8
-      },
-      pointer: {
-        show: false
-      },
-      axisLine: {
-        show: false
-      },
-      axisTick: {
-        show: false
-      },
-      splitLine: {
-        show: false
-      },
-      axisLabel: {
-        show: false
-      },
-      detail: {
-        show: false
-      },
-      data: [
-        {
-          value: 20
-        }
-      ]
-    }
-  ]
-};
-setInterval(function () {
-  const random = +(Math.random() * 60).toFixed(2);
-  myChart.setOption({
-    series: [
-      {
-        data: [
-          {
-            value: random
-          }
-        ]
-      },
-      {
-        data: [
-          {
-            value: random
-          }
-        ]
-      }
-    ]
-  });
-}, 2000);
-
-if (option && typeof option === 'object') {
-  myChart.setOption(option);
+  graden.textContent = temperature.dataset.value;
 }
 
-window.addEventListener('resize', myChart.resize);
+range.addEventListener("input", setTemperature);
+setTimeout(setTemperature, 1000);
+
+
+//waterpijl
+
+// const tank_slide = document.getElementById("watertank");
+const tank_slide = document.querySelector("input[type='range']");
+
+const liter = document.getElementById("liter");
+const water = document.getElementById("water");
+
+function setLiter() {
+  liter.style.height = (tank_slide.value - configWater.minTemp) / (configWater.maxTemp - configWater.minTemp) * 100 + "%";
+  liter.dataset.value = tank_slide.value + units[configWater.unit];
+
+
+
+  graden.textContent = liter.dataset.value;
+}
+
+tank_slide.addEventListener("input", setLiter);
+setTimeout(setLiter, 1000);
+
+
+
+
+
+
+
+//Motor
+var opts = {
+  angle: -0.01, // The span of the gauge arc
+  lineWidth: 0.2, // The line thickness
+  radiusScale: 1, // Relative radius
+  pointer: {
+    length: 0.6, // // Relative to gauge radius
+    strokeWidth: 0.026, // The thickness
+    color: '#ffffff' // Fill color
+  },
+  
+  limitMax: false,     // If false, max value increases automatically if value > maxValue
+  limitMin: false,     // If true, the min value of the gauge will be fixed
+  colorStart: '#D4FF19',   // Colors
+  colorStop: '#D4FF19',    // just experiment with them
+  strokeColor: '#333333',  // to see which ones work best for you
+  generateGradient: true,
+  highDpiSupport: true,     // High resolution support
+  
+};
+
+var target = document.getElementById('motor'); // your canvas element
+var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+gauge.maxValue = 100; // set max gauge value
+gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+gauge.animationSpeed = 70; // set animation speed (32 is default value)
+gauge.set(70); // set actual value
