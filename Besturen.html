@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+
+
+    <link rel="stylesheet" href="style/style.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-2">
+                <a href="Home.html">
+                    <button id="terug">
+                        <p>Terug</p>
+                    </button>
+                </a>
+            </div>
+            <div class="col-md-10"></div>
+        </div>
+
+    </div>
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="secotor">
+                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Motor
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+
+                            <div class="toggle-button-cover">
+                                <div class="button-cover">
+                                    <div class="button b2" id="button-13">
+                                        <input type="checkbox" class="checkbox" />
+                                        <div class="knobs">
+                                            <span></span>
+                                        </div>
+                                        <div class="layer"></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <input id="range" type="range" step="2" value="0" min="0" max="100">
+                            <label id="rangeLabel">0</label>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="secotor">
+                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Servo
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+
+                            <div class="left">
+                                <!-- <div class="toggle-button-cover">
+                                        <div class="button-cover">
+                                            <div class="button b2" id="button-13">
+                                                <input type="checkbox" class="checkbox" />
+                                                <div class="knobs">
+                                                    <span></span>
+                                                </div>
+                                                <div class="layer"></div>
+                                            </div>
+                                        </div>
+
+
+                                    </div> -->
+                            </div>
+                            <div class="right">
+
+
+                                <input id="range2" type="range" step="2" value="0" min="0" max="100">
+                                <label id="rangeLabel">0</label>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="secotor">
+                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Stappenmotor
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+                            <div class="left">
+                                <button id="btn-boven">
+                                    Naar boven
+                                </button>
+                                <button id="btn-beneden">
+                                    Naar beneden
+                                </button>
+                            </div>
+                            <div class="right">
+                                <!-- <div class="toggle-button-cover">
+                                        <div class="button-cover">
+                                            <div class="button b2" id="button-13">
+                                                <input type="checkbox" class="checkbox" />
+                                                <div class="knobs">
+                                                    <span></span>
+                                                </div>
+                                                <div class="layer"></div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                <input id="range" type="range" step="2" value="0" min="0" max="100">
+                                <label id="rangeLabel">0</label>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        // Get the range input and label
+        const range = document.getElementById('range');
+
+        const label = document.getElementById('rangeLabel');
+
+        // Function to update label value
+        function updateLabel() {
+            label.textContent = range.value;
+        }
+
+        // Update label when input value changes
+        range.addEventListener('input', updateLabel);
+        range2.addEventListener('input', updateLabel);
+
+        // Initial update of label
+        updateLabel();
+
+
+        // controller check
+        // Get the range input element
+        const rangeInput = document.getElementById('range');
+
+        // Function to update the element based on the range value
+        function updateElement(value) {
+            // Update the element (for example, you can set its value)
+            rangeInput.value = value;
+            // Here, I'll just log the value for demonstration purposes
+            console.log("Slider value:", value);
+        }
+
+        // Function to handle gamepad input
+        function handleGamepadInput() {
+            // Get the first connected gamepad
+            const gamepad = navigator.getGamepads()[0];
+
+
+            if (gamepad) {
+                // Adjust the range value based on gamepad input
+                const newValue = parseInt(rangeInput.value) +
+                    (gamepad.axes[1] === 1 ? -2 : 0) + // Down button pressed
+                    (gamepad.axes[1] === -1 ? 2 : 0);    // Up button pressed
+                // Ensure the new value stays within the range limits
+                const min = parseInt(rangeInput.min);
+                const max = parseInt(rangeInput.max);
+                const clampedValue = Math.min(Math.max(newValue, min), max);
+
+                // Update the element with the clamped value
+                updateElement(clampedValue);
+
+                updateLabel();
+
+            }
+
+            if (gamepad) {
+                // Check if the Y button is pressed
+                const yButtonPressed = gamepad.buttons[3].pressed; // Assuming the Y button is at index 3
+                console.log("Y gedrukt")
+                // Toggle the checkbox based on Y button state
+                if (yButtonPressed) {
+                    const checkbox = document.querySelector('.checkbox');
+
+                    checkbox.checked = !checkbox.checked;
+
+                }
+            }
+        }
+
+        // Function to start listening for gamepad input
+        function startGamepadListener() {
+            // Check for gamepad support
+            if (!navigator.getGamepads) {
+                console.log('Gamepad API not supported.');
+                return;
+            }
+
+            // Start the gamepad input loop
+            function update() {
+                handleGamepadInput();
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        // Start listening for gamepad input
+        startGamepadListener();
+    </script>
+    <!-- <style>
+        :root {
+            --backgroundcolor_dark: #333333;
+            --btnBackground_Yellow: #D4FF19;
+            --setBackgroudcolor_dark: #1D2128;
+        }
+
+
+        body {
+            background-color: var(--backgroundcolor_dark);
+        }
+
+        button {
+            background-color: var(--btnBackground_Yellow);
+            width: 100%;
+            height: 140px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 40px;
+            line-height: 56px;
+            font-weight: 400;
+            border-radius: 10px;
+            border-theme_color: var(--btnBackground_Yellow);
+        }
+
+        .sector {
+            margin: 50% 0 !important;
+        }
+
+        .theme_color {
+            stroke: var(--btnBackground_Yellow);
+            stroke: var(--btnBackground_Yellow);
+
+        }
+
+        .svg {
+            fill: var(--btnBackground_Yellow);
+        }
+
+        /* home pagina */
+        svg {
+            margin: 50px 0;
+
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .top button {
+            max-width: 200px;
+        }
+
+        .bottomcard {
+            background-color: #1D2128;
+            margin: auto;
+            /* display: block; */
+            /* border-color: yellow; */
+            border: 10px solid var(--btnBackground_Yellow);
+            border-radius: 20px;
+            /* --bs-border-radius-pill: aqua; */
+            height: 340px;
+            width: 100%;
+            bottom: 10px;
+            position: relative;
+        }
+
+        .rover {
+            background-color: #1D2128;
+            margin: auto;
+            /* display: block; */
+            /* border-color: yellow; */
+            border: 10px solid var(--btnBackground_Yellow);
+            border-radius: 10px;
+            /* --bs-border-radius-pill: aqua; */
+            height: 340px;
+            width: 100%;
+        }
+
+        .row {
+            margin-bottom: 30px;
+        }
+
+        .topcard {
+            background-color: var(--btnBackground_Yellow);
+            width: 32%;
+            border-top: 7px solid var(--btnBackground_Yellow);
+            border-left: 7px solid var(--btnBackground_Yellow);
+            border-right: 7px solid var(--btnBackground_Yellow);
+            border-radius: 5px 5px 0 0;
+            /* Optionally, you can retain the border-radius for the top-left and top-right corners */
+            padding: 0 15px;
+            padding-bottom: 10px;
+            top: 7px;
+            position: relative;
+
+
+        }
+
+        .card {
+            background-color: #333333;
+            border: none;
+        }
+
+        iframe {
+            border: 0;
+            width: 100%;
+            height: 27vh !important;
+            /* margin: 15px; */
+        }
+
+        /* slider  */
+
+        input[type=range] {
+            height: 34px;
+            -webkit-appearance: none;
+            margin: auto;
+            display: block;
+            width: 80%;
+            background: var(--setBackgroudcolor_dark);
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 5px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 0px 0px 0px #000000;
+            background: var(--btnBackground_Yellow);
+            border-radius: 1px;
+            border: 0px solid #000000;
+        }
+
+        /* punter  */
+        input[type=range]::-webkit-slider-thumb {
+            box-shadow: 0px 0px 0px #000000;
+            border: 1px solid white;
+            height: 18px;
+            width: 18px;
+            border-radius: 25px;
+            background: var(--btnBackground_Yellow);
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -7px;
+        }
+
+        /* slider kleur achtergrond */
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #F5FFCA;
+        }
+
+        input[type=range]::-moz-range-track {
+            width: 100%;
+            height: 5px;
+            cursor: pointer;
+            animate: 0.2s;
+            box-shadow: 0px 0px 0px #000000;
+            background: #2497E3;
+            border-radius: 1px;
+            border: 0px solid #000000;
+        }
+
+        input[type=range]::-moz-range-thumb {
+            box-shadow: 0px 0px 0px #000000;
+            border: 1px solid #2497E3;
+            height: 18px;
+            width: 18px;
+            border-radius: 25px;
+            background: #A1D0FF;
+            cursor: pointer;
+        }
+
+        input[type=range]::-ms-track {
+            width: 100%;
+            height: 5px;
+            cursor: pointer;
+            animate: 0.2s;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+
+        input[type=range]::-ms-fill-lower {
+            background: var(--btnBackground_Yellow);
+            border: 0px solid #000000;
+            border-radius: 2px;
+            box-shadow: 0px 0px 0px #000000;
+        }
+
+        input[type=range]::-ms-fill-upper {
+            background: var(--btnBackground_Yellow);
+            border: 0px solid #000000;
+            border-radius: 2px;
+            box-shadow: 0px 0px 0px #000000;
+        }
+
+        input[type=range]::-ms-thumb {
+            margin-top: 1px;
+            box-shadow: 0px 0px 0px #000000;
+            border: 1px solid var(--btnBackground_Yellow);
+            height: 18px;
+            width: 18px;
+            border-radius: 25px;
+            background: #A1D0FF;
+            cursor: pointer;
+        }
+
+        input[type=range]:focus::-ms-fill-lower {
+            background: white;
+        }
+
+        input[type=range]:focus::-ms-fill-upper {
+            background: white;
+        }
+
+
+        label {
+            display: inline-block;
+            color: white;
+            font-weight: bold;
+            font-size: 40px;
+            margin: 0 45%;
+            color: var(--btnBackground_Yellow);
+
+        }
+
+        /* toogle button */
+
+        /* Button 13 */
+        #button-13 .knobs:before,
+        #button-13 .knobs:after,
+        #button-13 .knobs span {
+            position: absolute;
+            top: 4px;
+            width: 35px;
+            height: 40px;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            padding: 9px 4px;
+            border-radius: 2px;
+            transition: 0.3s ease all;
+        }
+
+        #button-13 .knobs:before,
+        #button-13 .knobs:after {
+            color: #4e4e4e;
+            z-index: 1;
+        }
+
+        #button-13 .knobs:before {
+            content: "Uit";
+            left: 4px;
+            width: 45%;
+            font-size: 30px;
+        }
+
+        #button-13 .knobs:after {
+            content: "Aan";
+            right: 4px;
+            width: 45%;
+            font-size: 30px;
+        }
+
+        #button-13 .knobs span {
+            /* width: 27px; */
+            left: 90px;
+            background-color: #f44336;
+            z-index: 2;
+            top: -3px;
+            width: 80px;
+            height: 65px;
+
+        }
+
+        #button-13 .checkbox:checked+.knobs span {
+            left: 0px;
+            background-color: var(--btnBackground_Yellow);
+
+            width: 80px;
+            height: 65px;
+        }
+
+        #button-13 .checkbox:checked~.layer {
+            background-color: #ffffff;
+        }
+
+
+
+        .toggle-button-cover {
+            display: table-cell;
+            position: relative;
+            width: 200px;
+            height: 140px;
+            box-sizing: border-box;
+        }
+
+        .button-cover {
+            height: 100px;
+            margin: 20px;
+            background-color: var(--setBackgroudcolor_dark);
+            border-radius: 4px;
+        }
+
+        .button-cover:before {
+            counter-increment: button-counter;
+            content: counter(button-counter);
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            color: var(--setBackgroudcolor_dark);
+            font-size: 12px;
+            line-height: 1;
+            padding: 5px;
+        }
+
+        .button-cover,
+        .knobs,
+        .layer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .button {
+            position: relative;
+            top: 50%;
+            width: 170px;
+            height: 60px;
+            margin: -20px auto 0 auto;
+            overflow: hidden;
+        }
+
+
+
+        .button.r,
+        .button.r .layer {
+            border-radius: 100px;
+        }
+
+        .button.b2 {
+            border-radius: 2px;
+        }
+
+        .checkbox {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .knobs {
+            z-index: 2;
+        }
+
+        .layer {
+            width: 100%;
+            background-color: #ebf7fc;
+            transition: 0.3s ease all;
+            z-index: 1;
+        }
+
+        /* knoppen */
+
+        button#btn-boven,
+        button#btn-beneden {
+            width: 249px;
+            margin: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            height: 150px !important;
+            font-size: 24px;
+            height: 100px !important;
+            border: 1px solid var(--btnBackground_Yellow);
+
+        }
+
+        .left,
+        .right {
+            flex: 1;
+            /* This makes both divs take equal space but still push content to the sides */
+            display: flex;
+            flex-direction: column;
+            /* Aligns items vertically */
+            padding: 10px;
+            /* Adds some space inside the divs */
+        }
+
+        .left,
+        .right {
+            align-items: flex-start;
+            display: inline-block;
+            width: 48%;
+            /* Aligns items to the left */
+        }
+    </style> -->
+</body>
+
+</html>

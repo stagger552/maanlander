@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Compiled and minified CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
+
+    <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script>
+
+    <link rel="stylesheet" href="style/style.css">
+
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row top">
+
+            <div class="col-md-2">
+                <a href="Home.html">
+                    <button id="terug">
+                        <p>Terug</p>
+                    </button>
+                </a>
+            </div>
+            <div class="col-md-10"></div>
+
+
+        </div>
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="secotor">
+                        <div class="card">
+                            <div class="topcard">
+                                <h3>
+                                    Tempratuur
+                                </h3>
+                            </div>
+                            <div class="bottomcard">
+                                <!-- <div class="temrature">
+                                    <div id='myDiv'></div>
+
+                                    <script>
+                                        var data = [
+                                            {
+                                                domain: { x: [0, 1], y: [0, 1] },
+                                                value: 15,
+                                                title: { text: "Tempratuur" },
+                                                type: "indicator",
+                                                mode: "gauge+number"
+                                            }
+                                        ];
+
+                                        var layout = { width: 400, height: 300, margin: { t: 0, b: 0 } };
+                                        Plotly.newPlot('myDiv', data, layout);
+
+                                    </script>
+                                </div> -->
+
+                                <div id="chart-container"></div>
+                                <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+                                <script src="javascript/main.js"></script>
+
+
+
+                            </div>
+                        </div>
+                        <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="secotor">
+                        <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                        <div class="card">
+                            <div class="topcard">
+                                <h3>
+                                    Servo
+                                </h3>
+                            </div>
+                            <div class="bottomcard">
+                                <input id="range" type="range" step="10" value="200" min="0" max="800">
+                                </script>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="secotor">
+                        <div class="card">
+                            <div class="topcard">
+                                <h3>
+                                    Motor
+                                </h3>
+                            </div>
+                            <div class="bottomcard">
+
+                            </div>
+                        </div>
+                        <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
+
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="secotor">
+                        <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                        <div class="card">
+                            <div class="topcard">
+                                <h3>
+                                    waterpeil
+                                </h3>
+                            </div>
+                            <div class="bottomcard">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="rover">
+                        <div class="sketchfab-embed-wrapper"> <iframe title="Curiosity" frameborder="0" allowfullscreen
+                                mozallowfullscreen="true" webkitallowfullscreen="true"
+                                allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking
+                                execution-while-out-of-viewport execution-while-not-rendered web-share
+                                src="https://sketchfab.com/models/cb730821ad384a02b415e4e6209b46b5/embed"> </iframe>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- <style>
+        :root {
+            --backgroundcolor_dark: #333333;
+            --btnBackground_Yellow: #D4FF19;
+            --setBackgroudcolor_dark: #1D2128;
+        }
+
+
+        body {
+            background-color: var(--backgroundcolor_dark);
+        }
+
+        button {
+            background-color: var(--btnBackground_Yellow);
+            width: 100%;
+            height: 140px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 40px;
+            line-height: 56px;
+            font-weight: 400;
+            border-radius: 10px;
+            border-theme_color: var(--btnBackground_Yellow);
+        }
+
+        .sector {
+            margin: 50% 0 !important;
+        }
+
+        .theme_color {
+            stroke: var(--btnBackground_Yellow);
+            stroke: var(--btnBackground_Yellow);
+
+        }
+
+        .svg {
+            fill: var(--btnBackground_Yellow);
+        }
+
+        /* home pagina */
+        svg {
+            margin: 50px 0;
+
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            z-index: 1;
+        }
+
+        .dropdown-menu a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .top button {
+            max-width: 200px;
+        }
+
+        .bottomcard {
+            background-color: #1D2128;
+            margin: auto;
+            /* display: block; */
+            /* border-color: yellow; */
+            border: 10px solid var(--btnBackground_Yellow);
+            border-radius: 10px;
+            /* --bs-border-radius-pill: aqua; */
+            height: 340px;
+            width: 100%;
+        }
+
+        .rover {
+            background-color: #1D2128;
+            margin: auto;
+            /* display: block; */
+            /* border-color: yellow; */
+            border: 10px solid var(--btnBackground_Yellow);
+            border-radius: 10px;
+            /* --bs-border-radius-pill: aqua; */
+            height: 340px;
+            width: 100%;
+        }
+
+        .row {
+            margin-bottom: 30px;
+        }
+
+        .topcard {
+            background-color: var(--btnBackground_Yellow);
+            width: 32%;
+            border-top: 7px solid var(--btnBackground_Yellow);
+            border-left: 7px solid var(--btnBackground_Yellow);
+            border-right: 7px solid var(--btnBackground_Yellow);
+            border-radius: 5px 5px 0 0;
+            /* Optionally, you can retain the border-radius for the top-left and top-right corners */
+            padding: 0 15px;
+            top: 7px;
+            position: relative;
+
+
+        }
+
+        .card {
+            background-color: #333333;
+            border: none;
+        }
+
+        iframe {
+            border: 0;
+            width: 100%;
+            height: 27vh !important;
+            /* margin: 15px; */
+        }
+    </style> -->
+
+</body>
+
+</html>
