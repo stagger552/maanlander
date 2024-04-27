@@ -324,8 +324,8 @@ input[type=range] {
 input[type=range] {
     -webkit-appearance: none;
     background: transparent;
-    margin: 5.5px 0;
-    width: 100%;
+    margin: auto;
+    width: 85%;
 }
 
 input[type=range]::-moz-focus-outer {
