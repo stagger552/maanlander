@@ -1,12 +1,16 @@
 :root {
-    --backgroundcolor_dark: #333333;
-    --btnBackground_Yellow: #D4FF19;
-    --setBackgroudcolor_dark: #1D2128;
+    --BackgroundColor: #333333;
+    /* --primeryColor: #D4FF19; */
+        --primeryColor: #03AED2;
+
+    --SeccondBackgroundcolor: #1D2128;
 }
 
 
+
+
 body {
-    background-color: var(--backgroundcolor_dark);
+    background-color: var(--BackgroundColor);
 }
 
 p#degree,
@@ -22,7 +26,7 @@ a {
 }
 
 button {
-    background-color: var(--btnBackground_Yellow);
+    background-color: var(--primeryColor);
     width: 100%;
     height: 140px;
     padding: 0 20px;
@@ -34,7 +38,8 @@ button {
     line-height: 56px;
     font-weight: 400;
     border-radius: 10px;
-    border-theme_color: var(--btnBackground_Yellow);
+    border-theme_color: var(--primeryColor);
+    border: 5px solid var(--primeryColor);
 }
 
 /* terug */
@@ -48,19 +53,19 @@ button#terug {
 }
 
 .theme_color {
-    stroke: var(--btnBackground_Yellow);
-    stroke: var(--btnBackground_Yellow);
+    stroke: var(--primeryColor);
+    stroke: var(--primeryColor);
 
 }
 
 .svg {
-    fill: var(--btnBackground_Yellow);
+    fill: var(--primeryColor);
 }
 
 /* home pagina */
 svg {
-    margin: 50px 0;
-
+    margin: auto;
+    display: block;
 }
 
 .dropdown {
@@ -92,21 +97,34 @@ svg {
     margin: auto;
     /* display: block; */
     /* border-color: yellow; */
-    border: 10px solid var(--btnBackground_Yellow);
+    border: 10px solid var(--primeryColor);
     border-radius: 20px;
     /* --bs-border-radius-pill: aqua; */
-    height: 340px;
+    /* height: 340px; */
     width: 100%;
     bottom: 10px;
     position: relative;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
+
+/* mars styling */
+canvas[width="1920"]{
+    position: absolute;
+    z-index: -1;
+}
+.center {
+    margin: auto;
+    display: block;
+}
+
 
 .rover {
     background-color: #1D2128;
     margin: auto;
     /* display: block; */
     /* border-color: yellow; */
-    border: 10px solid var(--btnBackground_Yellow);
+    border: 10px solid var(--primeryColor);
     border-radius: 10px;
     /* --bs-border-radius-pill: aqua; */
     height: 340px;
@@ -126,7 +144,7 @@ svg#arm {
     bottom: 2em;
     position: relative;
     height: 100%;
-    
+
 }
 
 button#applyButton {
@@ -136,11 +154,11 @@ button#applyButton {
 
 
 .topcard {
-    background-color: var(--btnBackground_Yellow);
+    background-color: var(--primeryColor);
     width: 32%;
-    border-top: 7px solid var(--btnBackground_Yellow);
-    border-left: 7px solid var(--btnBackground_Yellow);
-    border-right: 7px solid var(--btnBackground_Yellow);
+    border-top: 7px solid var(--primeryColor);
+    border-left: 7px solid var(--primeryColor);
+    border-right: 7px solid var(--primeryColor);
     border-radius: 5px 5px 0 0;
     /* Optionally, you can retain the border-radius for the top-left and top-right corners */
     padding: 0 15px;
@@ -165,7 +183,7 @@ input[type=range] {
     margin: auto;
     display: block;
     width: 80%;
-    background: var(--setBackgroudcolor_dark);
+    background: var(--SeccondBackgroundcolor);
 }
 
 /* thermopeter */
@@ -474,12 +492,12 @@ input[type=range]:focus {
 
 
 
-canvas{
+/* canvas {
     margin: auto;
     display: block;
     margin-top: 5%;
     margin-bottom: 5%;
-}
+} */
 
 
 p#AantalLiter {
@@ -489,8 +507,7 @@ p#AantalLiter {
     text-align: center;
 }
 
-.watertank
-{
+.watertank {
     margin: auto;
     display: block;
 }
@@ -503,7 +520,7 @@ input[type=range]::-webkit-slider-runnable-track {
     cursor: pointer;
     animate: 0.2s;
     box-shadow: 0px 0px 0px #000000;
-    background: var(--btnBackground_Yellow);
+    background: var(--primeryColor);
     border-radius: 1px;
     border: 0px solid #000000;
 }
@@ -515,7 +532,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 18px;
     width: 18px;
     border-radius: 25px;
-    background: var(--btnBackground_Yellow);
+    background: var(--primeryColor);
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -7px;
@@ -558,14 +575,14 @@ input[type=range]::-ms-track {
 }
 
 input[type=range]::-ms-fill-lower {
-    background: var(--btnBackground_Yellow);
+    background: var(--primeryColor);
     border: 0px solid #000000;
     border-radius: 2px;
     box-shadow: 0px 0px 0px #000000;
 }
 
 input[type=range]::-ms-fill-upper {
-    background: var(--btnBackground_Yellow);
+    background: var(--primeryColor);
     border: 0px solid #000000;
     border-radius: 2px;
     box-shadow: 0px 0px 0px #000000;
@@ -574,7 +591,7 @@ input[type=range]::-ms-fill-upper {
 input[type=range]::-ms-thumb {
     margin-top: 1px;
     box-shadow: 0px 0px 0px #000000;
-    border: 1px solid var(--btnBackground_Yellow);
+    border: 1px solid var(--primeryColor);
     height: 18px;
     width: 18px;
     border-radius: 25px;
@@ -597,7 +614,7 @@ label {
     font-weight: bold;
     font-size: 40px;
     margin: 0 45%;
-    color: var(--btnBackground_Yellow);
+    color: var(--primeryColor);
 
 }
 
@@ -653,7 +670,7 @@ label {
 
 #button-13 .checkbox:checked+.knobs span {
     left: 0px;
-    background-color: var(--btnBackground_Yellow);
+    background-color: var(--primeryColor);
 
     width: 80px;
     height: 65px;
@@ -676,7 +693,7 @@ label {
 .button-cover {
     height: 100px;
     margin: 20px;
-    background-color: var(--setBackgroudcolor_dark);
+    background-color: var(--SeccondBackgroundcolor);
     border-radius: 4px;
 }
 
@@ -686,7 +703,7 @@ label {
     position: absolute;
     right: 0;
     bottom: 0;
-    color: var(--setBackgroudcolor_dark);
+    color: var(--SeccondBackgroundcolor);
     font-size: 12px;
     line-height: 1;
     padding: 5px;
@@ -755,7 +772,7 @@ button#btn-beneden {
     height: 150px !important;
     font-size: 24px;
     height: 100px !important;
-    border: 1px solid var(--btnBackground_Yellow);
+    border: 1px solid var(--primeryColor);
 
 }
 

@@ -1,3 +1,7 @@
+
+
+// thermometer
+
 const units = {
   Celcius: "°C",
   Fahrenheit: "°F"
@@ -115,6 +119,7 @@ var opts = {
 
 var motor_text = document.getElementById('usage'); // your canvas element
 var target = document.getElementById('motor'); // your canvas element
+
 var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
 gauge.maxValue = 100; // set max gauge value
 gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
@@ -122,6 +127,8 @@ gauge.animationSpeed = 70; // set animation speed (32 is default value)
 gauge.set(65); // set actual value
 motor_text.textContent = gauge.value + "%";
 
+
+// water dashboard
 
 var wateropts = {
   angle: 0.35, // The span of the gauge arc
@@ -153,6 +160,18 @@ gauge.set(30); // set actual value
 Liter_text.textContent = gauge.value + " Liter";
 
 
-// arm
+// Besturen motor
 
 
+
+
+
+
+// database
+
+// import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
+
+// const supabaseUrl = 'https://ptxsuqkrwagqzbhxektl.supabase.co'
+// const supabaseKey = "Turindwa552@" // This assumes that you're using a build tool that supports process.env, such as Node.js with a tool like dotenv.
+
+// const supabase = createClient(supabaseUrl, supabaseKey);

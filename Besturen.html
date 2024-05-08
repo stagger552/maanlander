@@ -11,10 +11,16 @@
 
     <!-- Compiled and minified JavaScript -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-
+    <script src="javascript/main.js"></script>
     <link rel="stylesheet" href="style/style.css">
 
     <title>Document</title>
@@ -49,10 +55,11 @@
                         </div>
                         <div class="bottomcard">
 
+
                             <div class="toggle-button-cover">
                                 <div class="button-cover">
                                     <div class="button b2" id="button-13">
-                                        <input type="checkbox" id="MotorCheckbox" class="checkbox" />
+                                        <input type="checkbox" id="MotorCheckbox" class="checkbox" value="off" />
                                         <div class="knobs">
                                             <span></span>
                                         </div>
@@ -62,8 +69,15 @@
 
 
                             </div>
-                            <input id="motorslider" type="range" value="0" min="0" max="50">
-                            <label id="rangeLabel">0</label>
+                            <div id="MotorData">
+                                <input id="motorslider" type="range" value="0" min="0" max="100"
+                                    oninput="updateMotorSliderValue(this.value)">
+                                <label id="rangeLabel">0</label>
+                                <canvas class="center" id="MotorGaugeControl"></canvas>
+                                <!-- Canvas element for the gauge -->
+
+                            </div>
+
 
 
                         </div>
@@ -235,53 +249,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="secotor">
-                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
-                    <div class="card">
-                        <div class="topcard">
-                            <h3>
-                                Stappenmotor
-                            </h3>
-                        </div>
-                        <div class="bottomcard">
-                            <div class="left">
-                                <button id="btn-boven">
-                                    Naar boven
-                                </button>
-                                <button id="btn-beneden">
-                                    Naar beneden
-                                </button>
-                            </div>
-                            <div class="right">
-                                <!-- <div class="toggle-button-cover">
-                                        <div class="button-cover">
-                                            <div class="button b2" id="button-13">
-                                                <input type="checkbox" class="checkbox" />
-                                                <div class="knobs">
-                                                    <span></span>
-                                                </div>
-                                                <div class="layer"></div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                <input id="range" type="range" step="2" value="0" min="0" max="100">
-                                <label id="rangeLabel">0</label>
 
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="col-md-6">
-
-            </div>
-        </div>
     </div>
     </div>
 
@@ -290,17 +258,18 @@
         let controllerIndex = null;
 
         const motorslider = document.getElementById("motorslider");
-
-        const motorRangeLabel = document.getElementById("rangeLabel");
-
-
+        const MotorData = document.getElementById("MotorData");
+        MotorData.style.opacity = "0.2"
 
         const ArmSlider1 = document.getElementById("sldArm1");
         const ArmSlider2 = document.getElementById("sldArm2");
 
         const checkboxMotor = document.getElementById('MotorCheckbox');
+        const motorRangeLabel = document.getElementById("rangeLabel");
 
 
+
+       
 
         window.addEventListener("gamepadconnected", (event) => {
             handleConnectDisconnect(event, true);
@@ -309,6 +278,56 @@
         window.addEventListener("gamepaddisconnected", (event) => {
             handleConnectDisconnect(event, false);
         });
+
+        function ChangeToggleOpacity(checkbox) {
+            var MotorData = document.getElementById("MotorData"); // Assuming MotorData is the element whose opacity you want to change
+            var motorslider = document.getElementById("motorslider");
+            var motorRangeLabel = document.getElementById("rangeLabel");
+
+            if (checkbox.checked == true) {
+                console.log("aan")
+                MotorData.style.opacity = "1"
+            }
+            else if (checkbox.checked == false || checkbox.value == "off") {
+                console.log("Uit")
+                motorslider.value = 0;
+                motorRangeLabel.innerHTML = "0"
+                MotorData.style.opacity = "0.2";
+                gauge.set(0); // set actual value
+
+            }
+            else {
+                console.log("Error")
+
+            }
+
+        }
+        checkboxMotor.addEventListener("change", function () {
+            ChangeToggleOpacity(this);
+            
+        });
+
+        // Add event listener for the "change" event
+        // checkboxMotor.addEventListener("change", function () {
+        //     // Check if the checkbox is checked
+        //     if (this.checked) {
+        //         // Perform action when checkbox is checked
+        //         console.log("Checkbox is checked");
+        //         // You can add your code here to perform any action when the checkbox is checked
+        //     } else {
+        //         // Perform action when checkbox is unchecked
+        //         console.log("Checkbox is unchecked");
+        //         // You can add your code here to perform any action when the checkbox is unchecked
+        //     }
+        // });
+
+
+        // vedandert waarde label
+        function updateMotorSliderValue(newValue) {
+            document.getElementById("rangeLabel").innerText = newValue;
+            gauge.set(newValue); // set actual value
+
+        }
 
         function handleConnectDisconnect(event, connected) {
             const controllerAreaNotConnected = document.getElementById(
@@ -338,7 +357,7 @@
             motorRangeLabel.innerText = value
             // Here, I'll just log the value for demonstration purposes
             console.log("Slider value:", value);
-
+            gauge.set(value)
         }
 
         function updateArmSlider2(value) {
@@ -359,8 +378,28 @@
         function handleButton3Action() {
             console.log("Y gedrukt")
             // Toggle the checkbox based on Y button state
+            const checkboxMotor = document.getElementById('MotorCheckbox');
 
-            checkboxMotor.checked = !checkboxMotor.checked;
+    
+
+            if (checkboxMotor.checked == true) {
+                checkboxMotor.checked = false
+                motorRangeLabel.innerHTML = "0"
+                MotorData.style.opacity = "0.2";
+                gauge.set(0); // set actual value
+            }
+            else if (checkboxMotor.checked == false ) {
+               
+                checkboxMotor.checked = true
+                MotorData.style.opacity = "1";
+
+            }
+            else {
+                console.log("Error")
+
+            }
+
+            // checkboxMotor.checked = !checkboxMotor.checked;
             setTimeout(() => {
                 console.log("tomout")
             }, 10000);
@@ -445,12 +484,12 @@
                     handleButton7Action();
                 }
 
-                 // Specific actions for button 7
-                 if (i === 14 && buttonValue > 0) {
+                // Specific actions for button 7
+                if (i === 14 && buttonValue > 0) {
                     handleButton14Action();
                 }
-                 // Specific actions for button 7
-                 if (i === 15 && buttonValue > 0) {
+                // Specific actions for button 7
+                if (i === 15 && buttonValue > 0) {
                     handleButton15Action();
                 }
             }
@@ -526,6 +565,37 @@
         }
 
         gameLoop();
+
+        var opts = {
+            angle: -0.01, // The span of the gauge arc
+            lineWidth: 0.2, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+                length: 0.6, // // Relative to gauge radius
+                strokeWidth: 0.026, // The thickness
+                color: '#ffffff' // Fill color
+            },
+
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#D4FF19',   // Colors
+            colorStop: '#D4FF19',    // just experiment with them
+            strokeColor: '#333333',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+
+        };
+
+
+        var motor_text = document.getElementById('usage'); // your canvas element
+        var target = document.getElementById('MotorGaugeControl'); // your canvas element
+
+        var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+        gauge.maxValue = 100; // set max gauge value
+        gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+        gauge.animationSpeed = 70; // set animation speed (32 is default value)
+        gauge.set(0); // set actual value
+        motor_text.textContent = gauge.value + "%";
 
     </script>
 
