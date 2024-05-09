@@ -22,6 +22,10 @@
 
     <script src='https://cdn.plot.ly/plotly-2.31.1.min.js'></script>
 
+
+    <!-- chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="style/style.css">
 
 
@@ -292,14 +296,108 @@
 
                                     <h2 id="usage" class="primery">50</h2>
                                     <p>%</p>
+                                    <div>
+                                        <canvas id="MotorChart"></canvas>
 
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
                         <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
 
+                        <script>
+                            // Initial data for the chart
+                            var chartData = {
+                                labels: [],
+                                datasets: [{
+                                    label: 'My Dataset',
+                                    data: [],
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
+                                    borderColor: 'rgba(255, 99, 132, 1)', // Border color
+                                    borderWidth: 2 // Border width in pixels
+                                }]
+                            };
 
+                            // Get the context of the canvas element we want to select
+                            var ctx = document.getElementById('MotorChart').getContext('2d');
+
+                            // Create the chart
+                            var myChart = new Chart(ctx, {
+                                type: 'line',
+                                data: chartData,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+
+                            // Function to generate a random number between min and max
+                            function getRandomNumber(min, max) {
+                                return Math.floor(Math.random() * (max - min + 1)) + min;
+                            }
+
+                            // Function to update the chart with a random number every 2 seconds
+                            function updateChart() {
+                                // Generate a random number
+                                var randomNumber = getRandomNumber(0, 30);
+                                Motorgauge.set(randomNumber)
+                                motor_text.textContent = randomNumber + "%";
+
+                                // Add the random number as a new label
+                                myChart.data.labels.push('Day ' + (myChart.data.labels.length + 1));
+
+                                // Add the random number as a new data point
+                                myChart.data.datasets[0].data.push(randomNumber);
+
+                                // Check if the number of labels exceeds the limit (5 in this case)
+                                if (myChart.data.labels.length > 5) {
+                                    // Remove the oldest label and data point
+                                    myChart.data.labels.shift();
+                                    myChart.data.datasets[0].data.shift();
+                                }
+
+                                // Update the chart
+                                myChart.update();
+                            }
+
+                            // Call the updateChart function every 2 seconds
+                            setInterval(updateChart, 2000);
+                            // // Data for the chart
+                            // var chartData = {
+                            //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"],
+                            //     datasets: [{
+                            //         label: 'My Dataset',
+                            //         data: [10, 20, 30, 25, 35],
+                            //         backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
+                            //         borderColor: 'rgba(255, 99, 132, 1)', // Border color
+                            //         borderWidth: 2 // Border width in pixels
+                            //     }]
+                            // };
+
+                            // // Get the context of the canvas element we want to select
+                            // var ctx = document.getElementById('MotorChart').getContext('2d');
+
+                            // // Create the chart
+                            // var myChart = new Chart(ctx, {
+                            //     type: 'line',
+                            //     data: chartData,
+                            //     options: {
+                            //         scales: {
+                            //             yAxes: [{
+                            //                 ticks: {
+                            //                     beginAtZero: true
+                            //                 }
+                            //             }]
+                            //         }
+                            //     }
+                            // });
+                        </script>
                     </div>
 
                 </div>
@@ -315,10 +413,11 @@
                             </div>
                             <div class="bottomcard">
                                 <div class="watertank">
-                                  
 
-                                        <canvas class="center" id="waterpijl"></canvas> <!-- Canvas element for the gauge -->
-                                    
+
+                                    <canvas class="center" id="waterpijl"></canvas>
+                                    <!-- Canvas element for the gauge -->
+
                                     <p id="AantalLiter"></p>
                                     <p>Liter</p>
                                 </div>
@@ -349,65 +448,58 @@
     </div>
 
     <script type="text/javascript" src="javascript/main.js"></script>
+    <script type="module">
+        import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
 
-    <!-- <script>
-        const units = {
-            Celcius: "°C",
-            Fahrenheit: "°F"
+        const supabaseUrl = 'https://ptxsuqkrwagqzbhxektl.supabase.co'
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0eHN1cWtyd2FncXpiaHhla3RsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4NzY0ODUsImV4cCI6MjAyOTQ1MjQ4NX0.a0H_xT4bo0nsihpIO-rHjHvO0xmztjNIiKVwJSnwrdY"
+
+
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+
+        // Data to be inserted
+        const dataToInsert = {
+            Tijd: '2024-05-08 03:53:08',
+            Tempratuur: '28,4',
+            Motor: 4,
+            Servo: '80',
+            Stappenmotor: '5',
+            Waterpijl: 200
         };
 
+        const { data, error } = await supabase.from('Data').select('*');
+        if (error) {
+            console.error('Error fetching data:', error.message);
+        } else {
+            console.log('Retrieved data: 1', data);
+            // Insert data into the table
+            supabase
+                .from('Data')
+                .insert({
+                    Tijd: '2024-05-08 03:53:08',
+                    // Tempratuur: '28,4',
+                    // Motor: 4,
+                    // Servo: '80',
+                    // Stappenmotor: '5',
+                    Waterpijl: 200
+                })
+                .then(response => {
+                    console.log('Data inserted successfully:', response);
+                    console.log('Retrieved data: 4', data);
 
-        const config = {
-            minTemp: -20,
-            maxTemp: 50,
-            unit: "Celcius"
-        };
+                })
+                .catch(error => {
+                    console.error('Error inserting data:', error);
+                });
+            console.log('Retrieved data: 2', data);
 
-
-        // Change min and max temperature values
-
-        const tempValueInputs = document.querySelectorAll("input[type='text']");
-
-        tempValueInputs.forEach(input => {
-            input.addEventListener("change", event => {
-                const newValue = event.target.value;
-
-                if (isNaN(newValue)) {
-                    return input.value = config[input.id];
-                } else {
-                    config[input.id] = input.value;
-                    range[input.id.slice(0, 3)] = config[input.id]; // Update range
-                    return setTemperature(); // Update temperature
-                }
-            });
-        });
-
-        // Switch unit of temperature
-
-        const unitP = document.getElementById("unit");
-
-        unitP.addEventListener("click", () => {
-            config.unit = config.unit === "Celcius" ? "Fahrenheit" : "Celcius";
-            unitP.innerHTML = config.unit + ' ' + units[config.unit];
-            return setTemperature();
-        });
-
-        // Change temperature
-
-        const range = document.querySelector("input[type='range']");
-        const temperature = document.getElementById("temperature");
-
-        function setTemperature() {
-            temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
-            temperature.dataset.value = range.value + units[config.unit];
         }
 
-        range.addEventListener("input", setTemperature);
-        setTimeout(setTemperature, 1000);
-    </script> -->
 
+    </script>
 
-    </style> -->
+    </style>
 
 </body>
 

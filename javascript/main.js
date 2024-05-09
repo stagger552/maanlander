@@ -120,12 +120,12 @@ var opts = {
 var motor_text = document.getElementById('usage'); // your canvas element
 var target = document.getElementById('motor'); // your canvas element
 
-var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-gauge.maxValue = 100; // set max gauge value
-gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
-gauge.animationSpeed = 70; // set animation speed (32 is default value)
-gauge.set(65); // set actual value
-motor_text.textContent = gauge.value + "%";
+var Motorgauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+Motorgauge.maxValue = 100; // set max gauge value
+Motorgauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+Motorgauge.animationSpeed = 70; // set animation speed (32 is default value)
+Motorgauge.set(65); // set actual value
+motor_text.textContent = Motorgauge.value + "%";
 
 
 // water dashboard
