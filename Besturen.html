@@ -254,6 +254,17 @@
     </div>
 
     <script>
+            var savedColor = localStorage.getItem('primaryColor');
+
+        function loadColor() {
+            // var savedColor = localStorage.getItem('primaryColor');
+            var root = document.querySelector(':root');
+
+            if (savedColor) {
+                root.style.setProperty('--primeryColor', savedColor);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadColor);
 
         let controllerIndex = null;
 
@@ -269,7 +280,7 @@
 
 
 
-       
+
 
         window.addEventListener("gamepadconnected", (event) => {
             handleConnectDisconnect(event, true);
@@ -304,7 +315,7 @@
         }
         checkboxMotor.addEventListener("change", function () {
             ChangeToggleOpacity(this);
-            
+
         });
 
         // Add event listener for the "change" event
@@ -380,7 +391,7 @@
             // Toggle the checkbox based on Y button state
             const checkboxMotor = document.getElementById('MotorCheckbox');
 
-    
+
 
             if (checkboxMotor.checked == true) {
                 checkboxMotor.checked = false
@@ -388,8 +399,8 @@
                 MotorData.style.opacity = "0.2";
                 gauge.set(0); // set actual value
             }
-            else if (checkboxMotor.checked == false ) {
-               
+            else if (checkboxMotor.checked == false) {
+
                 checkboxMotor.checked = true
                 MotorData.style.opacity = "1";
 
@@ -495,20 +506,25 @@
             }
         }
 
-        function handleSticks(axes) {
-            updateLeftRight(axes[0]);
-            updateUpDown(axes[1]);
-            updateLeftRight(axes[2]);
-            updateUpDown(axes[3]);
+        function handleSticks(axes, gamepad) {
+            updateLeftRight(axes[0], gamepad);
+            updateUpDown(axes[1], gamepad);
+            updateLeftRight(axes[2], gamepad);
+            updateUpDown(axes[3], gamepad);
         }
 
-        function updateLeftRight(leftRightAxis) {
+        function updateLeftRight(leftRightAxis, gamepad) {
 
 
             if (leftRightAxis >= 0.1) {
                 let originalvalue = parseInt(motorslider.value, 10);
 
                 let newValue = originalvalue + 1
+
+                if (newValue >= 100) {
+                    startRumble(gamepad)
+                    console.log("maxed out")
+                }
 
                 updateMotorSlider(newValue)
                 console.log("knop 4")
@@ -518,6 +534,14 @@
                 let newValue = originalValue - 1;
                 updateMotorSlider(newValue);
                 console.log("Slider moved left");
+
+                if (newValue <= 0) {
+
+                    startRumble(gamepad)
+                    console.log("too low")
+
+
+                }
             }
 
             // else {
@@ -536,28 +560,35 @@
             } else {
             }
         }
+        function startRumble(gamepad) {
+            if (!gamepad) return;
 
-        function handleRumble(gamepad) {
-            const rumbleOnButtonPress = document.getElementById("rumble-on-button-press");
-
-            if (rumbleOnButtonPress.checked) {
-                if (gamepad.buttons.some((button) => button.value > 0)) {
-                    gamepad.vibrationActuator.playEffect("dual-rumble", {
-                        startDelay: 0,
-                        duration: 25,
-                        weakMagnitude: 1.0,
-                        strongMagnitude: 1.0,
-                    });
-                }
+            // Check if the gamepad supports vibration
+            if ("vibrationActuator" in gamepad && gamepad.vibrationActuator) {
+                gamepad.vibrationActuator.playEffect("dual-rumble", {
+                    startDelay: 0,
+                    duration: 200,
+                    weakMagnitude: 0.3,
+                    strongMagnitude: 1.0
+                }).then(() => {
+                    console.log("Rumble started!");
+                }).catch(err => {
+                    console.error("Failed to start rumble:", err);
+                });
+            } else {
+                console.log("This gamepad does not support vibration.");
             }
         }
 
-        function gameLoop() {
+
+
+
+        function gameLoop(rumble) {
             if (controllerIndex !== null) {
                 const gamepad = navigator.getGamepads()[controllerIndex];
                 handleButtons(gamepad.buttons);
                 // handleRumble(gamepad);
-                handleSticks(gamepad.axes);
+                handleSticks(gamepad.axes, gamepad);
 
                 console.log("connecting")
             }
@@ -578,8 +609,8 @@
 
             limitMax: false,     // If false, max value increases automatically if value > maxValue
             limitMin: false,     // If true, the min value of the gauge will be fixed
-            colorStart: '#D4FF19',   // Colors
-            colorStop: '#D4FF19',    // just experiment with them
+            colorStart: savedColor,   // Colors
+            colorStop: savedColor,    // just experiment with them
             strokeColor: '#333333',  // to see which ones work best for you
             generateGradient: true,
             highDpiSupport: true,     // High resolution support

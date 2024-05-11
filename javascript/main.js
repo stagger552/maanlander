@@ -89,6 +89,7 @@ setTimeout(setLiter, 1000);
 
 
 
+var savedColor = localStorage.getItem('primaryColor');
 
 
 
@@ -108,8 +109,8 @@ var opts = {
   
   limitMax: false,     // If false, max value increases automatically if value > maxValue
   limitMin: false,     // If true, the min value of the gauge will be fixed
-  colorStart: '#D4FF19',   // Colors
-  colorStop: '#D4FF19',    // just experiment with them
+  colorStart: savedColor,   // Colors
+  colorStop: savedColor,    // just experiment with them
   strokeColor: '#333333',  // to see which ones work best for you
   generateGradient: true,
   highDpiSupport: true,     // High resolution support
@@ -162,7 +163,15 @@ Liter_text.textContent = gauge.value + " Liter";
 
 // Besturen motor
 
+function loadColor() {
+  var savedColor = localStorage.getItem('primaryColor');
+  var root = document.querySelector(':root');
 
+  if (savedColor) {
+      root.style.setProperty('--primeryColor', savedColor);
+  }
+}
+document.addEventListener('DOMContentLoaded', loadColor);
 
 
 

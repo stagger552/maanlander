@@ -1,9 +1,11 @@
 :root {
-    --BackgroundColor: #333333;
     /* --primeryColor: #D4FF19; */
-        --primeryColor: #03AED2;
+    --primeryColor: #03AED2;
+    /* --BackgroundColor: #333333;
+    --SeccondBackgroundcolor: #1D2128; */
 
-    --SeccondBackgroundcolor: #1D2128;
+    --BackgroundColor: #F3F4F6;
+    --SeccondBackgroundcolor: #DEE1E6;
 }
 
 
@@ -17,7 +19,7 @@ p#degree,
 .primery {
     font-size: 32px;
     font-weight: bold;
-    color: #d4ff19;
+    color: var(--primeryColor);
     text-align: center;
 }
 
@@ -93,7 +95,7 @@ svg {
 }
 
 .bottomcard {
-    background-color: #1D2128;
+    background-color: var(--SeccondBackgroundcolor);
     margin: auto;
     /* display: block; */
     /* border-color: yellow; */
@@ -109,15 +111,21 @@ svg {
 }
 
 /* mars styling */
-canvas[width="1920"]{
+canvas[width="1920"] {
     position: absolute;
     z-index: -1;
 }
+
 .center {
     margin: auto;
     display: block;
 }
 
+/* canvas charts */
+canvas#MotorChart {
+    width: 100% !important;
+    height: 100% !important;
+}
 
 .rover {
     background-color: #1D2128;
@@ -170,7 +178,7 @@ button#applyButton {
 }
 
 .card {
-    background-color: #333333;
+    background-color: var(--BackgroundColor);
     border: none;
 }
 
@@ -794,3 +802,73 @@ button#btn-beneden {
     width: 48%;
     /* Aligns items to the left */
 }
+
+
+/* dropdown */
+
+.menu {
+    margin-top: 50px;
+    
+}
+
+.dropbtn {
+    background-color: var(--primeryColor);
+    color: var(--BackgroundColor);
+    font-weight: bold;
+    padding: 16px;
+    /* font-size: 16px; */
+    border: none;
+    cursor: pointer;
+    max-height: 110px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+a#Rood{
+    background-color: #FF5353;
+}
+a#Blauw{
+    background-color: #03AED2;
+
+}
+a#Green{
+    background-color: #61F2C2;
+
+}
+a#Roze{
+    background-color: #EF9CDA;
+
+}
+a#Oranje{
+    background-color: #FA813F;
+
+}
+/* .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+} */

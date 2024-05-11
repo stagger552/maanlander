@@ -40,14 +40,53 @@
     <div class="container-fluid">
 
 
-        <div class="col-md-12">
+        <div class="col-md-10">
 
-            <div class="earthbackground">
 
+        </div>
+        <div class="col-md-2">
+            <div class="menu">
+                <div class="dropdown">
+                    <button class="dropbtn">Dropdown</button>
+                    <div class="dropdown-content">
+                        <a href="#!" id="Rood" onclick="changeColor('#FF5353')">Rood (Red)</a>
+                        <a href="#!" id="Blauw" onclick="changeColor('#03AED2')">Blauw (Blue)</a>
+                        <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
+                        <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
+                        <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
+
+
+                    </div>
+                </div>
             </div>
         </div>
-        
+        <script>
 
+            var r = document.querySelector(':root');
+
+            function changeColor(color) {
+                // Set the value of variable --blue to another value (in this case "lightblue")
+                r.style.setProperty('--primeryColor', color);
+                // Get the styles (properties and values) for the root
+                var rs = getComputedStyle(r);
+                // Alert the value of the --blue variable
+                console.log(rs.getPropertyValue('--primeryColor'))
+                //local storage
+                localStorage.setItem('primaryColor', color);  // Save the color to localStorage
+
+
+            }
+            function loadColor() {
+                var savedColor = localStorage.getItem('primaryColor');
+                var root = document.querySelector(':root');
+
+                if (savedColor) {
+                    root.style.setProperty('--primeryColor', savedColor);
+                }
+            }
+            document.addEventListener('DOMContentLoaded', loadColor);
+
+        </script>
     </div>
     <div class="container content">
         <canvas id="mars">
@@ -154,7 +193,7 @@
         <canvas id="rover">
 
         </canvas>
-        <script type="module">
+        <!-- <script type="module">
 
 
             // Set up the scene
@@ -218,7 +257,7 @@
 
             }
             animate();
-        </script>
+        </script> -->
         <div class="row">
             <div class="col-md-6">
                 <div class="secotor">
@@ -284,7 +323,7 @@
         </div>
     </div>
     </div>
-   
+
 </body>
 
 </html>
