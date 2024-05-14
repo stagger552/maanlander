@@ -37,32 +37,67 @@
 
 <body>
 
-    <div class="container-fluid">
+    <div class="container-fluid header">
 
+        <div class="row">
+            <div class="col-md-2">
+                <div class="center">
+                    <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
 
-        <div class="col-md-10">
-
-
-        </div>
-        <div class="col-md-2">
-            <div class="menu">
-                <div class="dropdown">
-                    <button class="dropbtn">Dropdown</button>
-                    <div class="dropdown-content">
-                        <a href="#!" id="Rood" onclick="changeColor('#FF5353')">Rood (Red)</a>
-                        <a href="#!" id="Blauw" onclick="changeColor('#03AED2')">Blauw (Blue)</a>
-                        <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
-                        <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
-                        <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
-
-
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="ThemaMenu">
+                    <div class="dropdown center">
+                        <button class="dropbtn">Thema</button>
+                        <div class="dropdown-content">
+                            <a href="#!" id="Light" onclick="ChangeThema('#333333' ,'#1D2128')">Donker</a>
+                            <a href="#!" id="Donker" onclick="ChangeThema('#F3F4F6' , '#DEE1E6')">Light</a>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="ColorMenu">
+                    <div class="dropdown center">
+                        <button class="dropbtn">Color</button>
+                        <div class="dropdown-content">
+                            <a href="#!" id="Rood" onclick="changeColor('#FF5353')">Rood (Red)</a>
+                            <a href="#!" id="Blauw" onclick="changeColor('#03AED2')">Blauw (Blue)</a>
+                            <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
+                            <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
+                            <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
+ 
+    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <script>
 
             var r = document.querySelector(':root');
+
+            function ChangeThema(background, seccondbackground) {
+                // Set the value of variable --blue to another value (in this case "lightblue")
+                r.style.setProperty('--BackgroundColor', background);
+                r.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
+
+
+                // Get the styles (properties and values) for the root
+                var rs = getComputedStyle(r);
+                // Alert the value of the --blue variable
+                console.log(rs.getPropertyValue('--BackgroundColor'))
+                console.log(rs.getPropertyValue('--SeccondBackgroundcolor'))
+
+                //local storage
+                localStorage.setItem('BackgroundColor', background);  // Save the color to localStorage
+                localStorage.setItem('SeccondBackgroundcolor', seccondbackground);  // Save the color to localStorage
+
+
+            }
 
             function changeColor(color) {
                 // Set the value of variable --blue to another value (in this case "lightblue")
@@ -76,21 +111,35 @@
 
 
             }
-            function loadColor() {
-                var savedColor = localStorage.getItem('primaryColor');
+            function LoadThema() {
+                var background = localStorage.getItem('BackgroundColor');
+                var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
+
                 var root = document.querySelector(':root');
 
                 if (savedColor) {
-                    root.style.setProperty('--primeryColor', savedColor);
+                    root.style.setProperty('--BackgroundColor', background);
+                    root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
                 }
             }
+            function loadColor() {
+  var savedColor = localStorage.getItem('primaryColor');
+  var root = document.querySelector(':root');
+
+  if (savedColor) {
+    root.style.setProperty('--primeryColor', savedColor);
+  }
+}
+
             document.addEventListener('DOMContentLoaded', loadColor);
+
+            document.addEventListener('DOMContentLoaded', LoadThema);
 
         </script>
     </div>
     <div class="container content">
-        <canvas id="mars">
-        </canvas>
+        <!-- <canvas id="mars">
+        </canvas> -->
         <!-- <script type="module">
             import * as THREE from "three";
             import { OrbitControls } from 'jsm/controls/OrbitControls.js';
@@ -190,74 +239,98 @@
             window.addEventListener('resize', handleWindowResize, false);
 
         </script> -->
-        <canvas id="rover">
+        <div id="rover-container">
+            <canvas id="rover" width="800" height="600"></canvas>
+        </div>
+        <script type="module">
 
-        </canvas>
-        <!-- <script type="module">
 
-
-            // Set up the scene
             var scene = new THREE.Scene();
 
             // Set up the camera
-            // var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            // camera.position.z = 5;
+            var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 4; // Adjust the camera position
+            camera.near = 0.5; // Adjust the near clipping plane
+            camera.far = 100; // Adjust the far clipping plane
 
-            // Set up the camera
-            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5; // Adjust the camera position
-            camera.near = 0.8; // Adjust the near clipping plane
-            camera.far = 1000; // Adjust the far clipping plane
+            camera.position.y = 2.5; // Adjust the camera's y position as needed
 
             // Add lights
-            var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            // var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            // scene.add(ambientLight);
+            // var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            // directionalLight.position.set(0.9, 0.9, 0.9);
+            // scene.add(directionalLight);
+
+            var ambientLight = new THREE.AmbientLight(0xffffff, 1);
             scene.add(ambientLight);
-            var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(0.9, 0.9, 0.9);
-            scene.add(directionalLight);
+
+            // Directional light from the right side
+            var directionalLightRight = new THREE.DirectionalLight(0xffffff, 0.8); // Adjust intensity as needed
+            directionalLightRight.position.set(1, 0, 0); // Positioned on the right side
+            scene.add(directionalLightRight);
+
+            // Directional light from the left side
+
+            // var hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x990000, 0.5); // Parameters: sky color, ground color, intensity
+            // scene.add(hemisphereLight);
+
+
+            var directionalLightLeft = new THREE.DirectionalLight(0xffffff, 0.5); // Adjust intensity as needed
+            directionalLightLeft.position.set(-1, 0, 0); // Positioned on the left side
+            scene.add(directionalLightLeft);
+
+            var f = new THREE.DirectionalLight(0xffffff, 0.7); // Adjust intensity as needed
+            directionalLightLeft.position.set(0, 1, 0); // Positioned on the left side
+            scene.add(f);
+
+            var g = new THREE.DirectionalLight(0xffffff, 0.7); // Adjust intensity as needed
+            directionalLightLeft.position.set(0, -1, 0); // Positioned on the left side
+            scene.add(g);
+
+            var a = new THREE.DirectionalLight(0xffffff, 0.7); // Adjust intensity as needed
+            directionalLightLeft.position.set(0, 0, 1); // Positioned on the left side
+            scene.add(a);
+
+            var d = new THREE.DirectionalLight(0xffffff, 0.7); // Adjust intensity as needed
+            directionalLightLeft.position.set(0, 0, -1); // Positioned on the left side
+            scene.add(d);
+
             // Load the 3D model
             var loader = new THREE.GLTFLoader();
-            loader.load('./Model/curiosity.gltf', function (gltf) {
+            loader.load('./Model/Perseverance.glb', function (gltf) {
                 scene.add(gltf.scene);
             });
 
             // Set up the renderer
-            const canvas = document.getElementById("rover")
-
-            var renderer = new THREE.WebGLRenderer({ canvas });
+            const canvas = document.getElementById("rover");
+            var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
             renderer.setSize(800, 600);
-            renderer.setClearColor(0xffffff); // Set background color to green
+            renderer.setClearColor(0x000000, 0); // Set clear color to black with alpha 0 (transparent)
 
-            // renderer.setSize(window.innerWidth, window.innerHeight);
-            // document.body.appendChild(renderer.domElement);
-
-            //    Set up controls
-            //    var controls = new THREE.OrbitControls(camera, renderer.domElement);
-            // var controls = new THREE.OrbitControls(camera, canvas);
+            // Controls setup
             new THREE.OrbitControls(camera, canvas);
 
             // Function to handle mouse scroll wheel event
-
-
             function onMouseWheel(event) {
                 // Cross-browser wheel delta
                 const delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
                 camera.position.z += delta * 0.1; // Adjust the camera's z position based on scroll direction
-
-                // camera.position.z +=event.deltaY/500;
                 renderer.render(scene, camera); // Render the scene after camera position update
-
             }
             document.addEventListener('wheel', onMouseWheel);
+
+            var rotationSpeed = 0.01; // Adjust as needed
 
             // Render loop
             function animate() {
                 requestAnimationFrame(animate);
-                renderer.render(scene, camera);
+                scene.rotation.y += rotationSpeed; // Rotate around the y-axis
 
+                renderer.render(scene, camera);
             }
             animate();
-        </script> -->
+        </script>
         <div class="row">
             <div class="col-md-6">
                 <div class="secotor">

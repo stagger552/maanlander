@@ -106,7 +106,7 @@ var opts = {
     strokeWidth: 0.026, // The thickness
     color: '#ffffff' // Fill color
   },
-  
+
   limitMax: false,     // If false, max value increases automatically if value > maxValue
   limitMin: false,     // If true, the min value of the gauge will be fixed
   colorStart: savedColor,   // Colors
@@ -114,7 +114,7 @@ var opts = {
   strokeColor: '#333333',  // to see which ones work best for you
   generateGradient: true,
   highDpiSupport: true,     // High resolution support
-  
+
 };
 
 
@@ -147,7 +147,7 @@ var wateropts = {
   strokeColor: '#EEEEEE',  // to see which ones work best for you
   generateGradient: true,
   highDpiSupport: true,     // High resolution support
-  
+
 };
 var Liter_text = document.getElementById('AantalLiter'); // your canvas element
 
@@ -168,11 +168,26 @@ function loadColor() {
   var root = document.querySelector(':root');
 
   if (savedColor) {
-      root.style.setProperty('--primeryColor', savedColor);
+    root.style.setProperty('--primeryColor', savedColor);
+  }
+}
+
+
+
+function LoadThema() {
+  var background = localStorage.getItem('BackgroundColor');
+  var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
+
+  var root = document.querySelector(':root');
+
+  if (savedColor) {
+    root.style.setProperty('--BackgroundColor', background);
+    root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
   }
 }
 document.addEventListener('DOMContentLoaded', loadColor);
 
+document.addEventListener('DOMContentLoaded', LoadThema);
 
 
 

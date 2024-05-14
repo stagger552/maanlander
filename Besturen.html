@@ -101,9 +101,9 @@
 
                             <div class="left">
                                 <div class="textContainer">
-                                    <input type="text" id="j1Text" placeholder="0" />
+                                    <span id="arm1Degree">Arm 1: 0 °</span>
                                     <br>
-                                    <input type="text" id="j2Text" placeholder="0" />
+                                    <span id="arm2Degree">Arm 2: 0 °</span>
                                     <br>
                                     <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
                                     <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
@@ -223,6 +223,13 @@
                                     function onApplyBtnClick() {
                                         const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                         const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
+
+
+                                        const arm1Text = document.getElementById("arm1Degree")
+                                        const arm2Text = document.getElementById("arm2Degree")
+
+                                        arm1Text.textContent = "Arm 1: " + j1Val + " °"
+                                        arm2Text.textContent = "Arm 2: " + j2Val + " °"
 
                                         console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
                                         rotateJoint1(j1Val);
