@@ -163,31 +163,6 @@ Liter_text.textContent = gauge.value + " Liter";
 
 // Besturen motor
 
-function loadColor() {
-  var savedColor = localStorage.getItem('primaryColor');
-  var root = document.querySelector(':root');
-
-  if (savedColor) {
-    root.style.setProperty('--primeryColor', savedColor);
-  }
-}
-
-
-
-function LoadThema() {
-  var background = localStorage.getItem('BackgroundColor');
-  var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
-
-  var root = document.querySelector(':root');
-
-  if (savedColor) {
-    root.style.setProperty('--BackgroundColor', background);
-    root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
-  }
-}
-document.addEventListener('DOMContentLoaded', loadColor);
-
-document.addEventListener('DOMContentLoaded', LoadThema);
 
 
 

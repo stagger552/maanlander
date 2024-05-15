@@ -5,11 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0"></script>
@@ -34,55 +31,69 @@
 
 <body>
 
-    <div class="container-fluid">
-        <div class="row top">
+    <div id="menu-header"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('menu-header').innerHTML = html;
+                })
+                .catch(err => {
+                    console.error('Failed to load header: ', err);
+                });
+        });
+    </script>
+    <script src="javascript/Header.js"></script>
+
+    <div class="row top">
 
 
-            <div class="col-md-2">
-                <a href="Index.html">
-                    <button id="terug">
-                        <p>Terug</p>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-10"></div>
-
-
+        <div class="col-md-2">
+            <a href="Index.html">
+                <button id="terug">
+                    <p>Terug</p>
+                </button>
+            </a>
         </div>
-        <div class="container ">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="secotor">
-                        <div class="card">
-                            <div class="topcard">
-                                <h3>
-                                    Tempratuur
-                                </h3>
-                            </div>
-                            <div class="bottomcard">
-
-                                <div class="left">
-                                    <div id="wrapper">
-                                        <div id="termometer">
-                                            <div id="temperature" style="height:0" data-value="0°C"></div>
-                                            <div id="graduations"></div>
-                                        </div>
-
-                                        <div id="playground">
-                                            <div id="range">
-                                                <input id="minTemp" type="text" value="-20">
-                                                <input type="range" min="-20" max="50" value="42">
-                                                <input id="maxTemp" type="text" value="50">
-                                            </div>
-                                            <p id="degree">0</p>
-                                            <p>C°</p>
-                                        </div>
+        <div class="col-md-10"></div>
 
 
+    </div>
+    <div class="container ">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="secotor">
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Tempratuur
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+
+                            <div class="left">
+                                <div id="wrapper">
+                                    <div id="termometer">
+                                        <div id="temperature" style="height:0" data-value="0°C"></div>
+                                        <div id="graduations"></div>
                                     </div>
+
+                                    <div id="playground">
+                                        <div id="range">
+                                            <input id="minTemp" type="text" value="-20">
+                                            <input type="range" min="-20" max="50" value="42">
+                                            <input id="maxTemp" type="text" value="50">
+                                        </div>
+                                        <p id="degree">0</p>
+                                        <p>C°</p>
+                                    </div>
+
+
                                 </div>
-                                <div class="right"></div>
-                                <!-- <div class="temrature">
+                            </div>
+                            <div class="right"></div>
+                            <!-- <div class="temrature">
                                     <div id='myDiv'></div>
 
                                     <script>
@@ -106,351 +117,349 @@
 
 
 
-                            </div>
                         </div>
-                        <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
-
-
                     </div>
+                    <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
+
 
                 </div>
 
-                <div class="col-md-6">
-                    <div class="secotor">
-                        <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
-                        <div class="card">
-                            <div class="topcard">
-                                <h3>
-                                    Servo
-                                </h3>
-                            </div>
-                            <div class="bottomcard">
-                                <div class="left">
-                                    <div class="textContainer">
-                                        <span id="arm1Degree">Arm 1: 0 °</span>
-                                        <br>
-                                        <span id="arm2Degree">Arm 2: 0 °</span>
+            </div>
 
-                                        <br>
-                                        <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
-                                        <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
+            <div class="col-md-6">
+                <div class="secotor">
+                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Servo
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+                            <div class="left">
+                                <div class="textContainer">
+                                    <span id="arm1Degree">Arm 1: 0 °</span>
+                                    <br>
+                                    <span id="arm2Degree">Arm 2: 0 °</span>
+
+                                    <br>
+                                    <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
+                                    <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
 
 
-                                        <button type="button" id="applyButton">Apply</button>
-                                    </div>
+                                    <button type="button" id="applyButton">Apply</button>
                                 </div>
-                                <div class="right">
-                                    <div class="svgContainer">
+                            </div>
+                            <div class="right">
+                                <div class="svgContainer">
 
-                                        <!-- Start of the svg -->
-                                        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                        <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                            xmlns:cc="http://creativecommons.org/ns#"
-                                            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                            xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="220mm"
-                                            height="160mm" viewBox="0 0 219.99999 160" version="1.1" id="arm"
-                                            inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
-                                            sodipodi:docname="svg_robot_arm_2Link_v8_noCircleOutlines.svg">
-                                            <defs id="defs2" />
-                                            <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666"
-                                                borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2"
-                                                inkscape:zoom="0.86607465" inkscape:cx="347.14778"
-                                                inkscape:cy="425.51398" inkscape:document-units="mm"
-                                                inkscape:current-layer="layer1" inkscape:document-rotation="0"
-                                                showgrid="false" units="mm" inkscape:window-width="1920"
-                                                inkscape:window-height="1017" inkscape:window-x="-8"
-                                                inkscape:window-y="-8" inkscape:window-maximized="1" />
-                                            <metadata id="metadata5">
-                                                <rdf:RDF>
-                                                    <cc:Work rdf:about="">
-                                                        <dc:format>image/svg+xml</dc:format>
-                                                        <dc:type
-                                                            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                                                        <dc:title />
-                                                    </cc:Work>
-                                                </rdf:RDF>
-                                            </metadata>
-                                            <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
-                                                style="display:inline">
-                                                <rect
-                                                    style="fill:#4596ad;fill-opacity:1;stroke-width:0.20806;stroke-opacity:0"
-                                                    id="rect860" width="30.244217" height="13.74737" x="94.807755"
-                                                    y="133.48042" />
-                                                <g id="group_robot_arm_total">
+                                    <!-- Start of the svg -->
+                                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                    <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                        xmlns:cc="http://creativecommons.org/ns#"
+                                        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="220mm"
+                                        height="160mm" viewBox="0 0 219.99999 160" version="1.1" id="arm"
+                                        inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+                                        sodipodi:docname="svg_robot_arm_2Link_v8_noCircleOutlines.svg">
+                                        <defs id="defs2" />
+                                        <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666"
+                                            borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2"
+                                            inkscape:zoom="0.86607465" inkscape:cx="347.14778" inkscape:cy="425.51398"
+                                            inkscape:document-units="mm" inkscape:current-layer="layer1"
+                                            inkscape:document-rotation="0" showgrid="false" units="mm"
+                                            inkscape:window-width="1920" inkscape:window-height="1017"
+                                            inkscape:window-x="-8" inkscape:window-y="-8"
+                                            inkscape:window-maximized="1" />
+                                        <metadata id="metadata5">
+                                            <rdf:RDF>
+                                                <cc:Work rdf:about="">
+                                                    <dc:format>image/svg+xml</dc:format>
+                                                    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                                    <dc:title />
+                                                </cc:Work>
+                                            </rdf:RDF>
+                                        </metadata>
+                                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+                                            style="display:inline">
+                                            <rect
+                                                style="fill:#4596ad;fill-opacity:1;stroke-width:0.20806;stroke-opacity:0"
+                                                id="rect860" width="30.244217" height="13.74737" x="94.807755"
+                                                y="133.48042" />
+                                            <g id="group_robot_arm_total">
+                                                <circle
+                                                    style="opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                    id="path841" cx="110" cy="140" r="130" />
+                                                <g id="group_link2_endEffector">
                                                     <circle
-                                                        style="opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
-                                                        id="path841" cx="110" cy="140" r="130" />
-                                                    <g id="group_link2_endEffector">
-                                                        <circle
-                                                            style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876373;stroke-opacity:0"
-                                                            id="circle854" cx="110" cy="90" r="10" />
-                                                        <path id="rect917"
-                                                            style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-opacity:0"
-                                                            d="M 96.710885,17.698519 V 45.498888 H 123.28911 V 17.698519 h -4.73563 V 40 H 101.44601 V 17.698519 Z" />
-                                                        <rect
-                                                            style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
-                                                            id="rect856" width="10" height="50" x="105" y="40"
-                                                            ry="2.5487208" />
-                                                        <circle
-                                                            style="display:inline;opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
-                                                            id="path841-0" cx="110" cy="90" r="75" />
-                                                    </g>
-                                                    <circle
-                                                        style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876372;stroke-opacity:0"
-                                                        id="path833" cx="110" cy="140" r="10" />
+                                                        style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876373;stroke-opacity:0"
+                                                        id="circle854" cx="110" cy="90" r="10" />
+                                                    <path id="rect917"
+                                                        style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-opacity:0"
+                                                        d="M 96.710885,17.698519 V 45.498888 H 123.28911 V 17.698519 h -4.73563 V 40 H 101.44601 V 17.698519 Z" />
                                                     <rect
                                                         style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
-                                                        id="rect835" width="10" height="50" x="105" y="90"
+                                                        id="rect856" width="10" height="50" x="105" y="40"
                                                         ry="2.5487208" />
+                                                    <circle
+                                                        style="display:inline;opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                        id="path841-0" cx="110" cy="90" r="75" />
                                                 </g>
+                                                <circle
+                                                    style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876372;stroke-opacity:0"
+                                                    id="path833" cx="110" cy="140" r="10" />
+                                                <rect
+                                                    style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
+                                                    id="rect835" width="10" height="50" x="105" y="90" ry="2.5487208" />
                                             </g>
-                                        </svg>
-
-                                    </div>
+                                        </g>
+                                    </svg>
 
                                 </div>
 
-                                <script>
-                                    const svgContainer = document.querySelector('.svgContainer');  // Select by class
-
-                                    // For this project
-                                    const group_link2_endEffector = document.getElementById('group_link2_endEffector');
-                                    const group_robot_arm_total = document.getElementById('group_robot_arm_total');
-
-                                    const textContainer = document.querySelector('.textContainer');
-                                    const j1Text = document.getElementById('j1Text');
-                                    const j2Text = document.getElementById('j2Text');
-
-                                    const Slider1 = document.getElementById('sldArm1');
-                                    const Slider2 = document.getElementById('sldArm2');
-
-                                    const applyButton = document.getElementById("applyButton");
-
-                                    // Center the svg container
-                                    // svgContainer.style.position = 'absolute';
-                                    // svgContainer.style.top = '50%';
-                                    // svgContainer.style.left = '50%';
-                                    // svgContainer.style.transform = 'translate(-50%, -50%)'; // Equivalent to xPercent and yPercent
-
-                                    // Position the text boxes relative to the bee
-                                    // textContainer.style.position = 'absolute';
-                                    // textContainer.style.top = '70%';
-                                    // textContainer.style.left = '20%';
-                                    // textContainer.style.transform = 'translate(-20%, -20%)'; // Equivalent to xPercent and yPercent
-
-                                    // Record origin at beginning
-                                    const bbox = group_robot_arm_total.getBBox();
-                                    const cx = bbox.x + bbox.width / 2;
-                                    const cy = bbox.y + bbox.height / 2;
-                                    const svgOrg = `${cx} ${cy}`; // String concatenation
-                                    console.log("svgOrg: " + svgOrg);
-
-                                    // Get value from text boxes when apply button is clicked and print value to the console
-                                    applyButton.addEventListener('click', onApplyBtnClick);
-                                    Slider1.addEventListener("input", onApplyBtnClick)
-                                    Slider2.addEventListener("input", onApplyBtnClick)
-
-                                    // Click event function
-                                    function onApplyBtnClick() {
-                                        const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
-                                        const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-
-                                        const arm1Text = document.getElementById("arm1Degree")
-                                        const arm2Text = document.getElementById("arm2Degree")
-
-                                        arm1Text.textContent = "Arm 1: " + j1Val + " °"
-                                        arm2Text.textContent = "Arm 2: " + j2Val + " °"
-
-                                        console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
-                                        rotateJoint1(j1Val);
-                                        rotateJoint2(j2Val);
-                                    }
-
-                                    function moveTheBee(myXVal, myYVal) {
-                                        // Implement bee movement logic (not provided in original code)
-                                    }
-
-                                    function rotateJoint1(mydegrees) {
-                                        gsap.to(group_robot_arm_total, { duration: 0, rotation: -mydegrees, svgOrigin: svgOrg });
-                                    }
-
-                                    function rotateJoint2(mydegrees) {
-                                        gsap.to(group_link2_endEffector, { duration: 0, rotation: -mydegrees, transformOrigin: "center center" });
-                                    }
-                                </script>
                             </div>
-                        </div>
-                        <script>
 
-                        </script>
+                            <script>
+                                const svgContainer = document.querySelector('.svgContainer');  // Select by class
+
+                                // For this project
+                                const group_link2_endEffector = document.getElementById('group_link2_endEffector');
+                                const group_robot_arm_total = document.getElementById('group_robot_arm_total');
+
+                                const textContainer = document.querySelector('.textContainer');
+                                const j1Text = document.getElementById('j1Text');
+                                const j2Text = document.getElementById('j2Text');
+
+                                const Slider1 = document.getElementById('sldArm1');
+                                const Slider2 = document.getElementById('sldArm2');
+
+                                const applyButton = document.getElementById("applyButton");
+
+                                // Center the svg container
+                                // svgContainer.style.position = 'absolute';
+                                // svgContainer.style.top = '50%';
+                                // svgContainer.style.left = '50%';
+                                // svgContainer.style.transform = 'translate(-50%, -50%)'; // Equivalent to xPercent and yPercent
+
+                                // Position the text boxes relative to the bee
+                                // textContainer.style.position = 'absolute';
+                                // textContainer.style.top = '70%';
+                                // textContainer.style.left = '20%';
+                                // textContainer.style.transform = 'translate(-20%, -20%)'; // Equivalent to xPercent and yPercent
+
+                                // Record origin at beginning
+                                const bbox = group_robot_arm_total.getBBox();
+                                const cx = bbox.x + bbox.width / 2;
+                                const cy = bbox.y + bbox.height / 2;
+                                const svgOrg = `${cx} ${cy}`; // String concatenation
+                                console.log("svgOrg: " + svgOrg);
+
+                                // Get value from text boxes when apply button is clicked and print value to the console
+                                applyButton.addEventListener('click', onApplyBtnClick);
+                                Slider1.addEventListener("input", onApplyBtnClick)
+                                Slider2.addEventListener("input", onApplyBtnClick)
+
+                                // Click event function
+                                function onApplyBtnClick() {
+                                    const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
+                                    const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
+
+                                    const arm1Text = document.getElementById("arm1Degree")
+                                    const arm2Text = document.getElementById("arm2Degree")
+
+                                    arm1Text.textContent = "Arm 1: " + j1Val + " °"
+                                    arm2Text.textContent = "Arm 2: " + j2Val + " °"
+
+                                    console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
+                                    rotateJoint1(j1Val);
+                                    rotateJoint2(j2Val);
+                                }
+
+                                function moveTheBee(myXVal, myYVal) {
+                                    // Implement bee movement logic (not provided in original code)
+                                }
+
+                                function rotateJoint1(mydegrees) {
+                                    gsap.to(group_robot_arm_total, { duration: 0, rotation: -mydegrees, svgOrigin: svgOrg });
+                                }
+
+                                function rotateJoint2(mydegrees) {
+                                    gsap.to(group_link2_endEffector, { duration: 0, rotation: -mydegrees, transformOrigin: "center center" });
+                                }
+                            </script>
+                        </div>
                     </div>
+                    <script>
+
+                    </script>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="secotor">
-                        <div class="card">
-                            <div class="topcard">
-                                <h3>
-                                    Motor
-                                </h3>
-                            </div>
-                            <div class="bottomcard">
-                                <div class="center">
-                                    <canvas class="center" id="motor"></canvas> <!-- Canvas element for the gauge -->
-
-                                    <h2 id="usage" class="primery">50</h2>
-                                    <p>%</p>
-                                    <div>
-                                        <canvas id="MotorChart"></canvas>
-
-                                    </div>
-                                </div>
-
-                            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="secotor">
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                Motor
+                            </h3>
                         </div>
-                        <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
+                        <div class="bottomcard">
+                            <div class="center">
+                                <canvas class="center" id="motor"></canvas> <!-- Canvas element for the gauge -->
 
-                        <script>
-                            // Initial data for the chart
-                            var chartData = {
-                                labels: [],
-                                datasets: [{
-                                    
-                                    data: [],
-                                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
-                                    borderColor: 'rgba(255, 99, 132, 1)', // Border color
-                                    borderWidth: 2 // Border width in pixels
-                                }]
-                            };
+                                <h2 id="usage" class="primery">50</h2>
+                                <p>%</p>
+                                <div>
+                                    <canvas id="MotorChart"></canvas>
 
-                            // Get the context of the canvas element we want to select
-                            var ctx = document.getElementById('MotorChart').getContext('2d');
+                                </div>
+                            </div>
 
-                            // Create the chart
-                            var myChart = new Chart(ctx, {
-                                type: 'line',
-                                data: chartData,
-                                options: {
-                                    elements: {
-                                        line: {
-                                            tension: 0.4, // Set tension for a smooth curve
-                                            borderWidth: 2,
-                                            borderCapStyle: 'round' // Set border cap style to round
-                                        }
-                                    },
-                                    scales: {
-                                        yAxes: [{
-                                            ticks: {
-                                                beginAtZero: true
-                                            }
-                                        }],
-                                        xAxes: [{
-                                            ticks: {
-                                                min: 0, // Minimum value for x-axis
-                                                max: 100 // Maximum value for x-axis
-                                            }
-                                        }]
-
-                                    },
-                                    animation: {
-                                        duration: 700, // Animation duration in milliseconds
-                                        easing: 'easeInOutQuad' // Easing function
-                                    },
-                                }
-                            });
-
-                            // Function to generate a random number between min and max
-                            function getRandomNumber(min, max) {
-                                return Math.floor(Math.random() * (max - min + 1)) + min;
-                            }
-
-                            // Function to update the chart with a random number every 2 seconds
-                            function updateChart() {
-                                // Generate a random number
-                                var randomNumber = getRandomNumber(0, 100);
-                                Motorgauge.set(randomNumber)
-                                motor_text.textContent = randomNumber + "%";
-
-                                // Add the random number as a new label
-                                myChart.data.labels.push('Day ' + (myChart.data.labels.length + 1));
-
-                                // Add the random number as a new data point
-                                myChart.data.datasets[0].data.push(randomNumber);
-
-                                // Check if the number of labels exceeds the limit (5 in this case)
-                                if (myChart.data.labels.length > 5) {
-                                    // Remove the oldest label and data point
-                                    myChart.data.labels.shift();
-                                    myChart.data.datasets[0].data.shift();
-                                }
-
-                                // Update the chart
-                                // myChart.update('none');
-                                myChart.update();
-
-                            }
-
-                            // Call the updateChart function every 2 seconds
-                            setInterval(updateChart, 1000);
-                            // // Data for the chart
-                            // var chartData = {
-                            //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"],
-                            //     datasets: [{
-                            //         label: 'My Dataset',
-                            //         data: [10, 20, 30, 25, 35],
-                            //         backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
-                            //         borderColor: 'rgba(255, 99, 132, 1)', // Border color
-                            //         borderWidth: 2 // Border width in pixels
-                            //     }]
-                            // };
-
-                            // // Get the context of the canvas element we want to select
-                            // var ctx = document.getElementById('MotorChart').getContext('2d');
-
-                            // // Create the chart
-                            // var myChart = new Chart(ctx, {
-                            //     type: 'line',
-                            //     data: chartData,
-                            //     options: {
-                            //         scales: {
-                            //             yAxes: [{
-                            //                 ticks: {
-                            //                     beginAtZero: true
-                            //                 }
-                            //             }]
-                            //         }
-                            //     }
-                            // });
-                        </script>
+                        </div>
                     </div>
+                    <!-- <image class="svg" src="image/stat-svgrepo-com.svg" /> -->
 
+                    <script>
+                        // Initial data for the chart
+                        var chartData = {
+                            labels: [],
+                            datasets: [{
+
+                                data: [],
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
+                                borderColor: 'rgba(255, 99, 132, 1)', // Border color
+                                borderWidth: 2 // Border width in pixels
+                            }]
+                        };
+
+                        // Get the context of the canvas element we want to select
+                        var ctx = document.getElementById('MotorChart').getContext('2d');
+
+                        // Create the chart
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: chartData,
+                            options: {
+                                elements: {
+                                    line: {
+                                        tension: 0.4, // Set tension for a smooth curve
+                                        borderWidth: 2,
+                                        borderCapStyle: 'round' // Set border cap style to round
+                                    }
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        ticks: {
+                                            min: 0, // Minimum value for x-axis
+                                            max: 100 // Maximum value for x-axis
+                                        }
+                                    }]
+
+                                },
+                                animation: {
+                                    duration: 700, // Animation duration in milliseconds
+                                    easing: 'easeInOutQuad' // Easing function
+                                },
+                            }
+                        });
+
+                        // Function to generate a random number between min and max
+                        function getRandomNumber(min, max) {
+                            return Math.floor(Math.random() * (max - min + 1)) + min;
+                        }
+
+                        // Function to update the chart with a random number every 2 seconds
+                        function updateChart() {
+                            // Generate a random number
+                            var randomNumber = getRandomNumber(0, 100);
+                            Motorgauge.set(randomNumber)
+                            motor_text.textContent = randomNumber + "%";
+
+                            // Add the random number as a new label
+                            myChart.data.labels.push('Day ' + (myChart.data.labels.length + 1));
+
+                            // Add the random number as a new data point
+                            myChart.data.datasets[0].data.push(randomNumber);
+
+                            // Check if the number of labels exceeds the limit (5 in this case)
+                            if (myChart.data.labels.length > 5) {
+                                // Remove the oldest label and data point
+                                myChart.data.labels.shift();
+                                myChart.data.datasets[0].data.shift();
+                            }
+
+                            // Update the chart
+                            // myChart.update('none');
+                            myChart.update();
+
+                        }
+
+                        // Call the updateChart function every 2 seconds
+                        setInterval(updateChart, 1000);
+                        // // Data for the chart
+                        // var chartData = {
+                        //     labels: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"],
+                        //     datasets: [{
+                        //         label: 'My Dataset',
+                        //         data: [10, 20, 30, 25, 35],
+                        //         backgroundColor: 'rgba(255, 99, 132, 0.2)', // Background color
+                        //         borderColor: 'rgba(255, 99, 132, 1)', // Border color
+                        //         borderWidth: 2 // Border width in pixels
+                        //     }]
+                        // };
+
+                        // // Get the context of the canvas element we want to select
+                        // var ctx = document.getElementById('MotorChart').getContext('2d');
+
+                        // // Create the chart
+                        // var myChart = new Chart(ctx, {
+                        //     type: 'line',
+                        //     data: chartData,
+                        //     options: {
+                        //         scales: {
+                        //             yAxes: [{
+                        //                 ticks: {
+                        //                     beginAtZero: true
+                        //                 }
+                        //             }]
+                        //         }
+                        //     }
+                        // });
+                    </script>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="secotor">
-                        <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
-                        <div class="card">
-                            <div class="topcard">
-                                <h3>
-                                    waterpeil
-                                </h3>
+            </div>
+
+            <div class="col-md-6">
+                <div class="secotor">
+                    <!-- <img class="theme_color" src="image/gamepad-solid.svg"> -->
+                    <div class="card">
+                        <div class="topcard">
+                            <h3>
+                                waterpeil
+                            </h3>
+                        </div>
+                        <div class="bottomcard">
+                            <div class="watertank">
+
+
+                                <canvas class="center" id="waterpijl"></canvas>
+                                <!-- Canvas element for the gauge -->
+
+                                <p id="AantalLiter"></p>
+                                <p>Liter</p>
                             </div>
-                            <div class="bottomcard">
-                                <div class="watertank">
 
 
-                                    <canvas class="center" id="waterpijl"></canvas>
-                                    <!-- Canvas element for the gauge -->
-
-                                    <p id="AantalLiter"></p>
-                                    <p>Liter</p>
-                                </div>
-
-
-                                <!-- <div id="watertank">
+                            <!-- <div id="watertank">
                                     <div id="liter" ></div>
                                     <div id="graduations"></div>
                                 </div>
@@ -464,10 +473,10 @@
                                     <p id="water primery">0</p>
                                     <p>C°</p>
                                 </div> -->
-                            </div>
                         </div>
-
                     </div>
+
+
                 </div>
             </div>
 
@@ -501,25 +510,25 @@
         } else {
             console.log('Retrieved data: 1', data);
             // Insert data into the table
-            supabase
-                .from('Data')
-                .insert({
-                    Tijd: '2024-05-08 03:53:08',
-                    // Tempratuur: '28,4',
-                    // Motor: 4,
-                    // Servo: '80',
-                    // Stappenmotor: '5',
-                    Waterpijl: 200
-                })
-                .then(response => {
-                    console.log('Data inserted successfully:', response);
-                    console.log('Retrieved data: 4', data);
+            // supabase
+            //     .from('Data')
+            //     .insert({
+            //         Tijd: '2024-05-08 03:53:08',
+            //         // Tempratuur: '28,4',
+            //         // Motor: 4,
+            //         // Servo: '80',
+            //         // Stappenmotor: '5',
+            //         Waterpijl: 200
+            //     })
+            //     .then(response => {
+            //         console.log('Data inserted successfully:', response);
+            //         console.log('Retrieved data: 4', data);
 
-                })
-                .catch(error => {
-                    console.error('Error inserting data:', error);
-                });
-            console.log('Retrieved data: 2', data);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error inserting data:', error);
+            //     });
+            // console.log('Retrieved data: 2', data);
 
         }
 
