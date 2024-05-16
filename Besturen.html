@@ -639,51 +639,6 @@
         motor_text.textContent = gauge.value + "%";
 
     </script>
-    <script>
-        var previousBeta = null;
-
-        window.addEventListener('deviceorientation', handleOrientation);
-
-        function handleOrientation(event) {
-            // Check if the device supports the event properties
-            if (event.beta !== null) {
-                // Get the current value of the slider
-                var currentValue = parseInt(document.getElementById('sldArm1').value);
-
-                // Check if previous beta value exists
-                if (previousBeta !== null) {
-                    // Calculate the change in beta value
-                    var deltaBeta = event.beta - previousBeta;
-
-                    // Check if pitching down
-                    if (deltaBeta < 0) {
-                        // Add 10 to the current value
-                        var newValue = currentValue + 0.5;
-
-                        // Ensure newValue stays within the range of the slider
-                        if (newValue <= 90) {
-                            // Update the slider value
-                            document.getElementById('sldArm1').value = newValue;
-                        }
-                    } else if (deltaBeta > 0) { // Check if pitching up
-                        // Subtract 10 from the current value
-                        var newValue = currentValue - 0.5;
-
-                        // Ensure newValue stays within the range of the slider
-                        if (newValue >= 0) {
-                            // Update the slider value
-                            document.getElementById('sldArm1').value = newValue;
-                        }
-                    }
-                }
-
-                // Update previous beta value
-                previousBeta = event.beta;
-            }
-        }
-
-
-    </script>
 
     <!-- <script>
         // Get the range input and label
