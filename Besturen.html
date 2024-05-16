@@ -27,7 +27,20 @@
 </head>
 
 <body>
-
+    <div id="menu-header"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('menu-header').innerHTML = html;
+                })
+                .catch(err => {
+                    console.error('Failed to load header: ', err);
+                });
+        });
+    </script>
+    <script src="javascript/Header.js"></script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2">
@@ -233,6 +246,8 @@
                                         console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
                                         rotateJoint1(j1Val);
                                         rotateJoint2(j2Val);
+                                        ControllArm(j1Val, j2Val)
+
                                     }
 
                                     function moveTheBee(myXVal, myYVal) {
@@ -260,17 +275,6 @@
     </div>
 
     <script>
-            var savedColor = localStorage.getItem('primaryColor');
-
-        function loadColor() {
-            // var savedColor = localStorage.getItem('primaryColor');
-            var root = document.querySelector(':root');
-
-            if (savedColor) {
-                root.style.setProperty('--primeryColor', savedColor);
-            }
-        }
-        document.addEventListener('DOMContentLoaded', loadColor);
 
         let controllerIndex = null;
 
@@ -635,6 +639,28 @@
         motor_text.textContent = gauge.value + "%";
 
     </script>
+    <script>
+        window.addEventListener('deviceorientation', handleOrientation);
+
+        function handleOrientation(event) {
+            // Check if the device supports the event properties
+            if (event.beta !== null) {
+                // Get the current value of the slider
+                var currentValue = parseInt(document.getElementById('sldArm1').value);
+
+                // Add 10 to the current value
+                var newValue = currentValue + 10;
+
+                // Ensure newValue stays within the range of the slider
+                if (newValue <= 90) {
+                    // Update the slider value
+                    document.getElementById('sldArm1').value = newValue;
+                }
+            }
+        }
+
+
+    </script>
 
     <!-- <script>
         // Get the range input and label
@@ -801,7 +827,40 @@
 
 
     </script> -->
+    <script>
 
+        function ControllArm(Arm1, Arm2) {
+            const url = 'http://145.49.127.247:1880/aaadlander/aaad3?arm1=' + Arm1 + '&arm2=' + Arm2
+            // const url = 'http://145.49.127.247:1880/aaadlander/aaad3?command=kaas'
+            const datas = {
+                key1: 'Test 1',
+                key2: 'Test 2'
+            };
+
+            // POST request using fetch
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datas),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('POST request successful');
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the POST request:', error);
+                });
+        }
+
+    </script>
 </body>
 
 </html>

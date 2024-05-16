@@ -1,3 +1,31 @@
+function LoadThema() {
+    var background = localStorage.getItem('BackgroundColor');
+    var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
+    var TextColor = localStorage.getItem('TextColor');
+
+    var root = document.querySelector(':root');
+
+    if (savedColor) {
+        root.style.setProperty('--BackgroundColor', background);
+        root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
+        root.style.setProperty('--TextColor', TextColor);
+
+    }
+}
+function loadColor() {
+    var savedColor = localStorage.getItem('primaryColor');
+    var root = document.querySelector(':root');
+
+    if (savedColor) {
+        root.style.setProperty('--primeryColor', savedColor);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadColor);
+
+document.addEventListener('DOMContentLoaded', LoadThema);
+
+
 var r = document.querySelector(':root');
 
 function ChangeThema(background, seccondbackground, TextColor) {
@@ -34,26 +62,3 @@ function changeColor(color) {
 
 
 }
-function LoadThema() {
-    var background = localStorage.getItem('BackgroundColor');
-    var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
-
-    var root = document.querySelector(':root');
-
-    if (savedColor) {
-        root.style.setProperty('--BackgroundColor', background);
-        root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
-    }
-}
-function loadColor() {
-    var savedColor = localStorage.getItem('primaryColor');
-    var root = document.querySelector(':root');
-
-    if (savedColor) {
-        root.style.setProperty('--primeryColor', savedColor);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadColor);
-
-document.addEventListener('DOMContentLoaded', LoadThema);

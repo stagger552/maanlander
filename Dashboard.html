@@ -534,7 +534,41 @@
 
 
     </script>
+    <script>
 
+        function ControllArm(Arm1, Arm2) {
+            const url = 'http://145.49.127.247:1880/aaadlander/aaad3?arm1=' + Arm1 + 'arm2=' + Arm2
+            const datas = {
+                key1: 'Test 1',
+                key2: 'Test 2'
+            };
+
+            // POST request using fetch
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datas),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('POST request successful');
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the POST request:', error);
+                });
+        }
+
+
+
+    </script>
     </style>
 
 </body>
