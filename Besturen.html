@@ -27,19 +27,62 @@
 </head>
 
 <body>
-    <div id="menu-header"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('header.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('menu-header').innerHTML = html;
-                })
-                .catch(err => {
-                    console.error('Failed to load header: ', err);
-                });
-        });
-    </script>
+    <div class="container-fluid header">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="HeaderCenter">
+                    <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
+    
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="PaginaMenu">
+                    <div class="dropdown HeaderCenter">
+                        <button class="dropbtn">Pagina</button>
+                        <div class="dropdown-content">
+                            <a href="index.html" >Home</a>
+                            <a href="Dashboard.html" >Dashboard</a>
+    
+                            <a href="Data.html" >Data</a>
+                            <a href="Besturen.html" >Besturen</a>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ThemaMenu">
+                    <div class="dropdown HeaderCenter">
+                        <button class="dropbtn">Thema</button>
+                        <div class="dropdown-content">
+                            <a href="#!" id="Light" onclick="ChangeThema('#333333' ,'#1D2128' , '#ffffff')">Donker</a>
+                            <a href="#!" id="Donker" onclick="ChangeThema('#F3F4F6' , '#DEE1E6' , '#000000')">Light</a>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ColorMenu">
+                    <div class="dropdown HeaderCenter">
+                        <button class="dropbtn">Color</button>
+                        <div class="dropdown-content">
+                            <a href="#!" id="Rood" onclick="changeColor('#FF5353')">Rood (Red)</a>
+                            <a href="#!" id="Blauw" onclick="changeColor('#03AED2')">Blauw (Blue)</a>
+                            <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
+                            <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
+                            <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
+    
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+       
+    </div>
     <script src="javascript/Header.js"></script>
     <div class="container-fluid">
         <div class="row">
