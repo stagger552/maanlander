@@ -31,6 +31,7 @@
 
 <body>
 
+
     <div class="container-fluid header">
 
         <div class="row">
@@ -84,7 +85,7 @@
                 </div>
             </div>
         </div>
-\
+
 
     </div>
     <script src="javascript/Header.js"></script>
@@ -104,6 +105,31 @@
 
     </div>
     <div class="container ">
+
+        <div class="row">
+            <div class="col-md-12 advies">
+                <div class="card">
+                    <div class="topcard">
+                        <h3>Advies</h3>
+                    </div>
+                    <div class="bottomcard">
+
+                        <div id="chat-area">
+
+                            <h3 id="AiMessage"></h3>
+                        </div>
+                        <div id="input-area">
+                            <input type="text" id="message-input" placeholder="Type your message...">
+                            <button onclick="sendMessage()">Send</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="secotor">
@@ -608,6 +634,103 @@
                     console.error('There was a problem with the POST request:', error);
                 });
         }
+
+
+
+    </script>
+
+    <script>
+
+        const AWANLLM_API_KEY = '43e86987-584c-4b2e-b552-187c17f7f083';
+        // const arm1Text = document.getElementById("arm1Degree")
+        // const arm2Text = document.getElementById("arm2Degree")
+        // const graden = document.getElementById("degree");
+
+
+        let initialMessageSent = false;
+
+        function sendMessage(message) {
+            const messageInput = document.getElementById('message-input');
+            const userMessage = message || messageInput.value.trim();
+
+
+            if (!userMessage) return;
+
+            // addMessage('You', userMessage);
+
+            fetch("https://api.awanllm.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${AWANLLM_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "model": "Meta-Llama-3-8B-Instruct",
+                    "messages": [
+                        { "role": "user", "content": userMessage },
+                    ],
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const botMessage = data.choices[0].message.content;
+
+                    addMessage('Bot', botMessage);
+                    console.log(botMessage)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            if (!message) {
+                messageInput.value = '';
+            }
+        }
+
+        function addMessage(sender, message) {
+            const chatArea = document.getElementById('AiMessage');
+            chatArea.innerText = message
+
+            const messageElement = document.createElement('div');
+            messageElement.textContent = `${sender}: ${message}`;
+            chatArea.appendChild(messageElement);
+            chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
+        }
+
+        function sendInitialMessage() {
+            if (!initialMessageSent) {
+                const initialMessage = "i am making a project and we are on mars. I have 3 instruments and that is a temperture reading." +
+                    "First datapoint will be thermostat on the arm rover so i can do experiments with water. this will be to look how warm it is"
+                    + " and Arm 1 and Arm 2. both the arms are 1 arm but it has a hinge. this means that the can have divrent degrees (degreees as in rotations like 360 degrees) just like a human arm."
+                     + "Keep in MIND SO ARMS ARE NOT IN CECIOUS DEGREES BUT IN ROTATION DEGREES. Arm 1 can go from 0 to 90 degrees and arm 2 can go from 0 to 180 degrees rotation"
+                    " arm 1 us the first arm and acts like shoulder and biceps and arm 2 is like the forearm. Here i will give you the amound of degrees it is turned. I will give you data and you will " +
+                    "respond with a quick summery of the datapoints i have given you. don't make responses longer then 50 words and try to keep convo to this project."
+                    +" Try to provide feedback and don't just repeat the metrics. say what this can mean for moon surface or any advice";
+                sendMessage(initialMessage);
+                initialMessageSent = true;
+            }
+        }
+        function sendNewData() {
+
+            const arm1Text = document.getElementById("arm1Degree")
+            const arm2Text = document.getElementById("arm2Degree")
+            const graden = document.getElementById("degree");
+
+            // Generate new data points (replace with your logic)
+            const newDataMessage = "Temperture celcious is: " + graden.innerHTML
+                + "  Arm 1 degree rotation: " + arm1Text.innerHTML
+                + "  Arm 2 degree rotation: " + arm2Text.innerHTML
+            sendMessage(newDataMessage);
+        }
+        // Call sendInitialMessage when the page loads or at the appropriate time
+        window.onload = sendInitialMessage;
+
+        setInterval(sendNewData, 10000);
 
 
 

@@ -163,10 +163,36 @@ Liter_text.textContent = gauge.value + " Liter";
 
 // Besturen motor
 
+const replicateApiToken = 'r8_CAnazAsKxEe332Rl08V71oTyG7CfCtS0Wk3fL';
 
+const requestData = {
+  method: 'POST',
+  url: 'https://api.replicate.com/v1/predictions',
+  headers: {
+    Authorization: `Bearer ${replicateApiToken}`,
+    'Content-Type': 'application/json'
+  },
+  data: {
+    version: 'd548923c9d7fc9330a3b7c7f9e2f91b2ee90c83311a351dfcd32af353799223d',
+    input: {
+      text: "Did you ever hear a folk tale about a giant turtle?",
+      // Add other input parameters if needed
+    }
+  }
+};
 
+axios(requestData)
+  .then(response => {
+    console.log(response.data); // The model's output will be here
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 // database
+
+
+
 
 // import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
 
