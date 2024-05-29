@@ -52,14 +52,19 @@ const unitP = document.getElementById("unit");
 const range = document.querySelector("input[type='range']");
 const temperature = document.getElementById("temperature");
 const graden = document.getElementById("degree");
+var nummer;
+// function setTemperature() {
+//   temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+//   temperature.dataset.value = range.value + units[config.unit];
 
-function setTemperature() {
-  temperature.style.height = (range.value - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
-  temperature.dataset.value = range.value + units[config.unit];
+//   graden.textContent = temperature.dataset.value;
+// }
+function setTemperature( nummer) {
+  temperature.style.height = (nummer - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+  temperature.dataset.value = nummer + units[config.unit];
 
   graden.textContent = temperature.dataset.value;
 }
-
 range.addEventListener("input", setTemperature);
 setTimeout(setTemperature, 1000);
 
@@ -163,31 +168,6 @@ Liter_text.textContent = gauge.value + " Liter";
 
 // Besturen motor
 
-const replicateApiToken = 'r8_CAnazAsKxEe332Rl08V71oTyG7CfCtS0Wk3fL';
-
-const requestData = {
-  method: 'POST',
-  url: 'https://api.replicate.com/v1/predictions',
-  headers: {
-    Authorization: `Bearer ${replicateApiToken}`,
-    'Content-Type': 'application/json'
-  },
-  data: {
-    version: 'd548923c9d7fc9330a3b7c7f9e2f91b2ee90c83311a351dfcd32af353799223d',
-    input: {
-      text: "Did you ever hear a folk tale about a giant turtle?",
-      // Add other input parameters if needed
-    }
-  }
-};
-
-axios(requestData)
-  .then(response => {
-    console.log(response.data); // The model's output will be here
-  })
-  .catch(error => {
-    console.error(error);
-  });
 
 // database
 

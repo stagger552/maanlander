@@ -32,8 +32,9 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="HeaderCenter">
-                    <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
-    
+                    <a href="index.html">
+                        <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
+                    </a>
                 </div>
             </div>
             <div class="col-md-2">
@@ -41,12 +42,12 @@
                     <div class="dropdown HeaderCenter">
                         <button class="dropbtn">Pagina</button>
                         <div class="dropdown-content">
-                            <a href="index.html" >Home</a>
-                            <a href="Dashboard.html" >Dashboard</a>
-    
-                            <a href="Data.html" >Data</a>
-                            <a href="Besturen.html" >Besturen</a>
-    
+                            <a href="index.html">Home</a>
+                            <a href="Dashboard.html">Dashboard</a>
+
+                            <a href="Data.html">Data</a>
+                            <a href="Besturen.html">Besturen</a>
+
                         </div>
                     </div>
                 </div>
@@ -54,11 +55,11 @@
             <div class="col-md-4">
                 <div class="ThemaMenu">
                     <div class="dropdown HeaderCenter">
-                        <button class="dropbtn">Thema</button>
+                        <button class="dropbtn"> Thema </p></button>
                         <div class="dropdown-content">
                             <a href="#!" id="Light" onclick="ChangeThema('#333333' ,'#1D2128' , '#ffffff')">Donker</a>
                             <a href="#!" id="Donker" onclick="ChangeThema('#F3F4F6' , '#DEE1E6' , '#000000')">Light</a>
-    
+
                         </div>
                     </div>
                 </div>
@@ -73,32 +74,20 @@
                             <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
                             <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
                             <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
-    
-    
+
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            
-        </div>
-    
-       
-    </div>
-    <script src="javascript/Header.js"></script>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                <a href="Index.html">
-                    <button id="terug">
-                        <p>Terug</p>
-                    </button>
-                </a>
-            </div>
-            <div class="col-md-10"></div>
+
         </div>
 
+
     </div>
+    <script src="javascript/Header.js"></script>
+
     <div class="container ">
         <div class="row">
             <div class="col-md-6">
@@ -151,163 +140,212 @@
                     <div class="card">
                         <div class="topcard">
                             <h3>
-                                Servo
+                                Arm
                             </h3>
                         </div>
                         <div class="bottomcard">
 
-                            <div class="left">
-                                <div class="textContainer">
-                                    <span id="arm1Degree">Arm 1: 0 °</span>
-                                    <br>
-                                    <span id="arm2Degree">Arm 2: 0 °</span>
-                                    <br>
+                            <!-- <div class="left"> -->
+                            <div class="textContainer">
+                                <span id="arm1Degree">Arm 1: 0 °</span>
+                                <br>
+                                <span id="arm2Degree">Arm 2: 0 °</span>
+                                <br>
+
+                                <div class="ArmControll">
+                                    <button class="bestuurKnoppen links" onclick="LeftArm1()">
+                                        <p>
+                                            < </p>
+                                    </button>
                                     <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
-                                    <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
+                                    <button class="bestuurKnoppen rechts" onclick="RightArm1()">
+                                        <p> > </p>
+                                    </button>
+                                </div>
 
+                                <div class="ArmControll">
+                                    <button class="bestuurKnoppen links" onclick="LeftArm2()">
+                                        <p>
+                                            < </p>
+                                    </button>
 
-                                    <button type="button" id="applyButton">Apply</button>
+                                    <input type="range" value="175" max="175" id="sldArm2" placeholder="0" />
+                                    <button class="bestuurKnoppen rechts" onclick="RightArm2()">
+                                        <p> > </p>
+                                    </button>
+
                                 </div>
                             </div>
-                            <div class="right">
-                                <div class="svgContainer">
+                            <!-- </div> -->
+                            <!-- <div class="right"> -->
+                            <div class="svgContainer">
 
-                                    <!-- Start of the svg -->
-                                    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                                    <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                        xmlns:cc="http://creativecommons.org/ns#"
-                                        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-                                        xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-                                        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="220mm"
-                                        height="160mm" viewBox="0 0 219.99999 160" version="1.1" id="arm"
-                                        inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
-                                        sodipodi:docname="svg_robot_arm_2Link_v8_noCircleOutlines.svg">
-                                        <defs id="defs2" />
-                                        <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666"
-                                            borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2"
-                                            inkscape:zoom="0.86607465" inkscape:cx="347.14778" inkscape:cy="425.51398"
-                                            inkscape:document-units="mm" inkscape:current-layer="layer1"
-                                            inkscape:document-rotation="0" showgrid="false" units="mm"
-                                            inkscape:window-width="1920" inkscape:window-height="1017"
-                                            inkscape:window-x="-8" inkscape:window-y="-8"
-                                            inkscape:window-maximized="1" />
-                                        <metadata id="metadata5">
-                                            <rdf:RDF>
-                                                <cc:Work rdf:about="">
-                                                    <dc:format>image/svg+xml</dc:format>
-                                                    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                                                    <dc:title />
-                                                </cc:Work>
-                                            </rdf:RDF>
-                                        </metadata>
-                                        <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
-                                            style="display:inline">
-                                            <rect
-                                                style="fill:#4596ad;fill-opacity:1;stroke-width:0.20806;stroke-opacity:0"
-                                                id="rect860" width="30.244217" height="13.74737" x="94.807755"
-                                                y="133.48042" />
-                                            <g id="group_robot_arm_total">
+                                <!-- Start of the svg -->
+                                <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+                                <svg xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                    xmlns:cc="http://creativecommons.org/ns#"
+                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                    xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+                                    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+                                    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="220mm"
+                                    height="160mm" viewBox="0 0 219.99999 160" version="1.1" id="arm"
+                                    inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+                                    sodipodi:docname="svg_robot_arm_2Link_v8_noCircleOutlines.svg">
+                                    <defs id="defs2" />
+                                    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666"
+                                        borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2"
+                                        inkscape:zoom="0.86607465" inkscape:cx="347.14778" inkscape:cy="425.51398"
+                                        inkscape:document-units="mm" inkscape:current-layer="layer1"
+                                        inkscape:document-rotation="0" showgrid="false" units="mm"
+                                        inkscape:window-width="1920" inkscape:window-height="1017"
+                                        inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" />
+                                    <metadata id="metadata5">
+                                        <rdf:RDF>
+                                            <cc:Work rdf:about="">
+                                                <dc:format>image/svg+xml</dc:format>
+                                                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                                                <dc:title />
+                                            </cc:Work>
+                                        </rdf:RDF>
+                                    </metadata>
+                                    <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1"
+                                        style="display:inline">
+                                        <rect style="fill:#4596ad;fill-opacity:1;stroke-width:0.20806;stroke-opacity:0"
+                                            id="rect860" width="30.244217" height="13.74737" x="94.807755"
+                                            y="133.48042" />
+                                        <g id="group_robot_arm_total">
+                                            <circle
+                                                style="opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                id="path841" cx="110" cy="140" r="130" />
+                                            <g id="group_link2_endEffector">
                                                 <circle
-                                                    style="opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
-                                                    id="path841" cx="110" cy="140" r="130" />
-                                                <g id="group_link2_endEffector">
-                                                    <circle
-                                                        style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876373;stroke-opacity:0"
-                                                        id="circle854" cx="110" cy="90" r="10" />
-                                                    <path id="rect917"
-                                                        style="fill:#008080;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-opacity:0"
-                                                        d="M 96.710885,17.698519 V 45.498888 H 123.28911 V 17.698519 h -4.73563 V 40 H 101.44601 V 17.698519 Z" />
-                                                    <rect
-                                                        style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
-                                                        id="rect856" width="10" height="50" x="105" y="40"
-                                                        ry="2.5487208" />
-                                                    <circle
-                                                        style="display:inline;opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
-                                                        id="path841-0" cx="110" cy="90" r="75" />
-                                                </g>
-                                                <circle
-                                                    style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876372;stroke-opacity:0"
-                                                    id="path833" cx="110" cy="140" r="10" />
+                                                    style="fill:var(--primeryColor);fill-opacity:1;stroke-width:0.0876373;stroke-opacity:0"
+                                                    id="circle854" cx="110" cy="90" r="10" />
+                                                <path id="rect917"
+                                                    style="fill:var(--primeryColor);fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-opacity:0"
+                                                    d="M 96.710885,17.698519 V 45.498888 H 123.28911 V 17.698519 h -4.73563 V 40 H 101.44601 V 17.698519 Z" />
                                                 <rect
-                                                    style="fill:#008080;fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
-                                                    id="rect835" width="10" height="50" x="105" y="90" ry="2.5487208" />
+                                                    style="fill:var(--TextColor);fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
+                                                    id="rect856" width="10" height="50" x="105" y="40" ry="2.5487208" />
+                                                <circle
+                                                    style="display:inline;opacity:0.994;fill:none;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
+                                                    id="path841-0" cx="110" cy="90" r="75" />
                                             </g>
+                                            <circle
+                                                style="fill:#5cc7e4;fill-opacity:1;stroke-width:0.0876372;stroke-opacity:0"
+                                                id="path833" cx="110" cy="140" r="10" />
+                                            <rect
+                                                style="fill:var(--TextColor);fill-opacity:1;stroke-width:0.141403;stroke-opacity:0"
+                                                id="rect835" width="10" height="50" x="105" y="90" ry="2.5487208" />
                                         </g>
-                                    </svg>
+                                    </g>
+                                </svg>
 
-                                </div>
-                                <script>
-                                    const svgContainer = document.querySelector('.svgContainer');  // Select by class
-
-                                    // For this project
-                                    const group_link2_endEffector = document.getElementById('group_link2_endEffector');
-                                    const group_robot_arm_total = document.getElementById('group_robot_arm_total');
-
-                                    const textContainer = document.querySelector('.textContainer');
-                                    const j1Text = document.getElementById('j1Text');
-                                    const j2Text = document.getElementById('j2Text');
-
-                                    const Slider1 = document.getElementById('sldArm1');
-                                    const Slider2 = document.getElementById('sldArm2');
-
-                                    const applyButton = document.getElementById("applyButton");
-
-                                    // Center the svg container
-                                    // svgContainer.style.position = 'absolute';
-                                    // svgContainer.style.top = '50%';
-                                    // svgContainer.style.left = '50%';
-                                    // svgContainer.style.transform = 'translate(-50%, -50%)'; // Equivalent to xPercent and yPercent
-
-                                    // Position the text boxes relative to the bee
-                                    // textContainer.style.position = 'absolute';
-                                    // textContainer.style.top = '70%';
-                                    // textContainer.style.left = '20%';
-                                    // textContainer.style.transform = 'translate(-20%, -20%)'; // Equivalent to xPercent and yPercent
-
-                                    // Record origin at beginning
-                                    const bbox = group_robot_arm_total.getBBox();
-                                    const cx = bbox.x + bbox.width / 2;
-                                    const cy = bbox.y + bbox.height / 2;
-                                    const svgOrg = `${cx} ${cy}`; // String concatenation
-
-                                    // Get value from text boxes when apply button is clicked and print value to the console
-                                    applyButton.addEventListener('click', onApplyBtnClick);
-                                    Slider1.addEventListener("input", onApplyBtnClick)
-                                    Slider2.addEventListener("input", onApplyBtnClick)
-
-                                    // Click event function
-                                    function onApplyBtnClick() {
-                                        const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
-                                        const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-
-
-                                        const arm1Text = document.getElementById("arm1Degree")
-                                        const arm2Text = document.getElementById("arm2Degree")
-
-                                        arm1Text.textContent = "Arm 1: " + j1Val + " °"
-                                        arm2Text.textContent = "Arm 2: " + j2Val + " °"
-
-                                        console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
-                                        rotateJoint1(j1Val);
-                                        rotateJoint2(j2Val);
-                                        ControllArm(j1Val, j2Val)
-
-                                    }
-
-                                    function moveTheBee(myXVal, myYVal) {
-                                        // Implement bee movement logic (not provided in original code)
-                                    }
-
-                                    function rotateJoint1(mydegrees) {
-                                        gsap.to(group_robot_arm_total, { duration: 0.2, rotation: -mydegrees, svgOrigin: svgOrg });
-                                    }
-
-                                    function rotateJoint2(mydegrees) {
-                                        gsap.to(group_link2_endEffector, { duration: 0.2, rotation: -mydegrees, transformOrigin: "center center" });
-                                    }
-                                </script>
                             </div>
+                            <script>
+                                const svgContainer = document.querySelector('.svgContainer');  // Select by class
+
+                                // For this project
+                                const group_link2_endEffector = document.getElementById('group_link2_endEffector');
+                                const group_robot_arm_total = document.getElementById('group_robot_arm_total');
+
+                                const textContainer = document.querySelector('.textContainer');
+                                const j1Text = document.getElementById('j1Text');
+                                const j2Text = document.getElementById('j2Text');
+
+                                const Slider1 = document.getElementById('sldArm1');
+                                const Slider2 = document.getElementById('sldArm2');
+
+                                const applyButton = document.getElementById("applyButton");
+
+                                // Center the svg container
+                                // svgContainer.style.position = 'absolute';
+                                // svgContainer.style.top = '50%';
+                                // svgContainer.style.left = '50%';
+                                // svgContainer.style.transform = 'translate(-50%, -50%)'; // Equivalent to xPercent and yPercent
+
+                                // Position the text boxes relative to the bee
+                                // textContainer.style.position = 'absolute';
+                                // textContainer.style.top = '70%';
+                                // textContainer.style.left = '20%';
+                                // textContainer.style.transform = 'translate(-20%, -20%)'; // Equivalent to xPercent and yPercent
+
+                                // Record origin at beginning
+                                const bbox = group_robot_arm_total.getBBox();
+                                const cx = bbox.x + bbox.width / 2;
+                                const cy = bbox.y + bbox.height / 2;
+                                const svgOrg = `${cx} ${cy}`; // String concatenation
+
+                                // Get value from text boxes when apply button is clicked and print value to the console
+                                Slider1.addEventListener("input", onApplyBtnClick)
+                                Slider2.addEventListener("input", onApplyBtnClick)
+
+                                const arm1Text = document.getElementById("arm1Degree")
+                                const arm2Text = document.getElementById("arm2Degree")
+
+
+                                function LeftArm1() {
+                                    let originalvalue = parseInt(ArmSlider1.value, 10);
+                                    let newValue = originalvalue - 5
+
+                                    updateArmSlider1(newValue)
+                                }
+                                function RightArm1() {
+                                    let originalvalue = parseInt(ArmSlider1.value, 10);
+                                    let newValue = originalvalue + 5
+
+
+                                    updateArmSlider1(newValue)
+
+                                }
+
+                                function LeftArm2() {
+                                    let originalvalue = parseInt(ArmSlider2.value, 10);
+                                    let newValue2 = originalvalue - 5
+
+                                    updateArmSlider2(newValue2)
+                                }
+                                function RightArm2() {
+                                    let originalvalue = parseInt(ArmSlider2.value, 10);
+                                    let newValue2 = originalvalue + 5
+
+                                    updateArmSlider2(newValue2)
+
+                                }
+
+
+                                // Click event function
+                                function onApplyBtnClick() {
+                                    const j1Val = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
+                                    const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
+
+
+                                    const arm1Text = document.getElementById("arm1Degree")
+                                    const arm2Text = document.getElementById("arm2Degree")
+
+                                    arm1Text.textContent = "Arm 1: " + j1Val + " °"
+                                    arm2Text.textContent = "Arm 2: " + j2Val + " °"
+
+                                    console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
+                                    rotateJoint1(j1Val);
+                                    rotateJoint2(j2Val);
+                                    ControllArm(j1Val, j2Val)
+
+                                }
+
+                                function moveTheBee(myXVal, myYVal) {
+                                    // Implement bee movement logic (not provided in original code)
+                                }
+
+                                function rotateJoint1(mydegrees) {
+                                    gsap.to(group_robot_arm_total, { duration: 0.2, rotation: -mydegrees, svgOrigin: svgOrg });
+                                }
+
+                                function rotateJoint2(mydegrees) {
+                                    gsap.to(group_link2_endEffector, { duration: 0.2, rotation: -mydegrees, transformOrigin: "center center" });
+                                }
+                            </script>
+                            <!-- </div> -->
 
                         </div>
                     </div>
@@ -651,6 +689,8 @@
         }
 
         gameLoop();
+        // kleur krijgen
+        var savedColor = localStorage.getItem('primaryColor');
 
         var opts = {
             angle: -0.01, // The span of the gauge arc
@@ -685,179 +725,15 @@
 
     </script>
 
-    <!-- <script>
-        // Get the range input and label
-        const range = document.getElementById('range');
 
-        const label = document.getElementById('rangeLabel');
-
-        // Function to update label value
-        function updateLabel() {
-            label.textContent = range.value;
-        }
-
-        // Update label when input value changes
-        range.addEventListener('input', updateLabel);
-        // range2.addEventListener('input', updateLabel);
-
-        // Initial update of label
-        updateLabel();
-
-
-        // controller check
-
-
-        // Get the range input element
-        const rangeInput = document.getElementById('range');
-        const armInput = document.getElementById('sldArm1');
-
-        // Function to update the element based on the range value
-        function updateElement(value) {
-            // Update the element (for example, you can set its value)
-            rangeInput.value = value;
-            // Here, I'll just log the value for demonstration purposes
-            console.log("Slider value:", value);
-        }
-        function updateArm(value) {
-            // Update the element (for example, you can set its value)
-            armInput.value = value;
-            // Here, I'll just log the value for demonstration purposes
-            console.log("Slider value:", value);
-        }
-        // Function to handle gamepad input
-        function MotorControll() {
-            // Get the first connected gamepad
-            const gamepad = navigator.getGamepads()[0];
-
-
-            if (gamepad) {
-                // Adjust the range value based on gamepad input
-                const newValue = parseInt(rangeInput.value) +
-                    // (gamepad.axes[1] === 1 ? -2 : 0) + // Down button pressed
-                    // (gamepad.axes[1] === -1 ? 2 : 0);    // Up button pressed
-                    (gamepad.axes[1] === 1 ? -2 : 0) + // Down button pressed
-                    (gamepad.axes[1] === -1 ? 2 : 0);    // Up button pressed
-                // Ensure the new value stays within the range limits
-                const min = 0;
-                const max = 100;
-                // const clampedValue = Math.min(Math.max(newValue, min), max);
-                const clampedValue = Math.min(Math.max(newValue, min), max);
-                console.log("activated")
-                // Update the element with the clamped value
-                updateElement(clampedValue);
-
-                updateLabel();
-
-            }
-            // if (gamepad) {
-            //     // Adjust the range value based on gamepad input
-            //     const newValue = parseInt(rangeInput.value) +
-            //         (gamepad.buttons[4] === 1 ? -2 : 0) + // Down button pressed
-            //         (gamepad.buttons[6] === -1 ? 2 : 0);    // Up button pressed
-            //     // Ensure the new value stays within the range limits
-            //     const min = parseInt(rangeInput.min);
-            //     const max = parseInt(rangeInput.max);
-            //     const clampedValue = Math.min(Math.max(newValue, min), max);
-
-            //     // Update the element with the clamped value
-            //     // controllArm(clampedValue);
-
-            //     // updateLabel();
-
-            // }
-
-            // if (gamepad) {
-            //     // Check if the Y button is pressed
-            //     const yButtonPressed = gamepad.buttons[3].pressed; // Assuming the Y button is at index 3
-            //     console.log("Y gedrukt")
-            //     // Toggle the checkbox based on Y button state
-            //     if (yButtonPressed) {
-            //         const checkbox = document.querySelector('.checkbox');
-
-            //         checkbox.checked = !checkbox.checked;
-
-            //     }
-            // }
-        }
-        function MotorOnOff() {
-            // Get the first connected gamepad
-            const gamepad = navigator.getGamepads()[0];
-
-            if (gamepad) {
-                // Check if the Y button is pressed
-                const yButtonPressed = gamepad.buttons[3].pressed; // Assuming the Y button is at index 3
-                console.log("Y gedrukt")
-                // Toggle the checkbox based on Y button state
-                if (yButtonPressed) {
-                    const checkbox = document.querySelector('.checkbox');
-
-                    checkbox.checked = !checkbox.checked;
-
-                }
-            }
-
-        }
-        function ArmControll() {
-            // Get the first connected gamepad
-            const gamepad = navigator.getGamepads()[0];
-
-            if (gamepad) {
-                // Check if the Y button is pressed
-                const xButtonPressed = gamepad.buttons[0].pressed; // Assuming the Y button is at index 3
-                console.log("x gedrukt")
-                // Toggle the checkbox based on Y button state
-                if (xButtonPressed) {
-                    const checkbox = document.querySelector('.checkbox');
-
-                    console.log(armInput.value)
-                    newValue = armInput.value + 1
-
-                    updateArm(newValue);
-
-                    // setTimeout(() => {
-                    //     updateArm(newValue);
-                    //     console.log("updating")
-                    // }, 100); // 
-                }
-            }
-
-        }
-        // Function to start listening for gamepad input
-        function startGamepadListener() {
-            // Check for gamepad support
-            if (!navigator.getGamepads) {
-                console.log('Gamepad API not supported.');
-                return;
-            }
-
-            // Start the gamepad input loop
-            function update() {
-                MotorControll();
-                MotorOnOff();
-                ArmControll();
-                requestAnimationFrame(startGamepadListener);
-                window.addEventListener("gamepadconnected", (event) => {
-                    const gamepad = event.gamepad;
-                    console.log(gamepad)
-                })
-            }
-
-            update();
-        }
-
-        // Start listening for gamepad input
-        startGamepadListener();
-
-
-    </script> -->
     <script>
 
         function ControllArm(Arm1, Arm2) {
             const url = 'http://145.49.127.247:1880/aaadlander/aaad3?arm1=' + Arm1 + '&arm2=' + Arm2
             // const url = 'http://145.49.127.247:1880/aaadlander/aaad3?command=kaas'
             const datas = {
-                key1: 'Test 1',
-                key2: 'Test 2'
+                key1: Arm1,
+                key2: Arm2
             };
 
             // POST request using fetch

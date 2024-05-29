@@ -142,6 +142,8 @@ svg {
     position: relative;
     padding-top: 30px;
     padding-bottom: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 /* mars styling */
@@ -158,8 +160,8 @@ canvas[width="1920"] {
 }
 
 canvas#rover {
-    max-width: 500px;
-    max-height: 700px;
+    max-width: 700px;
+    max-height: 450px;
     width: 100%;
     height: 100%;
 }
@@ -240,6 +242,32 @@ input[type=range] {
     display: block;
     width: 80%;
     background: var(--SeccondBackgroundcolor);
+}
+
+/* AI */
+button#aiUpdate , button#aiVraag{
+    max-width: 230px;
+    max-height: 55px;
+    margin: 15px 50px;
+    font-size: 30px;
+}
+
+label#geluidMessage {
+    margin: 0px;
+    font-size: 27px;
+}
+
+#VraagInput {
+    width: 34%;
+    height: 70px;
+    border: 5px solid var(--primeryColor);
+    border-radius: 12px;
+    padding: 7px;
+    font-size: 25px;
+}
+input#geluidAan {
+    height: 27px;
+    width: 35px;
 }
 
 /* thermopeter */
@@ -398,7 +426,7 @@ input[type=range] {
 input[type=range] {
     -webkit-appearance: none;
     background: transparent;
-    margin: auto;
+    margin: 0 20px;
     width: 85%;
 }
 
@@ -961,3 +989,17 @@ a#Oranje {
 /* .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 } */
+
+
+/* besturen extra code */
+
+.ArmControll {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+}
+button.bestuurKnoppen{
+    width: 130px;
+    height: 50px;
+    margin: 0px;
+}

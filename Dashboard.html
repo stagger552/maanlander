@@ -37,8 +37,9 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="HeaderCenter">
-                    <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
-
+                    <a href="index.html">
+                        <img id="moonlander" src="image/logo maanlander.jpeg" alt="">
+                    </a>
                 </div>
             </div>
             <div class="col-md-2">
@@ -90,20 +91,6 @@
     </div>
     <script src="javascript/Header.js"></script>
 
-    <div class="row top">
-
-
-        <div class="col-md-2">
-            <a href="Index.html">
-                <button id="terug">
-                    <p>Terug</p>
-                </button>
-            </a>
-        </div>
-        <div class="col-md-10"></div>
-
-
-    </div>
     <div class="container ">
 
         <div class="row">
@@ -119,8 +106,15 @@
                             <h3 id="AiMessage"></h3>
                         </div>
                         <div id="input-area">
-                            <input type="text" id="message-input" placeholder="Type your message...">
-                            <button onclick="sendMessage()">Send</button>
+
+                            <textarea name="" id="VraagInput"></textarea>
+                            <!-- <input type="" id="VraagInput" > -->
+                            <button type="button" id="aiVraag" onclick="AskQuestion()">Vraag</button>
+
+                            <button type="button" id="aiUpdate" onclick="sendNewData()">AI update</button>
+
+                            <label for="geluid" id="geluidMessage"> Wil je geluid horen</label>
+                            <input for="geluid" type="checkbox" id="geluidAan">
                         </div>
 
                     </div>
@@ -161,7 +155,13 @@
 
                                 </div>
                             </div>
-                            <div class="right"></div>
+                            <div class="right">
+
+
+                                <div class="websocketmessage">
+
+                                </div>
+                            </div>
                             <!-- <div class="temrature">
                                     <div id='myDiv'></div>
 
@@ -605,46 +605,47 @@
     </script>
     <script>
 
-        function ControllArm(Arm1, Arm2) {
-            const url = 'http://145.49.127.247:1880/aaadlander/aaad3?arm1=' + Arm1 + 'arm2=' + Arm2
-            const datas = {
-                key1: 'Test 1',
-                key2: 'Test 2'
+        function getData() {
+            const socket = new WebSocket("ws://145.49.127.247:1880/ws/aaad3");
+            let arr = [];
+
+            // Set up the event listener for incoming messages
+            socket.onmessage = function (event) {
+                console.log('Message from server:', event.data);
+                try {
+                    // Parse the received data as JSON
+                    const data = JSON.parse(event.data);
+
+                    // Check if data contains temperature
+                    if (data.temperatuur !== undefined) {
+                        // Update the temperature display
+                        document.getElementById('degree').textContent = data.temperatuur + " C°";
+                        var celcious = data.temperatuur;
+                        setTemperature(celcious)
+                        console.log("Tempratuur: " + data.temperatuur);
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
             };
 
-            // POST request using fetch
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(datas),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('POST request successful');
-                    console.log('Response:', data);
-                })
-                .catch(error => {
-                    console.error('There was a problem with the POST request:', error);
-                });
+            // Handle potential errors with the WebSocket connection
+            socket.onerror = function (error) {
+                console.error('WebSocket Error:', error);
+            };
+
+            // Handle WebSocket connection closure
+            socket.onclose = function () {
+                console.log('WebSocket connection closed');
+            };
         }
 
-
-
+        // Call the getData function to establish the WebSocket connection and start receiving data
+        getData();
     </script>
-
     <script>
 
         const AWANLLM_API_KEY = '43e86987-584c-4b2e-b552-187c17f7f083';
-        // const arm1Text = document.getElementById("arm1Degree")
-        // const arm2Text = document.getElementById("arm2Degree")
-        // const graden = document.getElementById("degree");
 
 
         let initialMessageSent = false;
@@ -666,6 +667,7 @@
                 },
                 body: JSON.stringify({
                     "model": "Meta-Llama-3-8B-Instruct",
+                    // "model": "Meta-Llama-3-70B-Instruct",
                     "messages": [
                         { "role": "user", "content": userMessage },
                     ],
@@ -685,6 +687,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    console.log(error)
                 });
 
             if (!message) {
@@ -694,23 +697,48 @@
 
         function addMessage(sender, message) {
             const chatArea = document.getElementById('AiMessage');
-            chatArea.innerText = message
+            const geluid = document.getElementById("geluidAan");
 
+
+            chatArea.innerText = message
             const messageElement = document.createElement('div');
-            messageElement.textContent = `${sender}: ${message}`;
             chatArea.appendChild(messageElement);
             chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
-        }
 
+
+            if (geluid.checked == true) {
+                speak(message)
+            }
+        }
+        function speak(text) {
+
+            speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'nl-NL'; // Set language to Dutch
+            speechSynthesis.speak(utterance);
+            utterance.rate = 1.2; // Set speech rate (speed)
+        }
         function sendInitialMessage() {
             if (!initialMessageSent) {
-                const initialMessage = "i am making a project and we are on mars. I have 3 instruments and that is a temperture reading." +
-                    "First datapoint will be thermostat on the arm rover so i can do experiments with water. this will be to look how warm it is"
-                    + " and Arm 1 and Arm 2. both the arms are 1 arm but it has a hinge. this means that the can have divrent degrees (degreees as in rotations like 360 degrees) just like a human arm."
-                     + "Keep in MIND SO ARMS ARE NOT IN CECIOUS DEGREES BUT IN ROTATION DEGREES. Arm 1 can go from 0 to 90 degrees and arm 2 can go from 0 to 180 degrees rotation"
-                    " arm 1 us the first arm and acts like shoulder and biceps and arm 2 is like the forearm. Here i will give you the amound of degrees it is turned. I will give you data and you will " +
-                    "respond with a quick summery of the datapoints i have given you. don't make responses longer then 50 words and try to keep convo to this project."
-                    +" Try to provide feedback and don't just repeat the metrics. say what this can mean for moon surface or any advice";
+                const initialMessage = "Spreek nederlands .Ik ben een project aan het maken en we zijn op Mars voor vloeistof onderzoek op de mars. Ik heb 3 instrumenten en dat is een temperatuurmeting."
+                    + " Het eerste datapunt zal de thermostaat op de armrover zijn, zodat ik experimenten met water kan doen. Dit zal zijn om te kijken hoe warm het is"
+                    + " en Arm 1 en Arm 2. De armen zijn ervoor bedoeld om de tempratuur naar het water te brengen zodat de thermostaat het water kan mengen. De armen beginnen bijden in een gestrekte positie naar beneden en dit betekend gewoon dat het is rust is. De armen zullen dus de thermostaat ver[laatsen en proberen om mars vloeistof tempratuur te kunnen meten."
+                    + "beide armen zijn 1 arm maar hebben een scharnier. Dit betekent dat ze verschillende graden kunnen hebben (graden zoals bij rotaties zoals 360 graden) net als een menselijke arm."
+                    + " Houd er rekening mee dat de armen niet in een hoek van CECIOUS GRADEN ZIJN, MAAR IN ROTATIEGRADEN. Arm 1 kan van 0 tot 90 graden gaan en arm 2 kan van 0 tot 180 graden draaien"
+                    + " arm 1 is de eerste arm en gedraagt ​​zich als schouder en biceps en arm 2 is als de onderarm. Hier geef ik je het aantal graden dat hij is gedraaid. Ik geef je de gegevens en jij zult dat doen"
+                    + " reageer met een korte samenvatting van de datapunten die ik je heb gegeven. reageer niet langer dan 50 woorden en probeer de convo voor dit project te behouden."
+                    + " Probeer feedback te geven en herhaal niet alleen de statistieken. Zeg wat dit kan betekenen voor het maanoppervlak of welk advies dan ook"
+                    + " Geef het antwoord in 1 keer en zeg niet nog een keer Hier is mijn reactie: . je zult op een website dashbaord staat waar gebruikers gewoon snel een duidelijk kunnen zien met bijvoorbeeld een status update "
+                    + " wat een nummers dus niet echt kunnen doen. Geef gewoon een status update en wat dit kan betekenen voor de vloeistof onderzoek. wat dit verteld over het de vloeistof"
+                    + " Denk aan de gebruikers die gebruikvriedelijke informatie willen horen want de text zal neer spraak worden verandert."
+                    + " Dus nog een keer GEEF NIET ALLEEEN NUMMERS AAND WANT DIT KAN DE GEBRUIKER OOK ZIEN. JE MOET BEHULPZAAM ZIJN EN INFORMATIE VERLENEN DIE GEBRUIKER ECHT GOED KAN GEBRUIKEN DUS EEN STATUS UPDATE."
+                    + " voorbeelden kunnen zijn dat als tempratuur warmer wordt wat dit kan betekenen voor  het water en wat het mars water dan in zich zou kunnen hebben"
+                    + " voor arm kun je bijvoorbeeld zeggen vooor waneer iets is verandert."
+
+
+
+
                 sendMessage(initialMessage);
                 initialMessageSent = true;
             }
@@ -721,16 +749,33 @@
             const arm2Text = document.getElementById("arm2Degree")
             const graden = document.getElementById("degree");
 
+
             // Generate new data points (replace with your logic)
-            const newDataMessage = "Temperture celcious is: " + graden.innerHTML
-                + "  Arm 1 degree rotation: " + arm1Text.innerHTML
-                + "  Arm 2 degree rotation: " + arm2Text.innerHTML
+            const newDataMessage = "reageer in nederlands : "
+                + "Tempratuur celsius is: " + graden.innerHTML
+                + "  Arm 1 graden draai  : " + arm1Text.innerHTML
+                + "  Arm 2 graden draai: " + arm2Text.innerHTML
+                + " Geef mij een samenvatting en en status update met . Reageer gelijk en zeg niets zoals:  '\ Samenvatting:  '\  geef alleen directe reactie"
+                + " deze informatie maximaal 70 woorden en hou het alleen in deze context"
+
+
             sendMessage(newDataMessage);
         }
-        // Call sendInitialMessage when the page loads or at the appropriate time
-        window.onload = sendInitialMessage;
 
-        setInterval(sendNewData, 10000);
+        function AskQuestion() {
+            const input = document.getElementById("VraagInput");
+
+            vraag = input.value;
+            sendMessage("beantowoord deze vraag: " + vraag + " (Hou de context die ik he heb gegeven). maximaal 70 woorden");
+
+        }
+        // Laden inital message en spraak stoppen
+        window.onload = sendInitialMessage;
+        window.onload = speechSynthesis.cancel();
+
+
+        // setInterval(sendNewData, 35000);
+
 
 
 

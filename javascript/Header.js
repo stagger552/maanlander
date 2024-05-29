@@ -1,10 +1,11 @@
+
+
 function LoadThema() {
     var background = localStorage.getItem('BackgroundColor');
     var seccondbackground = localStorage.getItem('SeccondBackgroundcolor');
     var TextColor = localStorage.getItem('TextColor');
 
     var root = document.querySelector(':root');
-
     if (savedColor) {
         root.style.setProperty('--BackgroundColor', background);
         root.style.setProperty('--SeccondBackgroundcolor', seccondbackground);
@@ -12,6 +13,8 @@ function LoadThema() {
 
     }
 }
+
+
 function loadColor() {
     var savedColor = localStorage.getItem('primaryColor');
     var root = document.querySelector(':root');

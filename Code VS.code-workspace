@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/web-3dmodel-threejs-main/web-3dmodel-threejs-main"
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/gamepad-api-simple-game-main/gamepad-api-simple-game-main"
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/gamepad-tester-main"
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/threejs-earth-main"
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/3d-scroll-project"
+		},
+		{
+			"path": "../../Users/Gebruiker/Downloads/3d scoll website"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Code VS"
+	}
+}
