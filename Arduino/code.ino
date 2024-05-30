@@ -10,10 +10,6 @@
 #include <nRF24L01.h>  // to handle this particular modem driver
 #include "RF24.h"      // the library which helps us to control the radio modem
 
-// #define LEDPIN 3        // Ditital pin connected to the LED.
-#include <OneWire.h>
-#include <DallasTemperature.h>
-
 // Initialise Sensors
 
 // Initialise Actuators
@@ -26,12 +22,8 @@ int ledState = LOW;  // ledState used to set the LED
 
 #define ONE_WIRE_BUS 3  // Data wire is plugged into digital pin 2 on the Arduino
 
-OneWire oneWire(3);
-DallasTemperature sensors(&oneWire);  // Create sensors object using oneWire reference
 
 
-uint8_t arm1;
-uint8_t arm2;
 /* Hardware configuration: Set up nRF24L01 radio on SPI bus plus pins 9 & 10, which are CE & CSN pins  */
 RF24 radio(9, 10);
 const uint8_t rf24_channel[] = { 1, 26, 51, 76, 101 };                                                            // Radio channels set depending on satellite number
@@ -39,16 +31,75 @@ const uint64_t addresses[] = { 0x4141414430LL, 0x4141414431LL, 0x4141414432LL, 0
 uint8_t txData[RF24_PAYLOAD_SIZE];
 uint8_t rxData[RF24_PAYLOAD_SIZE];
 
-// Timing configuration
-unsigned long previousMillis = 0;  // will store last time LED was updated
-unsigned long currentMillis;
-unsigned long tempRequestMillis = 1000;  // milliseconds of on-time
 
+// tempratuur en servo
+#include <OneWire.h>
+#include <DallasTemperature.h>
+#include <Servo.h>
+
+#define ONE_WIRE_BUS 2                // Data wire is plugged into digital pin 2 on the Arduino
+OneWire oneWire(ONE_WIRE_BUS);        // Setup a oneWire instance to communicate with any OneWire device
+DallasTemperature sensors(&oneWire);  // Pass oneWire reference to DallasTemperature library
+
+Servo myservo;
+
+// Define stepper motor connections:
+#define dirPin 4
+#define stepPin 5
+
+// Main pinout
+int BUTTON_SERVO_UP = 8;
+int BUTTON_SERVO_DOWN = 9;
+int BUTTON_STEPPER_UP = 10;
+int BUTTON_STEPPER_DOWN = 11;
+
+int CAPTURE_TEMP = 13;
+
+// Function Prototypes
+void requestTemperature();
+void readTemperature();
+
+// void controlServo();
+// void stepperMotor();
+void rotateMotor();
+
+int servo_position = 55;
+unsigned long previousMillis = 0;
+unsigned long servoMillis = 0;
+unsigned long tempRequestMillis = 0;
+const unsigned long TEMP_INTERVAL = 1000;        // Interval to request temperature
+const unsigned long TEMP_CONVERSION_TIME = 750;  // Time it takes for temperature conversion
+// currentmiles
+unsigned long currentMillis;
+
+bool tempRequestPending = false;
 
 OneWire ds(3);  // on pin 10 (a 4.7K resistor is necessary)
 
-void setup() {
+void setup(void) {
+  // Setup temp sensor
+  sensors.begin();
+  pinMode(CAPTURE_TEMP, INPUT_PULLUP);
+
+  // Setup servo
+  myservo.attach(7);  // attaches the servo on pin 7 to the servo object
+  myservo.write(0);   // set servo start position (down/folded in)
+  // pinMode(BUTTON_SERVO_UP, INPUT_PULLUP);
+  // pinMode(BUTTON_SERVO_DOWN, INPUT_PULLUP);
+
+  // Setup Stepper motor
+  // pinMode(BUTTON_STEPPER_UP, INPUT_PULLUP);
+  // pinMode(BUTTON_STEPPER_DOWN, INPUT_PULLUP);
+
+  pinMode(stepPin, OUTPUT);
+  pinMode(dirPin, OUTPUT);
+  digitalWrite(dirPin, HIGH);  // Set the spinning direction CW/CCW
+
+  // Setup serial port
   Serial.begin(9600);
+
+
+  // actieveer radio
   Serial.println("nRF24 Application ARO" + String(AAAD_ARO) + ", Module" + String(AAAD_MODULE) + " Started!\n");
 
 
@@ -68,49 +119,35 @@ void setup() {
 
   sensors.begin();
   pinMode(3, INPUT_PULLUP);  // Assuming CAPTURE_TEMP is pin 13
+
+  // reciever code:
 }
-// Loop
-void loop() {
+
+void loop(void) {
+  unsigned long currentMillis = millis();
+
+  if (!digitalRead(CAPTURE_TEMP)) {
+    if (currentMillis - tempRequestMillis >= TEMP_INTERVAL) {
+      tempRequestMillis = currentMillis;
+      requestTemperature();
+    }
+
+    if (tempRequestPending && currentMillis - tempRequestMillis >= TEMP_CONVERSION_TIME) {
+      readTemperature();
+      tempRequestPending = false;
+    }
+  }
+
+
+  // controlServo();
+  // stepperMotor();
+
+
   // check to see if it's time to change the state of the LED
   currentMillis = millis();
 
-  // Check if there are incoming bytes in the serial buffer
-  if (Serial.available() >= 32) {
-    // Create a buffer to store the incoming data
-    uint8_t buffer[32];
-
-    // Read 32 bytes from the serial buffer
-    Serial.readBytes(buffer, 32);
-
-    // Extract the values of arm1 and arm2
-    arm1 = buffer[0];
-    arm2 = buffer[1];
-
-    // Print the values for debugging
-    Serial.print("arm1: ");
-    Serial.println(arm1);
-    Serial.print("arm2: ");
-    Serial.println(arm2);
-  }
-
-  if (Serial.available() >= 32) {
-    // Create a buffer to store the incoming data
-    uint8_t buffer[32];
-
-    // Read 32 bytes from the serial buffer
-    Serial.readBytes(buffer, 32);
 
 
-    // Extract the values of arm1 and arm2
-    arm1 = buffer[0];
-    arm2 = buffer[1];
-
-    // Print the values for debugging
-    Serial.print("arm1: ");
-    Serial.println(arm1);
-    Serial.print("arm2: ");
-    Serial.println(arm2);
-  }
   if (currentMillis - previousMillis >= tempRequestMillis) {
 
     unsigned long timeStamp = millis() / 1000;
@@ -139,7 +176,7 @@ void loop() {
     // Serial.println(F("Now Sending"));
 
     // Transmit data to radio
-    // radio.write(&txData, sizeof(txData));
+    radio.write(&txData, sizeof(txData));
 
     radio.startListening();  // Now, continue listening
     // Serial.println(F("Now Listing"));
@@ -155,129 +192,110 @@ void loop() {
       radio.read(&rxData, sizeof(rxData));  // Get the payload
     }
     // Print received data in Hex format
-    Serial.print("rxData: ");
+    // Serial.print("rxData: ");
     for (size_t i = 0; i < RF24_PAYLOAD_SIZE; ++i) {
       if (i != 0) Serial.print(" ");
-      Serial.print(rxData[i]);
+
+      // Serial.print(rxData[i]);
+
+      int Arm1 = rxData[0];
+      int Arm2 = rxData[1];
+
+      Serial.print("Arm 1: ");
+      Serial.print(Arm1);
+      Serial.print(" Arm 2: ");
+      Serial.print(Arm2);
+
+
     }
+
+    
     Serial.println();
-
-    // Switch led on Received command
-    if (rxData[0] == 0xFF) {
-      Serial.println("Led=on");
-      // led.setState(HIGH);
-    }
-    if (rxData[0] == 0x7F) {
-      Serial.println("Led=off");
-      // led.setState(LOW);
-    }
   }
+}
 
+void requestTemperature() {
+  // Send the command to get temperatures
+  sensors.requestTemperatures();
+  tempRequestPending = true;
+}
 
+void readTemperature() {
+  // Print the temperature in Celsius
 
-  // tempratuur lees
+  // Serial.print("Temperature: ");
+  // Serial.print(sensors.getTempCByIndex(0));
+  // Serial.println("C");
 
-  byte i;
-  byte present = 0;
-  byte type_s;
-  byte data[9];
-  byte addr[8];
-  float celsius, fahrenheit;
+  sendTemperature(sensors.getTempCByIndex(0));
+}
 
-  if (!ds.search(addr)) {
-    // Serial.println("No more addresses.");
-    Serial.println();
-    ds.reset_search();
-    delay(250);
-    return;
-  }
+// void controlServo() {
+//   if (millis() - servoMillis >= 15) {  // Non-blocking delay for the servo
+//     servoMillis = millis();
 
-  // // Serial.print("ROM =");
-  // for (i = 0; i < 8; i++) {
-  //   Serial.write(' ');
-  //   Serial.print(addr[i], HEX);
-  // }
+//     if (!digitalRead(BUTTON_SERVO_UP) && servo_position < 175) {
+//       servo_position++;
+//     } else if (!digitalRead(BUTTON_SERVO_DOWN) && servo_position > 0) {
+//       servo_position--;
+//     }
 
-  // if (OneWire::crc8(addr, 7) != addr[7]) {
-  //   Serial.println("CRC is not valid!");
-  //   return;
-  // }
-  // Serial.println();
+//     myservo.write(servo_position);
+//   }
+// }
 
-  // the first ROM byte indicates which chip
-  // switch (addr[0]) {
-  //   case 0x10:
-  //     Serial.println("  Chip = DS18S20");  // or old DS1820
-  //     type_s = 1;
-  //     break;
-  //   case 0x28:
-  //     Serial.println("  Chip = DS18B20");
-  //     type_s = 0;
-  //     break;
-  //   case 0x22:
-  //     Serial.println("  Chip = DS1822");
-  //     type_s = 0;
-  //     break;
-  //   default:
-  //     Serial.println("Device is not a DS18x20 family device.");
-  //     return;
-  // }
+// void stepperMotor() {
+//   if (!digitalRead(BUTTON_STEPPER_UP)) {
+//     digitalWrite(dirPin, HIGH);  // sets the direction
+//     rotateMotor();
+//   } else if (!digitalRead(BUTTON_STEPPER_DOWN)) {
+//     digitalWrite(dirPin, LOW);  // sets the direction
+//     rotateMotor();
+//   }
+// }
 
-  ds.reset();
-  ds.select(addr);
-  ds.write(0x44, 1);  // start conversion, with parasite power on at the end
+void rotateMotor() {
+  digitalWrite(stepPin, HIGH);
+  delayMicroseconds(500);  // Adjust the pulse width as needed
+  digitalWrite(stepPin, LOW);
+  delayMicroseconds(500);
+}
 
-  delay(1000);  // maybe 750ms is enough, maybe not
-  // we might do a ds.depower() here, but the reset will take care of it.
+void moveArm(int Arm1, int servoDegrees) {
+  // Move stepper motor
+  if (Arm1 == 0) {
+    digitalWrite(dirPin, LOW);  // Set direction to CW
+    rotateMotor();
 
-  present = ds.reset();
-  ds.select(addr);
-  ds.write(0xBE);  // Read Scratchpad
+  } else if (Arm1 == 1) {
+    Serial.print("Niks ");
 
-  // Serial.print("  Data = ");
-  // Serial.print(present, HEX);
-  // Serial.print(" ");
-  // for (i = 0; i < 9; i++) {  // we need 9 bytes
-  //   data[i] = ds.read();
-  //   Serial.print(data[i], HEX);
-  //   Serial.print(" ");
-  // }
-
-  // Convert the data to actual temperature
-  // because the result is a 16 bit signed integer, it should
-  // be stored to an "int16_t" type, which is always 16 bits
-  // even when compiled on a 32 bit processor.
-  int16_t raw = (data[1] << 8) | data[0];
-  if (type_s) {
-    raw = raw << 3;  // 9 bit resolution default
-    if (data[7] == 0x10) {
-      // "count remain" gives full 12 bit resolution
-      raw = (raw & 0xFFF0) + 12 - data[6];
-    }
+  } else if (Arm1 == 2) {
+    digitalWrite(dirPin, HIGH);
+    rotateMotor();
+    // Set direction to CCW
   } else {
-    byte cfg = (data[4] & 0x60);
-    // at lower res, the low bits are undefined, so let's zero them
-    if (cfg == 0x00) raw = raw & ~7;       // 9 bit resolution, 93.75 ms
-    else if (cfg == 0x20) raw = raw & ~3;  // 10 bit res, 187.5 ms
-    else if (cfg == 0x40) raw = raw & ~1;  // 11 bit res, 375 ms
-    //// default is 12 bit resolution, 750 ms conversion time
+    Serial.print("Error Movearm");
   }
-  celsius = (float)raw / 16.0;
-  fahrenheit = celsius * 1.8 + 32.0;
-  Serial.print("  Temperature = ");
-  Serial.print(celsius);
-  Serial.print(" Celsius   ");
-  Serial.print("  send");
+  // for (int i = 0; i < stepperSteps; i++) {
+  //   digitalWrite(stepPin, HIGH);
+  //   delayMicroseconds(500);  // Adjust the pulse width as needed
+  //   digitalWrite(stepPin, LOW);
+  //   delayMicroseconds(500);  // Adjust the pulse width as needed
+  // }
 
-  sendTemperature(celsius);
+  // Move servo motor
+  if (servoDegrees >= 0 && servoDegrees <= 180) {
+    Serial.print("Arm2 wordt bewogen naar: " + servoDegrees);
 
-  // Serial.print(fahrenheit);
-  // Serial.println(" Fahrenheit");
+    myservo.write(servoDegrees);
+  } else {
+    Serial.println("Servo angle out of range (0-180 degrees).");
+  }
 }
 
 void sendTemperature(float temperature) {
 
-  temperature = 19.5;
   uint8_t cursor = 0;
 
   // Scale the float temperature to an int16
@@ -291,25 +309,15 @@ void sendTemperature(float temperature) {
   while (cursor < RF24_PAYLOAD_SIZE) {
     txData[cursor++] = 0;
   }
+  // Serial.print("txData: ");
+  // for (size_t i = 0; i < cursor; ++i) {
+  //   if (i != 0) Serial.print(" ");
+  //   Serial.print(txData[i], HEX);
+  // }
 
-  Serial.print("txData: ");
-  for (size_t i = 0; i < cursor; ++i) {
-    if (i != 0) Serial.print(" ");
-    Serial.print(txData[i], HEX);
-  }
   Serial.println();
-
   radio.stopListening();  // First, stop listening so we can talk.
-  // Serial.println(F("Now Sending"));
-
   // Transmit data to radio
   radio.write(&txData, sizeof(txData));
-
   radio.startListening();  // Now, continue listening
-  // Serial.println(F("Now Listening"));
-
-  previousMillis = currentMillis;
-  // uint8_t cursor = 0;
-
-
 }
