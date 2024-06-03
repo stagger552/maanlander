@@ -59,11 +59,19 @@ var nummer;
 
 //   graden.textContent = temperature.dataset.value;
 // }
-function setTemperature( nummer) {
-  temperature.style.height = (nummer - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
-  temperature.dataset.value = nummer + units[config.unit];
+function setTemperature(nummer) {
 
-  graden.textContent = temperature.dataset.value;
+  if (nummer == undefined) {
+    graden.textContent = "Geen Tempratuur";
+
+  }
+  else {
+    temperature.style.height = (nummer - config.minTemp) / (config.maxTemp - config.minTemp) * 100 + "%";
+    temperature.dataset.value = nummer + units[config.unit];
+
+    graden.textContent = temperature.dataset.value;
+  }
+
 }
 range.addEventListener("input", setTemperature);
 setTimeout(setTemperature, 1000);

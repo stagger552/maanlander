@@ -61,7 +61,7 @@ void readTemperature();
 
 // void controlServo();
 // void stepperMotor();
-void rotateMotor();
+// void rotateMotor();
 
 int servo_position = 55;
 unsigned long previousMillis = 0;
@@ -83,7 +83,10 @@ void setup(void) {
 
   // Setup servo
   myservo.attach(7);  // attaches the servo on pin 7 to the servo object
-  myservo.write(0);   // set servo start position (down/folded in)
+
+  //  servo test
+
+
   // pinMode(BUTTON_SERVO_UP, INPUT_PULLUP);
   // pinMode(BUTTON_SERVO_DOWN, INPUT_PULLUP);
 
@@ -120,7 +123,50 @@ void setup(void) {
   sensors.begin();
   pinMode(3, INPUT_PULLUP);  // Assuming CAPTURE_TEMP is pin 13
 
-  // reciever code:
+  //Test Servo:
+  // TestServo();
+  delayMicroseconds(1000);
+
+  // rotateMotor(1500, 1);
+
+  rotateMotor(1900, 1);
+
+
+
+
+
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  // rotateMotor(50);
+  //Test Steppenmotor:
+
+  // TestStepmotor();
 }
 
 void loop(void) {
@@ -148,7 +194,7 @@ void loop(void) {
 
 
 
-  if (currentMillis - previousMillis >= tempRequestMillis) {
+  if (currentMillis - previousMillis >= 1000) {
 
     unsigned long timeStamp = millis() / 1000;
     uint8_t cursor = 0;
@@ -164,7 +210,6 @@ void loop(void) {
 
     // Print transmit data in Hex format
 
-
     // Serial.print("txData: ");
     // for (size_t i=0; i<cursor; ++i) {
     //   if (i != 0) Serial.print(" ");
@@ -176,9 +221,9 @@ void loop(void) {
     // Serial.println(F("Now Sending"));
 
     // Transmit data to radio
-    radio.write(&txData, sizeof(txData));
+    // radio.write(&txData, sizeof(txData));
 
-    radio.startListening();  // Now, continue listening
+    radio.startListening();
     // Serial.println(F("Now Listing"));
 
     previousMillis = currentMillis;
@@ -201,16 +246,19 @@ void loop(void) {
       int Arm1 = rxData[0];
       int Arm2 = rxData[1];
 
-      Serial.print("Arm 1: ");
-      Serial.print(Arm1);
-      Serial.print(" Arm 2: ");
-      Serial.print(Arm2);
+      // Serial.print("Arm 1: ");
+      // Serial.print(Arm1);
+      // Serial.print(" Arm 2: ");
+      // Serial.print(Arm2);
 
-
+      // Call moveArm() with Arm1 and Arm2 as parameters
+      moveArm(Arm1, Arm2);
+      delayMicroseconds(3000);
     }
 
-    
     Serial.println();
+  } else {
+    // Serial.print("Niks");
   }
 }
 
@@ -254,43 +302,38 @@ void readTemperature() {
 //   }
 // }
 
-void rotateMotor() {
-  digitalWrite(stepPin, HIGH);
-  delayMicroseconds(500);  // Adjust the pulse width as needed
-  digitalWrite(stepPin, LOW);
-  delayMicroseconds(500);
-}
+void rotateMotor(int numSteps, int Directie) {
 
-void moveArm(int Arm1, int servoDegrees) {
-  // Move stepper motor
-  if (Arm1 == 0) {
-    digitalWrite(dirPin, LOW);  // Set direction to CW
-    rotateMotor();
-
-  } else if (Arm1 == 1) {
-    Serial.print("Niks ");
-
-  } else if (Arm1 == 2) {
-    digitalWrite(dirPin, HIGH);
-    rotateMotor();
-    // Set direction to CCW
-  } else {
-    Serial.print("Error Movearm");
+  if (Directie == 1) {
+    digitalWrite(dirPin, HIGH);  // Set the direction
+  } else if (Directie == 0) {
+    digitalWrite(dirPin, LOW);  // Set the direction
   }
-  // for (int i = 0; i < stepperSteps; i++) {
-  //   digitalWrite(stepPin, HIGH);
-  //   delayMicroseconds(500);  // Adjust the pulse width as needed
-  //   digitalWrite(stepPin, LOW);
-  //   delayMicroseconds(500);  // Adjust the pulse width as needed
-  // }
+  for (int i = 0; i < numSteps; i++) {
+    Serial.print("Roatating");
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(1000);  // Adjust the pulse width as needed
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(1000);
+  }
+}
+void moveArm(int Arm1, int servoDegrees) {
 
+  // Move stepper motor
+  if (Arm1 >= 0 && Arm1 <= 50) {
+    // rotateMotor(Arm1);
+
+  } else {
+    Serial.println("Niks Motor");
+  }
   // Move servo motor
-  if (servoDegrees >= 0 && servoDegrees <= 180) {
+  if (servoDegrees > 0 && servoDegrees <= 180) {
     Serial.print("Arm2 wordt bewogen naar: " + servoDegrees);
+    delayMicroseconds(1000);
 
     myservo.write(servoDegrees);
   } else {
-    Serial.println("Servo angle out of range (0-180 degrees).");
+    // Serial.println("Servo angle out of range (0-180 degrees).");
   }
 }
 
@@ -320,4 +363,78 @@ void sendTemperature(float temperature) {
   // Transmit data to radio
   radio.write(&txData, sizeof(txData));
   radio.startListening();  // Now, continue listening
+}
+void TestServo() {
+  Serial.println("Servo test begin <<<<<");
+
+  // Move to position 0 and check
+  myservo.write(0);
+  delay(1000);  // Wait for 1 second
+  checkServoPosition(0);
+
+  // Move to position 100 and check
+  myservo.write(100);
+  delay(1000);
+  checkServoPosition(100);
+
+  // Move to position 140 and check
+  myservo.write(140);
+  delay(1000);
+  checkServoPosition(140);
+
+  // Move to position 180 and check
+  myservo.write(180);
+  delay(1000);
+  checkServoPosition(180);
+
+  // Move back to position 140 and check
+  myservo.write(140);
+  delay(1000);
+  checkServoPosition(140);
+
+  // Move back to position 100 and check
+  myservo.write(100);
+  delay(1000);
+  checkServoPosition(100);
+
+  // Move back to position 0 and check
+  myservo.write(0);
+  delay(1000);
+  checkServoPosition(0);
+
+  Serial.println("Servo test Klaar >>>>>");
+}
+
+void checkServoPosition(int expectedPos) {
+  int actualPos = myservo.read();
+  if (actualPos == expectedPos) {
+    Serial.print("Servo reached position ");
+    Serial.println(expectedPos);
+  } else {
+    Serial.print("Error: Servo did not reach position ");
+    Serial.print(expectedPos);
+    Serial.print(". Current position is ");
+    Serial.println(actualPos);
+  }
+}
+// void TestStepmotor() {
+//   Serial.print("Stappenmotor test start >>>>");
+//   rotateMotor(0);
+//   delayMicroseconds(1000);
+//   rotateMotor(10);
+//   delayMicroseconds(1000);
+//   rotateMotor(30);
+//   delayMicroseconds(1000);
+//   rotateMotor(50);
+//   delayMicroseconds(1000);
+//   rotateMotor(30);
+//   delayMicroseconds(1000);
+//   rotateMotor(10);
+//   delayMicroseconds(1000);
+//   Serial.print("Stappenmotor test Skaal >>>>>");
+// }
+void sendServo() {
+}
+
+void sendStepmotor() {
 }

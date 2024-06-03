@@ -147,7 +147,7 @@
 
                             <!-- <div class="left"> -->
                             <div class="textContainer">
-                                <span id="arm1Degree">Arm 1: 0 °</span>
+                                <span id="arm1Degree">Arm 1: 0 Stappen</span>
                                 <br>
                                 <span id="arm2Degree">Arm 2: 0 °</span>
                                 <br>
@@ -157,7 +157,8 @@
                                         <p>
                                             < </p>
                                     </button>
-                                    <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
+                                    <input type="range" value="0" min="0" step="1" max="50" id="sldArm1"
+                                        placeholder="0" />
                                     <button class="bestuurKnoppen rechts" onclick="RightArm1()">
                                         <p> > </p>
                                     </button>
@@ -286,29 +287,31 @@
 
                                 function LeftArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue - 5
+                                    let newValue = originalvalue - 1
                                     
+                                    const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(0, Arm2)
+                                    ControllArm(newValue, Arm2)
                                     updateArmSlider1(newValue)
-                                 
+
                                 }
                                 function RightArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue + 5
+                                    let newValue = originalvalue + 1
 
+                                    const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(2, Arm2)
+                                    ControllArm(newValue, Arm2)
                                     updateArmSlider1(newValue)
-                                  
                                 }
 
                                 function LeftArm2() {
                                     let originalvalue = parseInt(ArmSlider2.value, 10);
                                     let newValue2 = originalvalue - 5
 
+                                    const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(1, Arm2)
+                                    ControllArm(Arm1, newValue2)
                                     updateArmSlider2(newValue2)
 
 
@@ -317,8 +320,9 @@
                                     let originalvalue = parseInt(ArmSlider2.value, 10);
                                     let newValue2 = originalvalue + 5
 
+                                    const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(1, Arm2)
+                                    ControllArm(Arm1, newValue2)
                                     updateArmSlider2(newValue2)
 
                                 }
@@ -333,7 +337,7 @@
                                     const arm1Text = document.getElementById("arm1Degree")
                                     const arm2Text = document.getElementById("arm2Degree")
 
-                                    arm1Text.textContent = "Arm 1: " + j1Val + " °"
+                                    arm1Text.textContent = "Arm 1: " + j1Val + " Step"
                                     arm2Text.textContent = "Arm 2: " + j2Val + " °"
 
                                     console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
@@ -348,6 +352,7 @@
                                 }
 
                                 function rotateJoint1(mydegrees) {
+                                    mydegrees = mydegrees * 1.8;
                                     gsap.to(group_robot_arm_total, { duration: 0.2, rotation: -mydegrees, svgOrigin: svgOrg });
                                 }
 
@@ -356,7 +361,34 @@
                                 }
                             </script>
                             <!-- </div> -->
+                            <script>
+                                // document.onkeydown = checkKey;
 
+                                // function checkKey(e) {
+
+                                //     e = e || window.event;
+
+                                //     if (e.keyCode == '38' || e.keyCode == '87') {
+                                //         // up arrow
+                                //         LeftArm1();
+                                //     }
+                                //     else if (e.keyCode == '40' || e.keyCode == '83') {
+                                //         // down arrow
+                                //         RightArm1();
+                                //     }
+                                //     else if (e.keyCode == '37' || e.keyCode == '65') {
+                                //         // left arrow
+                                //         LeftArm2();
+
+                                //     }
+                                //     else if (e.keyCode == '39' || e.keyCode == '68') {
+                                //         // right arrow
+                                //         RightArm2();
+
+                                //     }
+
+                                // }
+                            </script>
                         </div>
                     </div>
 
