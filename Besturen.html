@@ -287,21 +287,21 @@
 
                                 function LeftArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue - 1
+                                    let newValue = originalvalue - 10
                                     
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(newValue, Arm2)
+                                    ControllArm(1, Arm2)
                                     updateArmSlider1(newValue)
 
                                 }
                                 function RightArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue + 1
+                                    let newValue = originalvalue + 10
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(newValue, Arm2)
+                                    ControllArm(3, Arm2)
                                     updateArmSlider1(newValue)
                                 }
 
@@ -311,7 +311,7 @@
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(Arm1, newValue2)
+                                    ControllArm(2, newValue2)
                                     updateArmSlider2(newValue2)
 
 
@@ -322,7 +322,7 @@
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
-                                    ControllArm(Arm1, newValue2)
+                                    ControllArm(2, newValue2)
                                     updateArmSlider2(newValue2)
 
                                 }
@@ -557,6 +557,9 @@
 
             updateArmSlider1(newValue)
             console.log("knop 4")
+
+            LeftArm1();
+
         }
         function handleButton5Action() {
 
@@ -567,6 +570,9 @@
             updateArmSlider1(newValue)
             console.log("knop 5")
 
+            RightArm1();
+
+
         }
         function handleButton6Action() {
 
@@ -576,6 +582,7 @@
 
             updateArmSlider2(newValue)
             console.log("knop 6")
+            RightArm2();
 
         }
         function handleButton7Action() {
@@ -585,6 +592,7 @@
 
             updateArmSlider2(newValue)
             console.log("knop 7")
+            LeftArm2();
         }
 
         function handleButton14Action() {
