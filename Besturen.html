@@ -71,7 +71,7 @@
                         <div class="dropdown-content">
                             <a href="#!" id="Rood" onclick="changeColor('#FF5353')">Rood (Red)</a>
                             <a href="#!" id="Blauw" onclick="changeColor('#03AED2')">Blauw (Blue)</a>
-                            <a href="#!" id="Green" onclick="changeColor('#61F2C2')">Green</a>
+                            <a href="#!" id="Green" onclick="changeColor('#D4FF19')">Green</a>
                             <a href="#!" id="Roze" onclick="changeColor('#EF9CDA')">Roze</a>
                             <a href="#!" id="Oranje" onclick="changeColor('#FA813F')">Oranje</a>
 
@@ -153,13 +153,12 @@
                                 <br>
 
                                 <div class="ArmControll">
-                                    <button class="bestuurKnoppen links" onclick="LeftArm1()">
+                                    <button class="bestuurKnoppen links" onclick="RightArm1()">
                                         <p>
                                             < </p>
                                     </button>
-                                    <input type="range" value="0" min="0" step="1" max="50" id="sldArm1"
-                                        placeholder="0" />
-                                    <button class="bestuurKnoppen rechts" onclick="RightArm1()">
+                                    <input type="range" value="0" min="0" max="50" id="sldArm1" placeholder="0" />
+                                    <button class="bestuurKnoppen rechts" onclick="LeftArm1()">
                                         <p> > </p>
                                     </button>
                                 </div>
@@ -170,7 +169,7 @@
                                             < </p>
                                     </button>
 
-                                    <input type="range" value="175" max="175" id="sldArm2" placeholder="0" />
+                                    <input type="range" value="80" min="80" max="175" id="sldArm2" placeholder="0" />
                                     <button class="bestuurKnoppen rechts" onclick="RightArm2()">
                                         <p> > </p>
                                     </button>
@@ -244,6 +243,10 @@
 
                             </div>
                             <script>
+                                // initalize arm 1
+
+
+
                                 const svgContainer = document.querySelector('.svgContainer');  // Select by class
 
                                 // For this project
@@ -280,15 +283,22 @@
                                 // Get value from text boxes when apply button is clicked and print value to the console
                                 Slider1.addEventListener("input", onApplyBtnClick)
                                 Slider2.addEventListener("input", onApplyBtnClick)
+                                Slider2.addEventListener("input", ChangeServoSlider)
 
                                 const arm1Text = document.getElementById("arm1Degree")
                                 const arm2Text = document.getElementById("arm2Degree")
 
+                                function ChangeServoSlider() {
 
+                                    const j2Val = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
+
+                                    ControllArm(2, j2Val)
+
+                                }
                                 function LeftArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue - 10
-                                    
+                                    let newValue = originalvalue + 13
+
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
                                     ControllArm(1, Arm2)
@@ -297,7 +307,7 @@
                                 }
                                 function RightArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue + 10
+                                    let newValue = originalvalue - 13
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
@@ -343,7 +353,8 @@
                                     console.log("Moving the robot arm to j1: " + j1Val + ", j2: " + j2Val + " (degrees)");
                                     rotateJoint1(j1Val);
                                     rotateJoint2(j2Val);
-                                    // ControllArm(j1Val, j2Val)
+
+
 
                                 }
 
@@ -362,32 +373,34 @@
                             </script>
                             <!-- </div> -->
                             <script>
-                                // document.onkeydown = checkKey;
 
-                                // function checkKey(e) {
+                                // besturen keys
+                                document.onkeydown = checkKey;
 
-                                //     e = e || window.event;
+                                function checkKey(e) {
 
-                                //     if (e.keyCode == '38' || e.keyCode == '87') {
-                                //         // up arrow
-                                //         LeftArm1();
-                                //     }
-                                //     else if (e.keyCode == '40' || e.keyCode == '83') {
-                                //         // down arrow
-                                //         RightArm1();
-                                //     }
-                                //     else if (e.keyCode == '37' || e.keyCode == '65') {
-                                //         // left arrow
-                                //         LeftArm2();
+                                    e = e || window.event;
 
-                                //     }
-                                //     else if (e.keyCode == '39' || e.keyCode == '68') {
-                                //         // right arrow
-                                //         RightArm2();
+                                    if (e.keyCode == '38' || e.keyCode == '87') {
+                                        // up arrow
+                                        LeftArm1();
+                                    }
+                                    else if (e.keyCode == '40' || e.keyCode == '83') {
+                                        // down arrow
+                                        RightArm1();
+                                    }
+                                    else if (e.keyCode == '37' || e.keyCode == '65') {
+                                        // left arrow
+                                        LeftArm2();
 
-                                //     }
+                                    }
+                                    else if (e.keyCode == '39' || e.keyCode == '68') {
+                                        // right arrow
+                                        RightArm2();
 
-                                // }
+                                    }
+
+                                }
                             </script>
                         </div>
                     </div>
@@ -401,6 +414,8 @@
 
     <script>
 
+
+
         let controllerIndex = null;
 
         const motorslider = document.getElementById("motorslider");
@@ -413,6 +428,7 @@
         const checkboxMotor = document.getElementById('MotorCheckbox');
         const motorRangeLabel = document.getElementById("rangeLabel");
 
+        let isButtonCooldown = false;
 
 
 
@@ -520,13 +536,27 @@
             console.log("Slider value:", value);
             onApplyBtnClick();
         }
+        function handleButton0Action() {
 
+
+            ControllArm(2, 175)
+            updateArmSlider2(175)
+
+        }
+        function handleButton2Action() {
+            ControllArm(2, 0)
+            updateArmSlider2(0)
+        }
         function handleButton3Action() {
             console.log("Y gedrukt")
             // Toggle the checkbox based on Y button state
             const checkboxMotor = document.getElementById('MotorCheckbox');
 
+            if (isButtonCooldown) {
+                return; // Exit if still in cooldown period
+            }
 
+            isButtonCooldown = true; // Set cooldown flag
 
             if (checkboxMotor.checked == true) {
                 checkboxMotor.checked = false
@@ -545,34 +575,46 @@
 
             }
 
-            // checkboxMotor.checked = !checkboxMotor.checked;
             setTimeout(() => {
-                console.log("tomout")
-            }, 10000);
+                isButtonCooldown = false;
+            }, 250);
         }
+
         function handleButton4Action() {
+
+            if (isButtonCooldown) {
+                return; // Exit if still in cooldown period
+            }
+
+            isButtonCooldown = true; // Set cooldown flag
+
             let originalvalue = parseInt(ArmSlider1.value, 10);
 
-            let newValue = originalvalue + 1
 
-            updateArmSlider1(newValue)
+            // updateArmSlider1(newValue)
             console.log("knop 4")
-
-            LeftArm1();
-
+            RightArm1();
+            setTimeout(() => {
+                isButtonCooldown = false;
+            }, 250);
         }
         function handleButton5Action() {
 
+            if (isButtonCooldown) {
+                return; // Exit if still in cooldown period
+            }
+
+            isButtonCooldown = true; // Set cooldown flag
+
             let originalvalue = parseInt(ArmSlider1.value, 10);
-
-            let newValue = originalvalue - 1
-
-            updateArmSlider1(newValue)
-            console.log("knop 5")
-
-            RightArm1();
-
-
+            // let newValue = originalvalue - 1
+            // updateArmSlider1(newValue)
+            console.log("knop 5");
+            LeftArm1();
+            // Set timeout to reset the cooldown flag after a delay (e.g., 500 milliseconds)
+            setTimeout(() => {
+                isButtonCooldown = false;
+            }, 250);
         }
         function handleButton6Action() {
 
@@ -616,6 +658,12 @@
                 const buttonValue = buttons[i].value;
                 // updateButtonOnGrid(i, buttonValue);
                 // updateControllerButton(i, buttonValue);
+                if (i === 0 && buttonValue > 0) {
+                    handleButton0Action();
+                }
+                if (i === 2 && buttonValue > 0) {
+                    handleButton2Action();
+                }
                 if (i === 3 && buttonValue > 0) {
                     handleButton3Action();
                 }
@@ -773,11 +821,13 @@
         gauge.set(0); // set actual value
         motor_text.textContent = gauge.value + "%";
 
+
     </script>
 
 
     <script>
-
+        // Initalize arm 1
+        RightArm1();
         function ControllArm(Arm1, Arm2) {
             const url = 'http://145.49.127.247:1880/aaadlander/aaad3?arm1=' + Arm1 + '&arm2=' + Arm2
             // const url = 'http://145.49.127.247:1880/aaadlander/aaad3?command=kaas'
@@ -810,6 +860,30 @@
         }
 
     </script>
+
+    <!-- <script>
+        document.addEventListener("keydown", function (event) {
+            // Check if the pressed key is W, A, S, or D
+            if (event.key === "s" || event.key === "S") {
+                // Handle the W key press
+                console.log("W key pressed");
+                RightArm1();
+            } else if (event.key === "w" || event.key === "W") {
+                // Handle the A key press
+                console.log("A key pressed");
+                LeftArm1();
+
+            } else if (event.key === "d" || event.key === "D") {
+                // Handle the S key press
+                console.log("S key pressed");
+                LeftArm2();
+            } else if (event.key === "a" || event.key === "A") {
+                // Handle the D key press
+                console.log("D key pressed");
+                RightArm2();
+            }
+        });
+    </script> -->
 </body>
 
 </html>

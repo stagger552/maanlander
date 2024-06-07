@@ -63,5 +63,4 @@ function changeColor(color) {
     //local storage
     localStorage.setItem('primaryColor', color);  // Save the color to localStorage
 
-
 }
