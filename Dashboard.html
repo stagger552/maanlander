@@ -143,12 +143,8 @@
                                     </div>
 
                                     <div id="playground">
-                                        <div id="range">
-                                            <input id="minTemp" type="text" value="-20">
-                                            <input type="range" min="-20" max="50" value="42">
-                                            <input id="maxTemp" type="text" value="50">
-                                        </div>
-                                        <p id="degree">0</p>
+
+                                        <p id="degree">Geen Tempratuur</p>
                                         <p>C°</p>
                                     </div>
 
@@ -210,13 +206,12 @@
                                     <span id="arm1Degree">Arm 1: 0 °</span>
                                     <br>
                                     <span id="arm2Degree">Arm 2: 0 °</span>
-
+                                    <button onclick="sendData()">Versuur data</button>
                                     <br>
-                                    <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
-                                    <input type="range" value="0" max="180" id="sldArm2" placeholder="0" />
+                                    <!-- <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
+                                    <input type="range" value="0" max="180" id="sldArm2" placeholder="0" /> -->
 
 
-                                    <button type="button" id="applyButton">Apply</button>
                                 </div>
                             </div>
                             <div class="right">
@@ -326,9 +321,8 @@
                                 console.log("svgOrg: " + svgOrg);
 
                                 // Get value from text boxes when apply button is clicked and print value to the console
-                                applyButton.addEventListener('click', onApplyBtnClick);
-                                Slider1.addEventListener("input", onApplyBtnClick)
-                                Slider2.addEventListener("input", onApplyBtnClick)
+                                // Slider1.addEventListener("input", onApplyBtnClick)
+                                // Slider2.addEventListener("input", onApplyBtnClick)
 
                                 // Click event function
                                 function onApplyBtnClick() {
@@ -351,11 +345,11 @@
                                 }
 
                                 function rotateJoint1(mydegrees) {
-                                    gsap.to(group_robot_arm_total, { duration: 0, rotation: -mydegrees, svgOrigin: svgOrg });
+                                    gsap.to(group_robot_arm_total, { duration: 0.4, rotation: -mydegrees, svgOrigin: svgOrg });
                                 }
 
                                 function rotateJoint2(mydegrees) {
-                                    gsap.to(group_link2_endEffector, { duration: 0, rotation: -mydegrees, transformOrigin: "center center" });
+                                    gsap.to(group_link2_endEffector, { duration: 0.4, rotation: -mydegrees, transformOrigin: "center center" });
                                 }
                             </script>
                         </div>
@@ -601,7 +595,60 @@
 
         }
 
+        const ServoGraden = document.getElementById("arm2Degree")
+        const TempratuurGraden = document.getElementById("degree")
 
+
+
+
+        async function sendTemperature(temperature) {
+            const { data, error } = await supabase
+                .from('Data')
+                .insert([
+                    { Tempratuur: temperature, Tijd: new Date().toISOString() }
+                ]);
+
+            if (error) {
+                console.error('Error inserting data:', error);
+            } else {
+                console.log('Data inserted:', data);
+            }
+        }
+
+
+
+        async function sendServo(ServoDegree) {
+            const { data, error } = await supabase
+                .from('Data')
+                .insert([
+                    { Servo: ServoDegree, Tijd: new Date().toISOString() }
+                ]);
+
+            if (error) {
+                console.error('Error inserting data:', error);
+            } else {
+                console.log('Data inserted:', data);
+            }
+        }
+      
+        window.sendData = async function sendData() {
+
+            const { data, error } = await supabase
+                .from('Data')
+                .insert([
+                    {
+                        Servo: ServoGraden.innerHTML,
+                        Tempratuur: TempratuurGraden.innerHTML,
+                        Tijd: new Date().toISOString()
+                    }
+                ]);
+
+            if (error) {
+                console.error('Error inserting data:', error);
+            } else {
+                console.log('Data inserted:', data);
+            }
+        }
     </script>
     <script>
 
@@ -623,6 +670,12 @@
                         var celcious = data.temperatuur;
                         setTemperature(celcious)
                         console.log("Tempratuur: " + data.temperatuur);
+                    }
+                    if (data.servo_positie !== undefined) {
+                        // Update the temperature display
+                        document.getElementById('arm2Degree').textContent = data.servo_positie + " °";
+                        var servo_positie = data.servo_positie;
+                        rotateJoint2(servo_positie);
                     }
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
@@ -717,7 +770,7 @@
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'nl-NL'; // Set language to Dutch
             speechSynthesis.speak(utterance);
-            utterance.rate = 1.2; // Set speech rate (speed)
+            utterance.rate = 1.8; // Set speech rate (speed)
         }
         function sendInitialMessage() {
             if (!initialMessageSent) {
@@ -778,6 +831,9 @@
 
 
 
+
+    </script>
+    <script>
 
     </script>
     </style>
