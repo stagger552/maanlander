@@ -71,7 +71,7 @@ const water = document.getElementById("water");
 
 
 
-setTimeout(setLiter, 1000);
+// setTimeout(setLiter, 1000);
 
 
 
@@ -105,7 +105,7 @@ var opts = {
 
 
 var motor_text = document.getElementById('usage'); // your canvas element
-var target = document.getElementById('MotorGaugeControl'); // your canvas element
+var target = document.getElementById('motor'); // your canvas element
 
 var Motorgauge = new Gauge(target).setOptions(opts); // create sexy gauge!
 Motorgauge.maxValue = 100; // set max gauge value
@@ -128,8 +128,8 @@ var wateropts = {
   },
   limitMax: false,     // If false, max value increases automatically if value > maxValue
   limitMin: false,     // If true, the min value of the gauge will be fixed
-  colorStart: '#3DCADF',   // Colors
-  colorStop: '#3DCADF',    // just experiment with them
+  colorStart: savedColor,   // Colors
+  colorStop: savedColor,    // just experiment with them
   strokeColor: '#EEEEEE',  // to see which ones work best for you
   generateGradient: true,
   highDpiSupport: true,     // High resolution support

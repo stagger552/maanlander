@@ -136,28 +136,68 @@
                         <div class="bottomcard">
 
                             <div class="left">
-                                <div id="wrapper">
-                                    <div id="termometer">
-                                        <div id="temperature" style="height:0" data-value="0°C"></div>
-                                        <div id="graduations"></div>
+                                <div id="visable">
+                                    <div id="wrapper">
+                                        <div id="termometer">
+                                            <div id="temperature" style="height:0" data-value="0°C"></div>
+                                            <div id="graduations"></div>
+                                        </div>
+
+                                        <div id="playground">
+
+                                            <p id="degree">Geen Tempratuur</p>
+                                            <p>C°</p>
+                                        </div>
+
+
                                     </div>
-
-                                    <div id="playground">
-
-                                        <p id="degree">Geen Tempratuur</p>
-                                        <p>C°</p>
-                                    </div>
-
-
                                 </div>
                             </div>
                             <div class="right">
 
+                                <div class="toggle-button-cover">
+                                    <div class="button-cover">
+                                        <div class="button b2" id="button-13">
+                                            <input type="checkbox" id="TempratuurCheckbox" class="checkbox"
+                                                value="off" />
+                                            <div class="knobs">
+                                                <span></span>
+                                            </div>
+                                            <div class="layer"></div>
+                                        </div>
+                                    </div>
 
+
+                                </div>
                                 <div class="websocketmessage">
 
                                 </div>
                             </div>
+                            <script>
+                                const checkboxTempratuur = document.getElementById('TempratuurCheckbox');
+                                const VisableTempratuur = document.getElementById('visable');
+                                VisableTempratuur.style.opacity = "0";
+                                function ChangeToggleOpacity(checkbox) {
+
+
+                                    if (checkbox.checked == true) {
+                                        console.log("aan");
+                                        VisableTempratuur.style.opacity = "1";
+                                    }
+                                    else if (checkbox.checked == false || checkbox.value == "off") {
+                                        console.log("Uit");
+                                        VisableTempratuur.style.opacity = "0";
+                                    }
+                                    else {
+                                        console.log("Error")
+
+                                    }
+
+                                }
+                                checkboxTempratuur.addEventListener('change', function () {
+                                    ChangeToggleOpacity(this);
+                                });
+                            </script>
                             <!-- <div class="temrature">
                                     <div id='myDiv'></div>
 
@@ -203,10 +243,10 @@
                         <div class="bottomcard">
                             <div class="left">
                                 <div class="textContainer">
-                                    <span id="arm1Degree">Arm 1: 0 °</span>
+                                    <span id="arm1Degree"></span>
                                     <br>
-                                    <span id="arm2Degree">Arm 2: 0 °</span>
-                                    <button onclick="sendData()">Versuur data</button>
+                                    <span id="arm2Degree">Geen Data</span>
+                                    <button onclick="sendData()">Data ➡️ Database</button>
                                     <br>
                                     <!-- <input type="range" value="0" min="0" max="90" id="sldArm1" placeholder="0" />
                                     <input type="range" value="0" max="180" id="sldArm2" placeholder="0" /> -->
@@ -442,6 +482,7 @@
                         // Function to update the chart with a random number every 2 seconds
                         function updateChart() {
                             // Generate a random number
+
                             var randomNumber = getRandomNumber(0, 100);
                             Motorgauge.set(randomNumber)
                             motor_text.textContent = randomNumber + "%";
@@ -630,7 +671,7 @@
                 console.log('Data inserted:', data);
             }
         }
-      
+
         window.sendData = async function sendData() {
 
             const { data, error } = await supabase
