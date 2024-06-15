@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src="javascript/main.js"></script>
+    <!-- <script src="javascript/main.js"></script> -->
     <link rel="stylesheet" href="style/style.css">
 
     <title>Document</title>
@@ -169,7 +169,7 @@
                                             < </p>
                                     </button>
 
-                                    <input type="range" value="80" min="50" max="175" id="sldArm2" placeholder="0" />
+                                    <input type="range" value="175" min="50" max="175" id="sldArm2" placeholder="0" />
                                     <button class="bestuurKnoppen rechts" onclick="RightArm2()">
                                         <p> > </p>
                                     </button>
@@ -297,7 +297,7 @@
                                 }
                                 function LeftArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue + 13
+                                    let newValue = originalvalue + 7
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
@@ -307,7 +307,7 @@
                                 }
                                 function RightArm1() {
                                     let originalvalue = parseInt(ArmSlider1.value, 10);
-                                    let newValue = originalvalue - 13
+                                    let newValue = originalvalue - 7
 
                                     const Arm1 = parseFloat(Slider1.value) || 0; // Get value and convert to number, default 0
                                     const Arm2 = parseFloat(Slider2.value) || 0; // Get value and convert to number, default 0
@@ -593,7 +593,8 @@
 
             // updateArmSlider1(newValue)
             console.log("knop 4")
-            RightArm1();
+            LeftArm1();
+
             setTimeout(() => {
                 isButtonCooldown = false;
             }, 250);
@@ -610,7 +611,7 @@
             // let newValue = originalvalue - 1
             // updateArmSlider1(newValue)
             console.log("knop 5");
-            LeftArm1();
+            RightArm1();
             // Set timeout to reset the cooldown flag after a delay (e.g., 500 milliseconds)
             setTimeout(() => {
                 isButtonCooldown = false;
